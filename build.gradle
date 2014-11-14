@@ -1,0 +1,90 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://ec2-54-200-56-47.us-west-2.compute.amazonaws.com:8081/artifactory/repo'
+            credentials {
+                username = mavenUsername
+                password = mavenPassword
+            }
+        }
+    }
+
+    dependencies {
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1-FP-2'
+    }
+}
+
+apply plugin: 'gradlefx'
+apply plugin: 'ideafx'
+apply plugin: 'maven'
+
+group = 'com.plumbee'
+version = '2.92'
+type = 'swf'
+
+srcDirs	= ['src/main/flex']
+
+mainClass = 'com/plumbee/stardust/Stardusttool.mxml'
+
+repositories {
+    mavenLocal()
+    maven {
+        url 'http://ec2-54-200-56-47.us-west-2.compute.amazonaws.com:8081/artifactory/repo'
+        credentials {
+            username = mavenUsername
+            password = mavenPassword
+        }
+    }
+    ivy {
+        name 'Apache'
+        //artifactPattern 'http://apache.cu.be/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
+        artifactPattern 'http://archive.apache.org/dist/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
+    }
+}
+
+dependencies {
+    flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: '4.13.0', ext: 'tar.gz'
+
+    merged group: 'com.junkbyte', name: 'flash-console', version: '2.6', ext: 'swc'
+    merged group: 'org.robotlegs', name: 'robotlegs-framework', version: '2.2.1', ext: 'swc'
+    merged group: 'com.gamua', name: 'starling-framework', version: '1.5.1', ext: 'swc'
+
+    merged group: 'com.plumbee', name: 'stardust-sim-loader', version: '2.46', ext: 'swc'
+}
+
+additionalCompilerOptions = [
+    '-debug=true',
+    '-keep-as3-metadata+=Inject,Embed,ChangeEvent,NonCommittingChangeEvent,PreDestroy,Bindable'
+]
+
+sdkAutoInstall {
+    showPrompts = false
+}
+
+///////////////////////////////////////// wrapper
+task wrapper(type: Wrapper) {
+    group = 'Buildmaster'
+    description = 'Generates gradlew and gradlew.bat bootstrap scripts.'
+    gradleVersion = '2.1'
+    // place jar file and properties into a subdirectory to avoid root dir clutter
+    jarFile = 'gradle/wrapper/gradle.jar'
+}
+
+///////////////////////////////////////// Maven
+// this is a workaround, see https://github.com/GradleFx/GradleFx/issues/91
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: mavenLocal().url
+        }
+        //if (deployToRepoManager) {
+        //    mavenDeployer {
+        //        repository(url: repoManagerURL) {
+        //            authentication(userName: mavenUsername, password: mavenPassword)
+        //        }
+        //    }
+        //}
+    }
+}
+
