@@ -73,7 +73,6 @@ import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
 import idv.cjcat.stardustextended.twoD.initializers.StardustSpriteInit;
 import idv.cjcat.stardustextended.twoD.initializers.Velocity;
-import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.zones.CircleContour;
 import idv.cjcat.stardustextended.twoD.zones.CircleZone;
 import idv.cjcat.stardustextended.twoD.zones.Composite;

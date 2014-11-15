@@ -27,16 +27,16 @@
         private var canvas : flash.display.Sprite;
         private var starlingCanvas : starling.display.Sprite;
 
-        private function updateSim() : void
+        private function updateRenderMode() : void
         {
             validateNow(); // radio buttons suck
             if (displayObjectRadioButton.selected)
             {
-                dispatchEvent(new DisplayModeChangeEvent(DisplayModeChangeEvent.CHANGE, DisplayModes.DISPLAY_LIST));
+                dispatchEvent(new DisplayModeChangeEvent(DisplayModes.DISPLAY_LIST));
             }
             else if (starlingRadioButton.selected)
             {
-                dispatchEvent(new DisplayModeChangeEvent(DisplayModeChangeEvent.CHANGE, DisplayModes.STARLING));
+                dispatchEvent(new DisplayModeChangeEvent(DisplayModes.STARLING));
             }
         }
 
@@ -64,21 +64,19 @@
         {
             dispatchEvent( new UpdateSmoothingEvent( useSmoothingCheckBox.selected ) );
         }
-
         ]]></fx:Script>
 
-    <s:HGroup verticalAlign="middle" visible="false" includeInLayout="false">
-        <s:Label text="Display mode:"/>
-        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
-                       selected="true" change="updateSim()"/>
-        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateSim()"/>
-    </s:HGroup>
-
     <s:HGroup verticalAlign="middle">
-        <s:CheckBox id="useSmoothingCheckBox" label="Use Smoothing" change="updateSmoothing()"/>
-        <s:Spacer width="36"/>
-        <s:Label text="Blend mode:"/>
-        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal" change="updateBlendMode()"/>
+        <s:Label text="Render mode:"/>
+        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
+                       selected="true" change="updateRenderMode()"/>
+        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
+
+        <s:CheckBox id="useSmoothingCheckBox" label="Use Smoothing" change="updateSmoothing()"
+                enabled="{displayObjectRadioButton.selected}"/>
+        <s:Label text="Blend mode:" enabled="{displayObjectRadioButton.selected}"/>
+        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
+                        change="updateBlendMode()" width="100" enabled="{displayObjectRadioButton.selected}"/>
     </s:HGroup>
 
 </s:VGroup>

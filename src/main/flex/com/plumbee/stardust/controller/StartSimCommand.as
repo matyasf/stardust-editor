@@ -68,9 +68,9 @@ public class StartSimCommand implements ICommand
         //refresh the smoothing checkbox.
         dispatcher.dispatchEvent( new SetSmoothingCheckBoxEvent( projectSettings.emitterInFocus.smoothing ) );
 
-        //refresh the displayMode radiobuttons and the blendMode dropdown.
+        //refresh the blendMode dropdown.
         const blendMode : String = DisplayObjectHandler(projectSettings.emitterInFocus.emitter.particleHandler).blendMode;
-        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent( SetBlendModeSelectedEvent.DISPLAY_LIST, blendMode ) );
+        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent(blendMode) );
 
         // setup zone drawer
         dispatcher.dispatchEvent( new InitalizeZoneDrawerEvent( InitalizeZoneDrawerEvent.RESET ) );

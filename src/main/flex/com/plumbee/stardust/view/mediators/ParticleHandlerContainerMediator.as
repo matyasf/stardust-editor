@@ -12,11 +12,13 @@ import com.plumbee.stardust.controller.events.SetBlendModeSelectedEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.controller.events.SetSmoothingCheckBoxEvent;
 import com.plumbee.stardust.helpers.Globals;
+import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardust.view.ParticleHandlerContainer;
 import com.plumbee.stardust.view.events.DisplayModeChangeEvent;
 import com.plumbee.stardust.view.events.ParticleHandlerUpdateTextInputFromProjectSettingsEvent;
 import com.plumbee.stardust.view.events.UpdateBlendModeEvent;
 import com.plumbee.stardust.view.events.UpdateSmoothingEvent;
+import com.plumbee.stardustplayer.project.DisplayModes;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
@@ -25,6 +27,9 @@ public class ParticleHandlerContainerMediator extends Mediator
     [Inject]
     public var view : ParticleHandlerContainer;
 
+    [Inject]
+    public var projectModel : ProjectModel;
+
     override public function initialize() : void
     {
         addViewListener( DisplayModeChangeEvent.CHANGE, handleDisplayModeChange, DisplayModeChangeEvent );
@@ -32,8 +37,7 @@ public class ParticleHandlerContainerMediator extends Mediator
         addViewListener( UpdateBlendModeEvent.UPDATE, handleUpdateBlendMode, UpdateBlendModeEvent );
         addViewListener( UpdateSmoothingEvent.UPDATE, handleUpdateSmoothing, UpdateSmoothingEvent );
 
-        addContextListener( SetBlendModeSelectedEvent.DISPLAY_LIST, handleSetBlendModeSelectedInDropdownDisplayList, SetBlendModeSelectedEvent );
-        addContextListener( SetBlendModeSelectedEvent.STARLING, handleSetBlendModeSelectedInDropdownStarling, SetBlendModeSelectedEvent );
+        addContextListener( SetBlendModeSelectedEvent.SET_BLEND_MODE, handleBlendModeChanged, SetBlendModeSelectedEvent );
         addContextListener( SetSmoothingCheckBoxEvent.SET, handleUpdateSmoothingCheckBox, SetSmoothingCheckBoxEvent );
     }
 
@@ -57,21 +61,21 @@ public class ParticleHandlerContainerMediator extends Mediator
         dispatch( event );
     }
 
-    private function handleSetBlendModeSelectedInDropdownStarling( event : SetBlendModeSelectedEvent ) : void
+    private function handleBlendModeChanged( event : SetBlendModeSelectedEvent ) : void
     {
-        if ( view.blendModesAC != Globals.blendModesStarling )
+        if (projectModel.getDisplayMode() == DisplayModes.STARLING)
         {
-            view.blendModesAC = Globals.blendModesStarling;
+            if ( view.blendModesAC != Globals.blendModesStarling )
+            {
+                view.blendModesAC = Globals.blendModesStarling;
+            }
         }
-
-        view.setBlendModeListSelectedItem( event.targetBlendMode );
-    }
-
-    private function handleSetBlendModeSelectedInDropdownDisplayList( event : SetBlendModeSelectedEvent ) : void
-    {
-        if ( view.blendModesAC != Globals.blendModesDisplayList )
+        else
         {
-            view.blendModesAC = Globals.blendModesDisplayList;
+            if ( view.blendModesAC != Globals.blendModesDisplayList )
+            {
+                view.blendModesAC = Globals.blendModesDisplayList;
+            }
         }
         view.setBlendModeListSelectedItem( event.targetBlendMode );
     }

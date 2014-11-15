@@ -19,7 +19,7 @@ import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 use namespace sd;
-// not used now
+
 public class UpdateDisplayModeCommand implements ICommand
 {
     [Inject]
@@ -42,8 +42,6 @@ public class UpdateDisplayModeCommand implements ICommand
             case DisplayModes.STARLING :
                 setDisplayModeStarling();
             break;
-            default :
-                break;
         }
     }
 
@@ -60,14 +58,14 @@ public class UpdateDisplayModeCommand implements ICommand
         }
         projectSettings.setDisplayMode( DisplayModes.STARLING );
         const currentBlendMode:String = DisplayObjectHandler(projectSettings.emitterInFocus.emitter.particleHandler).blendMode;
-        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent( SetBlendModeSelectedEvent.STARLING, currentBlendMode ) );
+        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent(currentBlendMode));
     }
 
     private function setDisplayModeDisplayList() : void
     {
         projectSettings.setDisplayMode( DisplayModes.DISPLAY_LIST );
         // TODO store BlendMode in a model when switching so its remembered
-        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent( SetBlendModeSelectedEvent.DISPLAY_LIST, BlendMode.NORMAL ) );
+        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent(BlendMode.NORMAL));
     }
 
     private function isBlendModeStarlingSafe( targetBlendMode : String ) : Boolean
