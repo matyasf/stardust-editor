@@ -16,6 +16,7 @@ import idv.cjcat.stardustextended.common.emitters.Emitter;
 
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
@@ -63,10 +64,8 @@ public class UpdateDisplayModeCommand implements ICommand
         {
             var emitter : Emitter = emitterVO.emitter;
             var handler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
-            handler.bitmapData = emitterVO.image;
-            // TODO set other properties
+            copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);
             emitter.particleHandler = handler;
-
         }
         simPlayer.setRenderTarget(Globals.canvas);
     }
@@ -78,13 +77,22 @@ public class UpdateDisplayModeCommand implements ICommand
         {
             var emitter : Emitter = emitterVO.emitter;
             var starlingHandler : StarlingHandler = new StarlingHandler();
-            starlingHandler.bitmapData = emitterVO.image;
-            if (emitter.particleHandler is DisplayObjectSpriteSheetHandler) {
-                starlingHandler.blendMode = getStarlingSafeBlendMode(DisplayObjectSpriteSheetHandler(emitter.particleHandler).blendMode);
-            }
+            copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);
+            starlingHandler.blendMode = getStarlingSafeBlendMode(DisplayObjectSpriteSheetHandler(emitter.particleHandler).blendMode);
             emitter.particleHandler = starlingHandler;
         }
         simPlayer.setRenderTarget(Globals.starlingCanvas);
+    }
+
+    private function copyHandlerProperties(from : ISpriteSheetHandler, toHandler : ISpriteSheetHandler) : void
+    {
+        toHandler.bitmapData = from.bitmapData;
+        toHandler.blendMode = from.blendMode;
+        toHandler.smoothing = from.smoothing;
+        toHandler.spriteSheetAnimationSpeed = from.spriteSheetAnimationSpeed;
+        toHandler.spriteSheetSliceHeight = from.spriteSheetSliceHeight;
+        toHandler.spriteSheetSliceWidth = from.spriteSheetSliceWidth;
+        toHandler.spriteSheetStartAtRandomFrame = from.spriteSheetStartAtRandomFrame;
     }
 
     private function getStarlingSafeBlendMode(oldBlendMode : String) : String
