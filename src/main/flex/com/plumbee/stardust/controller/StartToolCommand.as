@@ -23,7 +23,7 @@ public class StartToolCommand implements ICommand
     public var dispatcher : IEventDispatcher;
 
     // TODO embed a more complex sim
-    [Embed(source="../../../../../testAssets/stardustProjectDEFAULT.sde", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../resources/stardustProjectDEFAULT.sde", mimeType="application/octet-stream")]
     private var ExampleSim:Class;
 
     public function execute() : void

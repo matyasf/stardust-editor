@@ -1,21 +1,12 @@
 package com.plumbee.stardust.controller
 {
 
-import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.helpers.ZoneDrawer;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardust.view.StardusttoolMainView;
 import com.plumbee.stardust.view.events.MainEnterFrameLoopEvent;
 import com.plumbee.stardustplayer.SimPlayer;
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
-
-import flash.display.BitmapData;
-
-import flash.utils.Dictionary;
-
 import flash.utils.getTimer;
-
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
@@ -44,22 +35,7 @@ public class MainEnterFrameLoopCommand implements ICommand
             return;
         }
 
-        if ( project.emitterInFocus.emitter.particleHandler is DisplayObjectHandler )
-        {
-            simPlayer.stepSimulation();
-        }
-        else
-        {
-            const bData : BitmapData = Globals.bitmapData;
-            if ( !bData )
-            {
-                return;
-            }
-            bData.lock();
-            bData.fillRect(bData.rect, 0xFFFFFF);
-            simPlayer.stepSimulation();
-            bData.unlock();
-        }
+        simPlayer.stepSimulation();
 
         calcTime = (getTimer() - startTime);
         view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime + "ms";

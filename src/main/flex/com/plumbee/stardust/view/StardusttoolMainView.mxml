@@ -55,7 +55,6 @@
             starlingInstance.start();
             Globals.starlingCanvas.touchable = false;
             starlingInstance.stage.addChild( Globals.starlingCanvas );
-            Globals.starlingCanvas.x = leftColumnWidth;
         }
 
         public function resizeStarlingViewPort() : void
@@ -103,7 +102,6 @@
                 validateNow();
                 previewGroup.x = background.width * 0.5;
                 previewGroup.y = stage.stageHeight * 0.5;
-
                 if ( canvasPosition.centerBackgroundCheckBox.selected )
                 {
                     if ( background.numChildren == 1 )
@@ -135,6 +133,8 @@
                     dispObj.y = 0;
                 }
             }
+            Globals.starlingCanvas.x = previewGroup.x + leftColumnWidth;
+            Globals.starlingCanvas.y = previewGroup.y;
         }
         ]]></fx:Script>
 

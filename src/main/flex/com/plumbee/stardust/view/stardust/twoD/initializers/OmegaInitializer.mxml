@@ -2,8 +2,8 @@
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                            xmlns:math="com.plumbee.stardust.view.stardust.common.math.*"
                            xmlns:twod="com.plumbee.stardust.view.stardust.twoD.*"
-                           toolTip="Sets a particle's angular velocity, in degrees per emitter step. Has only effect, if it has a 'spin' action"
-                           nameText="Angular velocity">
+                           toolTip="Sets a particle's rotation speed, in degrees per emitter step. Has only effect, if it has a 'Rotate' action"
+                           nameText="Rotation speed">
 
     <fx:Script><![CDATA[
         import idv.cjcat.stardustextended.common.math.UniformRandom;

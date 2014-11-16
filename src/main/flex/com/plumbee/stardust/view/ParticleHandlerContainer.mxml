@@ -1,68 +1,123 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.plumbee.stardust.view.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
-
+        import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.helpers.Globals;
-        import com.plumbee.stardust.view.events.DisplayModeChangeEvent;
-        import com.plumbee.stardust.view.events.UpdateBlendModeEvent;
-        import com.plumbee.stardust.view.events.UpdateSmoothingEvent;
+        import com.plumbee.stardust.view.events.LoadEmitterImageFromFileEvent;
         import com.plumbee.stardustplayer.project.DisplayModes;
 
         import idv.cjcat.stardustextended.sd;
+        import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+        import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+        import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
         import mx.logging.ILogger;
         import mx.logging.Log;
 
-        import starling.display.Sprite;
+        [Bindable]
+        public var blendModesAC:ArrayCollection = Globals.blendModesDisplayList;
 
         [Bindable]
-        public var blendModesAC : ArrayCollection = Globals.blendModesDisplayList;
+        public var sourceBD:BitmapData;
+
+        private var _handler:ISpriteSheetHandler;
 
         use namespace sd;
 
-        private static const LOG : ILogger = Log.getLogger(getQualifiedClassName(ParticleHandlerContainer).replace("::", "."));
-        private var canvas : flash.display.Sprite;
-        private var starlingCanvas : starling.display.Sprite;
+        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(ParticleHandlerContainer).replace("::", "."));
 
-        private function updateRenderMode() : void
-        {
-            validateNow(); // radio buttons suck
-            if (displayObjectRadioButton.selected)
-            {
-                dispatchEvent(new DisplayModeChangeEvent(DisplayModes.DISPLAY_LIST));
-            }
-            else if (starlingRadioButton.selected)
-            {
-                dispatchEvent(new DisplayModeChangeEvent(DisplayModes.STARLING));
-            }
-        }
+        public function set handler(handler:ISpriteSheetHandler):void {
+            _handler = handler;
 
-        public function setBlendModeListSelectedItem(blendMode : String) : void
-        {
-            var data : ArrayCollection = (blendModeList as DropDownList).dataProvider as ArrayCollection;
-            var numBlendModes : int = data.length;
-            for (var i : int = 0; i < numBlendModes; i++)
+            sourceBD = _handler.bitmapData;
+            useSmoothingCheckBox.selected = _handler.smoothing;
+
+            if (_handler.isSpriteSheet == true) {
+                spriteSheetRadioButton.selected = true;
+                //if the spriteSheet width/heights haven't been set, or ar invalid, Set to bitmapData dimensions.
+                if (_handler.spriteSheetSliceWidth == 0 || _handler.spriteSheetSliceHeight == 0) {
+                    widthTextInput.text = _handler.bitmapData.width.toString();
+                    heightTextInput.text = _handler.bitmapData.height.toString();
+                }
+                else {
+                    widthTextInput.text = _handler.spriteSheetSliceWidth.toString();
+                    heightTextInput.text = _handler.spriteSheetSliceHeight.toString();
+                }
+                speedTextInput.text = _handler.spriteSheetAnimationSpeed.toString();
+                randomFrameCB.selected = _handler.spriteSheetStartAtRandomFrame;
+            }
+            else {
+                singleImageRadioButton.selected = true;
+            }
+
+            if (_handler is StarlingHandler)
             {
-                if (data[i] == blendMode)
+                starlingRadioButton.selected = true;
+                if (blendModesAC != Globals.blendModesStarling )
                 {
-                    blendModeList.selectedIndex = i;
-                    return;
+                    blendModesAC = Globals.blendModesStarling;
                 }
             }
+            else if (_handler is DisplayObjectSpriteSheetHandler)
+            {
+                displayObjectRadioButton.selected = true;
+                if ( blendModesAC != Globals.blendModesDisplayList )
+                {
+                    blendModesAC = Globals.blendModesDisplayList;
+                }
+            }
+            for (var i:int = 0; i < blendModeList.dataProvider.length; i++)
+            {
+                if (blendModeList.dataProvider.getItemAt(i) == _handler.blendMode)
+                {
+                    blendModeList.selectedIndex = i;
+                }
+            }
+            validateNow();
         }
 
-        private function updateBlendMode() : void
-        {
-            LOG.debug("Update Blend Mode");
-            dispatchEvent(new UpdateBlendModeEvent(UpdateBlendModeEvent.UPDATE, blendModeList.selectedItem));
+        private function updateRenderMode():void {
+            validateNow(); // radio buttons suck
+            if (displayObjectRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.DISPLAY_LIST));
+            }
+            else if (starlingRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
+            }
         }
 
-        private function updateSmoothing() : void
-        {
-            dispatchEvent( new UpdateSmoothingEvent( useSmoothingCheckBox.selected ) );
+        private function loadImageFromFile():void {
+            dispatchEvent(new LoadEmitterImageFromFileEvent());
+        }
+
+        private function onImagePropsChange():void {
+            if (int(widthTextInput.text) < 1) {
+                widthTextInput.text = "1";
+            }
+            if (int(heightTextInput.text) < 1) {
+                heightTextInput.text = "1";
+            }
+            validateNow();
+            if (spriteSheetRadioButton.selected) {
+                //if the spriteSheet width/heights haven't been set, or are invalid set to bitmapData dimensions.
+                if (_handler.spriteSheetSliceWidth == 0 || _handler.spriteSheetSliceHeight == 0) {
+                    widthTextInput.text = _handler.bitmapData.width.toString();
+                    heightTextInput.text = _handler.bitmapData.height.toString();
+                }
+                // If the particle is a sprite sheet every time its dimensions/image changes it gets stored in a static array.
+                // Lots of such changes can potentially lead to out of memory errors, this command will clear the cache.
+                // In a real project this should be called when the sim is not needed anymore.
+                DisplayObjectSpriteSheetHandler.clearCache();
+            }
+            _handler.spriteSheetSliceWidth = parseInt(widthTextInput.text);
+            _handler.spriteSheetSliceHeight = parseInt(heightTextInput.text);
+            _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
+            _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
+            _handler.smoothing = useSmoothingCheckBox.selected;
+            _handler.blendMode = blendModeList.selectedItem;
         }
         ]]></fx:Script>
 
@@ -72,11 +127,40 @@
                        selected="true" change="updateRenderMode()"/>
         <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
 
-        <s:CheckBox id="useSmoothingCheckBox" label="Use Smoothing" change="updateSmoothing()"
-                enabled="{displayObjectRadioButton.selected}"/>
-        <s:Label text="Blend mode:" enabled="{displayObjectRadioButton.selected}"/>
+        <s:CheckBox id="useSmoothingCheckBox" label="Use Smoothing" change="onImagePropsChange()"/>
+        <s:Label text="Blend mode:"/>
         <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
-                        change="updateBlendMode()" width="100" enabled="{displayObjectRadioButton.selected}"/>
+                        change="onImagePropsChange()" width="100" />
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Graphic asset"/>
+
+        <s:Image maxWidth="40" maxHeight="40" source="{sourceBD}"/>
+
+        <s:Button label="Browse" click="loadImageFromFile()"/>
+
+        <s:RadioButton groupName="imageTypeRBG" label="Single image" enabled="{sourceBD != null}"
+                       id="singleImageRadioButton" change="onImagePropsChange()"/>
+        <s:RadioButton groupName="imageTypeRBG" label="Sprite sheet" enabled="{sourceBD != null}"
+                       id="spriteSheetRadioButton" change="onImagePropsChange()"/>
+    </s:HGroup>
+
+    <s:HGroup visible="{spriteSheetRadioButton.selected}" verticalAlign="middle"
+              includeInLayout="{spriteSheetRadioButton.selected}">
+        <s:Label text="Single image width"/>
+        <components:CustomNumericStepper id="widthTextInput" restrict="0-9" minimum="0" maximum="2048" width="50"
+                                         change="onImagePropsChange()"/>
+
+        <s:Label text="height"/>
+        <components:CustomNumericStepper id="heightTextInput" restrict="0-9" minimum="0" maximum="2048" width="50"
+                                         change="onImagePropsChange()"/>
+
+        <s:Label text="anim. speed"/>
+        <components:CustomNumericStepper id="speedTextInput" text="1" restrict="0-9" minimum="0" width="50"
+                                         change="onImagePropsChange()"/>
+
+        <s:CheckBox label="start at random frame?" id="randomFrameCB" change="onImagePropsChange()"/>
     </s:HGroup>
 
 </s:VGroup>

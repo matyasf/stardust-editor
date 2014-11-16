@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:s="library://ns.adobe.com/flex/spark"
-                xmlns:zones="com.plumbee.stardust.view.stardust.twoD.zones.*">
+                xmlns:zones="com.plumbee.stardust.view.stardust.twoD.zones.*"
+                removedFromStage="removeEventListener(Event.ENTER_FRAME, handleFollowMouse)">
 
     <fx:Script><![CDATA[
         import com.plumbee.stardust.helpers.DropdownListVO;

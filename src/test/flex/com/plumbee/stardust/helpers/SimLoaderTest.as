@@ -13,7 +13,6 @@ public class SimLoaderTest
     [After]
     public function tearDown() : void
     {
-	    // TODO write tests
 		var i : int = 6;
     }
 

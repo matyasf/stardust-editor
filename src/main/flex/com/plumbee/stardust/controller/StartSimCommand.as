@@ -2,12 +2,10 @@ package com.plumbee.stardust.controller
 {
 import com.plumbee.stardust.controller.events.InitCompleteEvent;
 import com.plumbee.stardust.controller.events.InitalizeZoneDrawerEvent;
-import com.plumbee.stardust.controller.events.SetBlendModeSelectedEvent;
+import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.UpdateClockContainerFromEmitter;
 import com.plumbee.stardust.controller.events.UpdateEmitterDropDownListEvent;
 import com.plumbee.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
-import com.plumbee.stardust.controller.events.SetSmoothingCheckBoxEvent;
-import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.SimPlayer;
 
@@ -16,7 +14,7 @@ import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
 import idv.cjcat.stardustextended.sd;
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
+import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
@@ -45,16 +43,10 @@ public class StartSimCommand implements ICommand
 
         simPlayer.resetSimulation();
 
-        if (Globals.bitmapData)
-        {
-            Globals.bitmapData.fillRect(Globals.bitmapData.rect, 0xFF00FF00FF);
-        }
         // refresh the initializer/action arrayCollections
         dispatcher.dispatchEvent( new UpdateEmitterFromViewUICollectionsEvent( UpdateEmitterFromViewUICollectionsEvent.UPDATE, projectSettings.emitterInFocus ) );
 
         dispatcher.dispatchEvent( new UpdateClockContainerFromEmitter( UpdateClockContainerFromEmitter.UPDATE, projectSettings.emitterInFocus ) );
-
-        Globals.textureManager.clear();
 
         //If the bg is a .swf, restart it so it syncs up with the animated emitter path.
         if (projectSettings.stadustSim.backgroundImage is MovieClip)
@@ -65,17 +57,13 @@ public class StartSimCommand implements ICommand
         //refresh the emitter dropdown list.
         dispatcher.dispatchEvent( new UpdateEmitterDropDownListEvent( UpdateEmitterDropDownListEvent.UPDATE ) );
 
-        //refresh the smoothing checkbox.
-        dispatcher.dispatchEvent( new SetSmoothingCheckBoxEvent( projectSettings.emitterInFocus.smoothing ) );
+        //refresh the particle handler properties
+        dispatcher.dispatchEvent( new SetParticleHandlerEvent( ISpriteSheetHandler(projectSettings.emitterInFocus.emitter.particleHandler) ) );
 
-        //refresh the blendMode dropdown.
-        const blendMode : String = DisplayObjectHandler(projectSettings.emitterInFocus.emitter.particleHandler).blendMode;
-        dispatcher.dispatchEvent( new SetBlendModeSelectedEvent(blendMode) );
-
-        // setup zone drawer
         dispatcher.dispatchEvent( new InitalizeZoneDrawerEvent( InitalizeZoneDrawerEvent.RESET ) );
 
         dispatcher.dispatchEvent( new InitCompleteEvent() );
     }
+
 }
 }

@@ -1,8 +1,8 @@
 package com.plumbee.stardust.controller
 {
 
-import com.plumbee.stardust.controller.events.RefreshBitmapParticleInitializerRendererEvent;
 import com.plumbee.stardust.controller.events.LoadSimEvent;
+import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
@@ -15,7 +15,9 @@ import flash.events.Event;
 
 import flash.events.IEventDispatcher;
 
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
+import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
@@ -62,16 +64,17 @@ public class LoadSimCommand implements ICommand
             projectSettings.emitterInFocus = emitterVO;
             break;
         }
-        if (projectSettings.emitterInFocus.emitter.particleHandler is DisplayObjectHandler)
+        const handler : ISpriteSheetHandler = ISpriteSheetHandler(projectSettings.emitterInFocus.emitter.particleHandler);
+        if (handler is DisplayObjectSpriteSheetHandler)
         {
             simPlayer.setSimulation( projectSettings.stadustSim, Globals.canvas);
         }
-        else
+        else if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.bitmapData);
+            simPlayer.setSimulation( projectSettings.stadustSim, Globals.starlingCanvas);
         }
 
-        dispatcher.dispatchEvent( new RefreshBitmapParticleInitializerRendererEvent() );
+        dispatcher.dispatchEvent( new SetParticleHandlerEvent(handler) );
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
 

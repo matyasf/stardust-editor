@@ -14,7 +14,8 @@ import flash.display.BitmapData;
 import flash.events.IEventDispatcher;
 
 import idv.cjcat.stardustextended.sd;
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
+import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
@@ -52,8 +53,6 @@ public class AddEmitterCommand implements ICommand
                     <Move name="Move_0"/>
                 </actions>
                 <initializers>
-                    <PooledDisplayObjectClass name="PooledDisplayObjectClass_0"/>
-                    <BitmapParticleInit name="BitmapParticleInit_0"/>
                     <PositionAnimated name="PositionAnimated_0"/>
                     <Velocity name="Velocity_0"/>
                     <Life name="Life_0"/>
@@ -61,12 +60,10 @@ public class AddEmitterCommand implements ICommand
             </Emitter2D>
         </emitters>
         <handlers>
-            <DisplayObjectHandler name="DisplayObjectHandler_2" addChildMode="0" forceParentChange="false" blendMode="normal"/>
+            <DisplayObjectSpriteSheetHandler name="DisplayObjectHandler_2" addChildMode="0" forceParentChange="false" blendMode="normal" imgWidth="0" imgHeight="0" animSpeed="0" startAtRandomFrame="false" smoothing="false"/>
         </handlers>
         <initializers>
-            <BitmapParticleInit name="BitmapParticleInit_0" active="true" bitmapType="singleImage" spriteSheetSliceWidth="0" spriteSheetSliceHeight="0" spriteSheetAnimationSpeed="0" spriteSheetStartAtRandomFrame="false" smoothing="false"/>
             <Life name="Life_0" active="true" random="UniformRandom_1"/>
-            <PooledDisplayObjectClass name="PooledDisplayObjectClass_0" active="true" displayObjectClass="idv.cjcat.stardustextended.twoD.display.bitmapParticle::BitmapParticle"/>
             <PositionAnimated name="PositionAnimated_0" active="true" zone="Line_0" inheritVelocity="false"/>
             <Velocity name="Velocity_0" active="true" zone="SinglePoint_0"/>
         </initializers>
@@ -97,13 +94,13 @@ public class AddEmitterCommand implements ICommand
         projectSettings.stadustSim.emitters[emitterData.id] = emitterData;
 
         //set the simulation for the new emitter
-        if (emitterData.emitter.particleHandler is DisplayObjectHandler)
+        if (projectSettings.emitterInFocus.emitter.particleHandler is DisplayObjectSpriteSheetHandler)
         {
             simPlayer.setSimulation( projectSettings.stadustSim, Globals.canvas);
         }
-        else
+        else if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.bitmapData);
+            simPlayer.setSimulation( projectSettings.stadustSim, Globals.starlingCanvas);
         }
 
         // display data for the new emitter

@@ -1,11 +1,10 @@
 package com.plumbee.stardust.helpers
 {
-import com.plumbee.stardust.helpers.starling.TextureManager;
+
 import com.plumbee.stardust.view.stardust.twoD.actions.AccelerateAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.AgeAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.AlphaCurveAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.AnimateSpriteSheetAction;
-import com.plumbee.stardust.view.stardust.twoD.actions.CollideAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DampingAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DeathLifeAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DeathZoneAction;
@@ -13,7 +12,6 @@ import com.plumbee.stardust.view.stardust.twoD.actions.DeflectAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.FollowWaypointsAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.GravityAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.MoveAction;
-import com.plumbee.stardust.view.stardust.twoD.actions.MutualGravityAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.NormalDriftAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.OrientedAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.RandomDriftAction;
@@ -22,14 +20,11 @@ import com.plumbee.stardust.view.stardust.twoD.actions.SpeedLimitAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.SpinAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.VelocityFieldAction;
 import com.plumbee.stardust.view.stardust.twoD.initializers.AlphaInitializer;
-import com.plumbee.stardust.view.stardust.twoD.initializers.CollisionRadiusInitializer;
-import com.plumbee.stardust.view.stardust.twoD.initializers.DisplayObjectClassInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.LifeInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.MassInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.OmegaInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.PositionInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.ScaleInitializer;
-import com.plumbee.stardust.view.stardust.twoD.initializers.BitmapParticleInitalizer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.VelocityInitializer;
 import com.plumbee.stardust.view.stardust.twoD.zones.CircleContourZone;
 import com.plumbee.stardust.view.stardust.twoD.zones.CompositeZone;
@@ -38,7 +33,6 @@ import com.plumbee.stardust.view.stardust.twoD.zones.RectContourZone;
 import com.plumbee.stardust.view.stardust.twoD.zones.SectorZone;
 import com.plumbee.stardust.view.stardust.twoD.zones.SinglePointZone;
 
-import flash.display.BitmapData;
 import flash.display.BlendMode;
 import flash.utils.Dictionary;
 
@@ -47,31 +41,25 @@ import idv.cjcat.stardustextended.common.actions.AlphaCurve;
 import idv.cjcat.stardustextended.common.actions.DeathLife;
 import idv.cjcat.stardustextended.common.actions.ScaleCurve;
 import idv.cjcat.stardustextended.common.initializers.Alpha;
-import idv.cjcat.stardustextended.common.initializers.CollisionRadius;
 import idv.cjcat.stardustextended.common.initializers.Life;
 import idv.cjcat.stardustextended.common.initializers.Mass;
 import idv.cjcat.stardustextended.common.initializers.Scale;
 import idv.cjcat.stardustextended.twoD.actions.Accelerate;
 import idv.cjcat.stardustextended.twoD.actions.AnimateSpriteSheet;
-import idv.cjcat.stardustextended.twoD.actions.Collide;
 import idv.cjcat.stardustextended.twoD.actions.Damping;
 import idv.cjcat.stardustextended.twoD.actions.DeathZone;
 import idv.cjcat.stardustextended.twoD.actions.Deflect;
 import idv.cjcat.stardustextended.twoD.actions.FollowWaypoints;
 import idv.cjcat.stardustextended.twoD.actions.Gravity;
 import idv.cjcat.stardustextended.twoD.actions.Move;
-import idv.cjcat.stardustextended.twoD.actions.MutualGravity;
 import idv.cjcat.stardustextended.twoD.actions.NormalDrift;
 import idv.cjcat.stardustextended.twoD.actions.Oriented;
 import idv.cjcat.stardustextended.twoD.actions.RandomDrift;
 import idv.cjcat.stardustextended.twoD.actions.SpeedLimit;
 import idv.cjcat.stardustextended.twoD.actions.Spin;
 import idv.cjcat.stardustextended.twoD.actions.VelocityField;
-import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
 import idv.cjcat.stardustextended.twoD.initializers.Omega;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
-import idv.cjcat.stardustextended.twoD.initializers.StardustSpriteInit;
 import idv.cjcat.stardustextended.twoD.initializers.Velocity;
 import idv.cjcat.stardustextended.twoD.zones.CircleContour;
 import idv.cjcat.stardustextended.twoD.zones.CircleZone;
@@ -123,25 +111,20 @@ public class Globals
     ] );
 
     // TODO move these to a model.
-    public static var bitmapData : BitmapData;
-    public static const textureManager : TextureManager = new TextureManager();
     public static const canvas : flash.display.Sprite = new flash.display.Sprite();
     public static var backgroundHolder : UIComponent;
     public static const starlingCanvas : starling.display.Sprite = new starling.display.Sprite();
 
     public static function init() : void
     {
-        initalizerDict[ PooledDisplayObjectClass ] = new DropdownListVO( "Display asset", PooledDisplayObjectClass, DisplayObjectClassInitializer );
-        //initalizerDict[ StarlingDisplayObjectClass ] = new DropdownListVO( "Starling asset", StarlingDisplayObjectClass, DisplayObjectClassInitializer );
         initalizerDict[ PositionAnimated ] = new DropdownListVO( "Position", PositionAnimated, PositionInitializer );
         initalizerDict[ Velocity ] = new DropdownListVO( "Speed", Velocity, VelocityInitializer );
         initalizerDict[ Life ] = new DropdownListVO( "Life", Life, LifeInitializer );
         initalizerDict[ Alpha ] = new DropdownListVO( "Alpha", Alpha, AlphaInitializer );
         initalizerDict[ Scale ] = new DropdownListVO( "Scale", Scale, ScaleInitializer );
-        initalizerDict[ Omega ] = new DropdownListVO( "Angular velocity", Omega, OmegaInitializer );
+        initalizerDict[ Omega ] = new DropdownListVO( "Rotation speed", Omega, OmegaInitializer );
         initalizerDict[ Mass ] = new DropdownListVO( "Mass", Mass, MassInitializer );
         //initalizerDict[ CollisionRadius ] = new DropdownListVO( "Collision radius", CollisionRadius, CollisionRadiusInitializer );
-        initalizerDict[ BitmapParticleInit ] = new DropdownListVO( "Sprite init", BitmapParticleInit, BitmapParticleInitalizer );
         //initalizerDict[ Mask ] = new DropdownListVO("Mask", Mask, MaskInitializer);
 
         actionDict[ Move ] = new DropdownListVO( "Simulation speed", Move, MoveAction );
@@ -155,17 +138,17 @@ public class Globals
         actionDict[ Accelerate ] = new DropdownListVO( "Accelerate", Accelerate, AccelerateAction );
         actionDict[ Damping ] = new DropdownListVO( "Damping", Damping, DampingAction );
         actionDict[ SpeedLimit ] = new DropdownListVO( "Speed limit", SpeedLimit, SpeedLimitAction );
-        actionDict[ Spin ] = new DropdownListVO( "Spin", Spin, SpinAction );
+        actionDict[ Spin ] = new DropdownListVO( "Rotate", Spin, SpinAction );
         actionDict[ FollowWaypoints ] = new DropdownListVO( "Follow waypoints", FollowWaypoints, FollowWaypointsAction );
         actionDict[ Deflect ] = new DropdownListVO( "Deflect/bounce", Deflect, DeflectAction );
         actionDict[ Gravity ] = new DropdownListVO( "Gravity (acceleration) field", Gravity, GravityAction );
         actionDict[ VelocityField ] = new DropdownListVO( "Velocity field", VelocityField, VelocityFieldAction );
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
+        actionDict[ AnimateSpriteSheet ] = new DropdownListVO( "AnimateSpriteSheet", AnimateSpriteSheet, AnimateSpriteSheetAction );
         //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
         //actionDict[ Collide ] = new DropdownListVO( "Collide (CPU intensive)", Collide, CollideAction );
-        actionDict[ AnimateSpriteSheet ] = new DropdownListVO( "AnimateSpriteSheet", AnimateSpriteSheet, AnimateSpriteSheetAction );
 
         zonesDict[Line] = new DropdownListVO("Line", Line, LineZone);
         zonesDict[SinglePoint] = new DropdownListVO("Point", SinglePoint, SinglePointZone);
