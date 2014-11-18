@@ -6,7 +6,7 @@
         import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.helpers.Globals;
         import com.plumbee.stardust.view.events.LoadEmitterImageFromFileEvent;
-        import com.plumbee.stardustplayer.project.DisplayModes;
+        import com.plumbee.stardust.model.DisplayModes;
 
         import idv.cjcat.stardustextended.sd;
         import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
@@ -53,26 +53,20 @@
                 singleImageRadioButton.selected = true;
             }
 
-            if (_handler is StarlingHandler)
-            {
+            if (_handler is StarlingHandler) {
                 starlingRadioButton.selected = true;
-                if (blendModesAC != Globals.blendModesStarling )
-                {
+                if (blendModesAC != Globals.blendModesStarling) {
                     blendModesAC = Globals.blendModesStarling;
                 }
             }
-            else if (_handler is DisplayObjectSpriteSheetHandler)
-            {
+            else if (_handler is DisplayObjectSpriteSheetHandler) {
                 displayObjectRadioButton.selected = true;
-                if ( blendModesAC != Globals.blendModesDisplayList )
-                {
+                if (blendModesAC != Globals.blendModesDisplayList) {
                     blendModesAC = Globals.blendModesDisplayList;
                 }
             }
-            for (var i:int = 0; i < blendModeList.dataProvider.length; i++)
-            {
-                if (blendModeList.dataProvider.getItemAt(i) == _handler.blendMode)
-                {
+            for (var i:int = 0; i < blendModeList.dataProvider.length; i++) {
+                if (blendModeList.dataProvider.getItemAt(i) == _handler.blendMode) {
                     blendModeList.selectedIndex = i;
                 }
             }

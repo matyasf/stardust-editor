@@ -7,7 +7,7 @@ import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
-import com.plumbee.stardustplayer.project.DisplayModes;
+import com.plumbee.stardust.model.DisplayModes;
 
 import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
@@ -78,7 +78,7 @@ public class UpdateDisplayModeCommand implements ICommand
             var emitter : Emitter = emitterVO.emitter;
             var starlingHandler : StarlingHandler = new StarlingHandler();
             copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);
-            starlingHandler.blendMode = getStarlingSafeBlendMode(DisplayObjectSpriteSheetHandler(emitter.particleHandler).blendMode);
+            starlingHandler.blendMode = getStarlingSafeBlendMode(starlingHandler.blendMode);
             emitter.particleHandler = starlingHandler;
         }
         simPlayer.setRenderTarget(Globals.starlingCanvas);

@@ -2,7 +2,6 @@ package com.plumbee.stardust.controller
 {
 
 import com.plumbee.stardust.controller.events.LoadSimEvent;
-import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
@@ -73,8 +72,6 @@ public class LoadSimCommand implements ICommand
         {
             simPlayer.setSimulation( projectSettings.stadustSim, Globals.starlingCanvas);
         }
-
-        dispatcher.dispatchEvent( new SetParticleHandlerEvent(handler) );
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
 
