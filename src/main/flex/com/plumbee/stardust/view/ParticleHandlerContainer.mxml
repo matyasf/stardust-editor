@@ -105,11 +105,12 @@
                 // Lots of such changes can potentially lead to out of memory errors, this command will clear the cache.
                 // In a real project this should be called when the sim is not needed anymore.
                 DisplayObjectSpriteSheetHandler.clearCache();
+
+                _handler.spriteSheetSliceWidth = parseInt(widthTextInput.text);
+                _handler.spriteSheetSliceHeight = parseInt(heightTextInput.text);
+                _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
+                _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
             }
-            _handler.spriteSheetSliceWidth = parseInt(widthTextInput.text);
-            _handler.spriteSheetSliceHeight = parseInt(heightTextInput.text);
-            _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
-            _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
             _handler.smoothing = useSmoothingCheckBox.selected;
             _handler.blendMode = blendModeList.selectedItem;
         }
