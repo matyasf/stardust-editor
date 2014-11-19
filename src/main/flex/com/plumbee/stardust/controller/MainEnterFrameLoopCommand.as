@@ -8,6 +8,8 @@ import com.plumbee.stardust.view.events.MainEnterFrameLoopEvent;
 import com.plumbee.stardustplayer.SimPlayer;
 import flash.utils.getTimer;
 
+import idv.cjcat.stardustextended.twoD.starling.Stage3DRenderer;
+
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 // TODO this needs to be a service, since calcTime needs to be preserved between runs
@@ -39,6 +41,10 @@ public class MainEnterFrameLoopCommand implements ICommand
 
         calcTime = (getTimer() - startTime);
         view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime + "ms";
+        if (project.stadustSim.numberOfParticles > Stage3DRenderer.MAX_PARTICLES)
+        {
+            view.infoLabel.text += " Particles over " + Stage3DRenderer.MAX_PARTICLES + " will not be rendered.";
+        }
         if ( view.zonesVisibleCheckBox.selected )
         {
             ZoneDrawer.drawZones();

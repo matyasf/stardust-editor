@@ -2,6 +2,7 @@ package com.plumbee.stardust.controller
 {
 
 import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
+import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 import com.plumbee.stardustplayer.sequenceLoader.ISequenceLoader;
@@ -17,6 +18,7 @@ import flash.net.FileReference;
 
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
@@ -65,13 +67,17 @@ public class LoadEmitterImageFromFileReferenceCommand implements ICommand
     private function onEmitterImageLoaded( event : Event ) : void
     {
         sequenceLoader.removeEventListener( Event.COMPLETE, onEmitterImageLoaded );
-
         const emitterVO : EmitterValueObject = projectSettings.emitterInFocus;
+        if (emitterVO.emitter.particleHandler is StarlingHandler)
+        {
+            StarlingHandler(emitterVO.emitter.particleHandler).texture.dispose();
+        }
         const loadJob : LoadByteArrayJob = sequenceLoader.getJobByName( emitterVO.id.toString() );
         emitterVO.image = ( loadJob.content as Bitmap ).bitmapData;
         emitterVO.emitter.name = loadJob.fileName;
-
-        dispatcher.dispatchEvent( new SetParticleHandlerEvent(ISpriteSheetHandler(emitterVO.emitter.particleHandler)) );
+        // If the image changes the animation frames are recalculated and there might be particles on the screen which
+        // are now at a non-existent frame number.
+        dispatcher.dispatchEvent( new StartSimEvent() );
     }
 
 }

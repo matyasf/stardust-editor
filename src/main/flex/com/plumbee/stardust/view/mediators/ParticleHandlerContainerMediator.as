@@ -2,6 +2,7 @@ package com.plumbee.stardust.view.mediators
 {
 
 import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
+import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardust.view.ParticleHandlerContainer;
@@ -23,6 +24,7 @@ public class ParticleHandlerContainerMediator extends Mediator
     {
         addViewListener( UpdateDisplayModeEvent.UPDATE, redispatchEvent, UpdateDisplayModeEvent );
         addViewListener( LoadEmitterImageFromFileEvent.TYPE, redispatchEvent, LoadEmitterImageFromFileEvent );
+        addViewListener( StartSimEvent.START, redispatchEvent, StartSimEvent );
 
         addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );
     }

@@ -23,8 +23,6 @@ import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 import starling.display.BlendMode;
 
-import starling.textures.Texture;
-
 use namespace sd;
 
 public class UpdateDisplayModeCommand implements ICommand
@@ -63,6 +61,10 @@ public class UpdateDisplayModeCommand implements ICommand
         for each( var emitterVO : EmitterValueObject in emitters )
         {
             var emitter : Emitter = emitterVO.emitter;
+            if (emitter.particleHandler is StarlingHandler)
+            {
+                StarlingHandler(emitter.particleHandler).texture.dispose();
+            }
             var handler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
             copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);
             emitter.particleHandler = handler;

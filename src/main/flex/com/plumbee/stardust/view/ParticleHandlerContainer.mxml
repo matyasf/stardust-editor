@@ -3,7 +3,7 @@
           xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.plumbee.stardust.view.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
-
+        import com.plumbee.stardust.controller.events.StartSimEvent;
         import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.helpers.Globals;
         import com.plumbee.stardust.view.events.LoadEmitterImageFromFileEvent;
@@ -32,23 +32,14 @@
             sourceBD = _handler.bitmapData;
             useSmoothingCheckBox.selected = _handler.smoothing;
 
-            if (_handler.isSpriteSheet == true) {
-                spriteSheetRadioButton.selected = true;
-                //if the spriteSheet width/heights haven't been set or are invalid, set to bitmapData dimensions.
-                if (_handler.spriteSheetSliceWidth == 0 || _handler.spriteSheetSliceHeight == 0) {
-                    widthTextInput.text = _handler.bitmapData.width.toString();
-                    heightTextInput.text = _handler.bitmapData.height.toString();
-                }
-                else {
-                    widthTextInput.text = _handler.spriteSheetSliceWidth.toString();
-                    heightTextInput.text = _handler.spriteSheetSliceHeight.toString();
-                }
-                speedTextInput.text = _handler.spriteSheetAnimationSpeed.toString();
-                randomFrameCB.selected = _handler.spriteSheetStartAtRandomFrame;
-            }
-            else {
-                singleImageRadioButton.selected = true;
-            }
+            widthTextInput.text = _handler.spriteSheetSliceWidth.toString();
+            heightTextInput.text = _handler.spriteSheetSliceHeight.toString();
+
+            speedTextInput.text = _handler.spriteSheetAnimationSpeed.toString();
+            randomFrameCB.selected = _handler.spriteSheetStartAtRandomFrame;
+
+            spriteSheetRadioButton.selected = _handler.isSpriteSheet;
+            singleImageRadioButton.selected = !_handler.isSpriteSheet;
 
             if (_handler is StarlingHandler) {
                 starlingRadioButton.selected = true;
@@ -62,13 +53,8 @@
                     blendModesAC = Globals.blendModesDisplayList;
                 }
             }
-            for (var i:int = 0; i < blendModeList.dataProvider.length; i++) {
-                if (blendModeList.dataProvider.getItemAt(i) == _handler.blendMode) {
-                    blendModeList.selectedIndex = i;
-                }
-            }
-            onImagePropsChange();// todo this is ugly
             validateNow();
+            blendModeList.selectedItem = _handler.blendMode;
         }
 
         private function updateRenderMode():void {
@@ -85,38 +71,45 @@
             dispatchEvent(new LoadEmitterImageFromFileEvent());
         }
 
-        private function onImagePropsChange():void {
-            if (int(widthTextInput.text) < 1) {
-                widthTextInput.text = "1";
-            }
-            else if (int(widthTextInput.text) > _handler.bitmapData.width) {
-                widthTextInput.text = _handler.bitmapData.width.toString();
-            }
-            if (int(heightTextInput.text) < 1) {
-                heightTextInput.text = "1";
-            }
-            else if (int(heightTextInput.text) > _handler.bitmapData.height) {
-                heightTextInput.text = _handler.bitmapData.height.toString();
-            }
-            validateNow();
+        // If the dimensions change the animation frames are recalculated and there might be particles on
+        // the screen which are now at a non-existent frame number, thus we must restart
+        private function changePropsAndRestartSim() : void
+        {
             if (spriteSheetRadioButton.selected) {
-                //if the spriteSheet width/heights haven't been set, or are invalid set to bitmapData dimensions.
-                if (_handler.spriteSheetSliceWidth == 0 || _handler.spriteSheetSliceHeight == 0) {
-                    widthTextInput.text = _handler.bitmapData.width.toString();
-                    heightTextInput.text = _handler.bitmapData.height.toString();
-                }
                 // If the particle is a sprite sheet every time its dimensions/image changes it gets stored in a static array.
                 // Lots of such changes can potentially lead to out of memory errors, this command will clear the cache.
                 // In a real project this should be called when the sim is not needed anymore.
                 DisplayObjectSpriteSheetHandler.clearCache();
-
-                _handler.spriteSheetSliceWidth = parseInt(widthTextInput.text);
-                _handler.spriteSheetSliceHeight = parseInt(heightTextInput.text);
-                _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
-                _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
             }
+            if (int(widthTextInput.text) < 1) {
+                widthTextInput.text = "1";
+            }
+            if (int(widthTextInput.text) > _handler.bitmapData.width || singleImageRadioButton.selected)
+            {
+                widthTextInput.text = _handler.bitmapData.width.toString();
+            }
+            if (int(heightTextInput.text) < 1)
+            {
+                heightTextInput.text = "1";
+            }
+            if (int(heightTextInput.text) > _handler.bitmapData.height || singleImageRadioButton.selected)
+            {
+                heightTextInput.text = _handler.bitmapData.height.toString();
+            }
+            _handler.spriteSheetSliceWidth = parseInt(widthTextInput.text);
+            _handler.spriteSheetSliceHeight = parseInt(heightTextInput.text);
+            onImagePropsChange();
+            dispatchEvent(new StartSimEvent());
+        }
+
+        private function onImagePropsChange():void
+        {
             _handler.smoothing = useSmoothingCheckBox.selected;
             _handler.blendMode = blendModeList.selectedItem;
+            _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
+            _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
+
+            validateNow();
         }
         ]]></fx:Script>
 
@@ -140,24 +133,24 @@
         <s:Button label="Browse" click="loadImageFromFile()"/>
 
         <s:RadioButton groupName="imageTypeRBG" label="Single image" enabled="{sourceBD != null}"
-                       id="singleImageRadioButton" change="onImagePropsChange()"/>
+                       id="singleImageRadioButton" change="changePropsAndRestartSim()"/>
         <s:RadioButton groupName="imageTypeRBG" label="Sprite sheet" enabled="{sourceBD != null}"
-                       id="spriteSheetRadioButton" change="onImagePropsChange()"/>
+                       id="spriteSheetRadioButton" change="changePropsAndRestartSim()"/>
     </s:HGroup>
 
     <s:HGroup visible="{spriteSheetRadioButton.selected}" verticalAlign="middle"
               includeInLayout="{spriteSheetRadioButton.selected}">
         <s:Label text="Single image width"/>
-        <components:CustomNumericStepper id="widthTextInput" restrict="0-9" minimum="0" maximum="2048" width="50"
-                                         change="onImagePropsChange()"/>
+        <components:CustomNumericStepper id="widthTextInput" restrict="0-9" minimum="1" maximum="2048" width="50"
+                                         change="changePropsAndRestartSim()"/>
 
         <s:Label text="height"/>
-        <components:CustomNumericStepper id="heightTextInput" restrict="0-9" minimum="0" maximum="2048" width="50"
-                                         change="onImagePropsChange()"/>
+        <components:CustomNumericStepper id="heightTextInput" restrict="0-9" minimum="1" maximum="2048" width="50"
+                                         change="changePropsAndRestartSim()"/>
 
         <s:Label text="anim. speed"/>
-        <components:CustomNumericStepper id="speedTextInput" text="1" restrict="0-9" minimum="1" width="50"
-                                         change="onImagePropsChange()"/>
+        <components:CustomNumericStepper id="speedTextInput" restrict="0-9" minimum="1" maximum="1000" width="50"
+                                         change="onImagePropsChange()" />
 
         <s:CheckBox label="start at random frame?" id="randomFrameCB" change="onImagePropsChange()"/>
     </s:HGroup>

@@ -39,14 +39,6 @@
             Globals.backgroundHolder = background;
         }
 
-        // used by the wrapper AIR app
-        public function getSaveFile() : ByteArray
-        {
-            //TODO fix without statics
-            //return ProjectFileBuilder.instance.constructProjectFileByteArray( emitterGroupREMOVE );
-            return null;
-        }
-
         public function setupStarlingCanvas() : void
         {
             Starling.handleLostContext = true;
