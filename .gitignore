@@ -3,4 +3,5 @@
 /target
 .gradle/*
 build/*
+bin-debug/*
 *.iml
