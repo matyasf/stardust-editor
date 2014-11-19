@@ -3,6 +3,7 @@
           xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.plumbee.stardust.view.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
+
         import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.helpers.Globals;
         import com.plumbee.stardust.view.events.LoadEmitterImageFromFileEvent;
@@ -14,8 +15,6 @@
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
-        import mx.logging.ILogger;
-        import mx.logging.Log;
 
         [Bindable]
         public var blendModesAC:ArrayCollection = Globals.blendModesDisplayList;
@@ -27,8 +26,6 @@
 
         use namespace sd;
 
-        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(ParticleHandlerContainer).replace("::", "."));
-
         public function set handler(handler:ISpriteSheetHandler):void {
             _handler = handler;
 
@@ -37,7 +34,7 @@
 
             if (_handler.isSpriteSheet == true) {
                 spriteSheetRadioButton.selected = true;
-                //if the spriteSheet width/heights haven't been set, or ar invalid, Set to bitmapData dimensions.
+                //if the spriteSheet width/heights haven't been set or are invalid, set to bitmapData dimensions.
                 if (_handler.spriteSheetSliceWidth == 0 || _handler.spriteSheetSliceHeight == 0) {
                     widthTextInput.text = _handler.bitmapData.width.toString();
                     heightTextInput.text = _handler.bitmapData.height.toString();
@@ -70,6 +67,7 @@
                     blendModeList.selectedIndex = i;
                 }
             }
+            onImagePropsChange();// todo this is ugly
             validateNow();
         }
 
@@ -91,8 +89,14 @@
             if (int(widthTextInput.text) < 1) {
                 widthTextInput.text = "1";
             }
+            else if (int(widthTextInput.text) > _handler.bitmapData.width) {
+                widthTextInput.text = _handler.bitmapData.width.toString();
+            }
             if (int(heightTextInput.text) < 1) {
                 heightTextInput.text = "1";
+            }
+            else if (int(heightTextInput.text) > _handler.bitmapData.height) {
+                heightTextInput.text = _handler.bitmapData.height.toString();
             }
             validateNow();
             if (spriteSheetRadioButton.selected) {
@@ -152,7 +156,7 @@
                                          change="onImagePropsChange()"/>
 
         <s:Label text="anim. speed"/>
-        <components:CustomNumericStepper id="speedTextInput" text="1" restrict="0-9" minimum="0" width="50"
+        <components:CustomNumericStepper id="speedTextInput" text="1" restrict="0-9" minimum="1" width="50"
                                          change="onImagePropsChange()"/>
 
         <s:CheckBox label="start at random frame?" id="randomFrameCB" change="onImagePropsChange()"/>

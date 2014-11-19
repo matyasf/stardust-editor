@@ -107,7 +107,8 @@ public class Globals
         starling.display.BlendMode.MULTIPLY,
         starling.display.BlendMode.SCREEN,
         starling.display.BlendMode.ADD,
-        starling.display.BlendMode.ERASE
+        starling.display.BlendMode.ERASE,
+        starling.display.BlendMode.BELOW
     ] );
 
     // TODO move these to a model.
