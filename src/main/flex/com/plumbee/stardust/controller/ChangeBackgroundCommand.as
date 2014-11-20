@@ -60,10 +60,6 @@ public class ChangeBackgroundCommand implements ICommand
             projectModel.stadustSim.hasBackground = event.value as Boolean;
             if (projectModel.stadustSim.hasBackground == false)
             {
-                /*bgModel.color = projectModel.stadustSim.backgroundColor;
-                bgModel.image = projectModel.stadustSim.backgroundImage;
-                bgModel.backgroundFileName = projectModel.stadustSim.backgroundFileName;
-                bgModel.rawImage = projectModel.stadustSim.backgroundRawData; */
                 projectModel.stadustSim.backgroundColor = 0;
                 projectModel.stadustSim.backgroundImage = null;
                 projectModel.stadustSim.backgroundFileName = "";
@@ -71,12 +67,12 @@ public class ChangeBackgroundCommand implements ICommand
             }
             else
             {
-                /* TODO store bg settings temporarly. Sim needs to be restarted if bg is MovieClip
-                projectModel.stadustSim.backgroundColor = bgModel.color;
-                projectModel.stadustSim.backgroundImage = bgModel.image;
-                projectModel.stadustSim.backgroundFileName = bgModel.backgroundFileName;
-                projectModel.stadustSim.backgroundRawData = bgModel.rawImage;
-                */
+                // TODO store bg settings temporarly. Sim needs to be restarted if bg is MovieClip
+                projectModel.stadustSim.backgroundColor = 0;
+                projectModel.stadustSim.backgroundImage = null;
+                projectModel.stadustSim.backgroundFileName = "";
+                projectModel.stadustSim.backgroundRawData = null;
+
             }
             dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
         }

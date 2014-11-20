@@ -8,11 +8,13 @@
         import com.plumbee.stardust.controller.events.BackgroundChangeEvent;
 
         import mx.core.UIComponent;
-        import mx.events.ResizeEvent;
         import mx.logging.ILogger;
         import mx.logging.Log;
 
         import starling.core.Starling;
+        import starling.display.Image;
+        import starling.display.Quad;
+        import starling.textures.Texture;
 
         private static const LOG : ILogger = Log.getLogger(getQualifiedClassName(BackgroundProvider).replace("::", "."));
 
@@ -22,46 +24,7 @@
         {
             _background = bg;
         }
-         /*
-        public function setBackgroundColourStarling(color : uint) : void
-        {
-            colorPicker.selectedItem = color;
-            colorPicker.current.color = color;
-            _background.removeChildren();
-            _background.graphics.clear();
-            removeBackground();
 
-            var bgColorBD : BitmapData = new BitmapData(128, 128, false, color);
-            var shape : Image = new Image(Texture.fromBitmapData(bgColorBD));
-            shape.x = StardusttoolMainView.leftColumnWidth;
-            shape.width = _background.width;
-            shape.height = _background.height;
-
-            Starling.current.stage.addChildAt(shape, 0);
-        }
-
-        private function addBackgroundStarling(bg : Object, starlingInstance : Starling) : void
-        {
-            removeBackground();
-
-            if (bg is BitmapData)
-            {
-                var image : Image = new Image(Texture.fromBitmapData(bg as BitmapData));
-
-            }
-            if (bg is Bitmap)
-            {
-                image = new Image(Texture.fromBitmap(bg as Bitmap));
-            }
-            else
-            {
-                LOG.error("Starling only supports bitmap based backgrounds: " + (typeof bg));
-                return;
-            }
-            image.x = StardusttoolMainView.leftColumnWidth;
-            starlingInstance.stage.addChildAt(image as starling.display.DisplayObject, 0);
-        }
-        */
         private function onHasBGChange() : void
         {
             dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.HAS_BACKGROUND, hasBackgroundCheckBox.selected));
@@ -77,7 +40,21 @@
             dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.IMAGE, null));
         }
 
-        public function setData(hasBackground : Boolean, backgroundColor : uint, backgroundImage : flash.display.DisplayObject) : void
+        public function setBgImagePosition(xc: Number, yc : Number) : void
+        {
+            if (_background.numChildren > 0)
+            {
+                _background.getChildAt(0).x = xc;
+                _background.getChildAt(0).y = yc;
+            }
+            if (Starling.current.stage.numChildren > 1)
+            {
+                Starling.current.stage.getChildAt(0).x = StardusttoolMainView.leftColumnWidth + xc;
+                Starling.current.stage.getChildAt(0).y = yc;
+            }
+        }
+
+        public function setData(hasBackground : Boolean, backgroundColor : uint, backgroundImage : DisplayObject) : void
         {
             _background.removeChildren();
             _background.graphics.clear();
@@ -93,25 +70,33 @@
             {
                 if (backgroundImage)
                 {
-                    _background.addChild(backgroundImage);
+                    if (backgroundImage is Bitmap)
+                    {
+                        var image : Image = new Image(Texture.fromBitmapData(Bitmap(backgroundImage).bitmapData));
+                        image.x = StardusttoolMainView.leftColumnWidth + _background.x;
+                        image.y = _background.y;
+                        Starling.current.stage.addChildAt(image, 0);
+                    }
+                    else
+                    {
+                        _background.addChild(backgroundImage); // MovieClip
+                    }
                 }
                 else
                 {
                     colorPicker.selectedItem = backgroundColor;
                     colorPicker.current.color = backgroundColor;
-                    _background.removeChildren();
-                    _background.graphics.clear();
-                    _background.graphics.beginFill(backgroundColor);
-                    _background.graphics.drawRect(0, 0, _background.width, _background.height);
+
+                    var quad : Quad = new Quad(_background.width, _background.height, backgroundColor);
+                    quad.x = StardusttoolMainView.leftColumnWidth;
+                    Starling.current.stage.addChildAt(quad, 0);
                 }
             }
             else
             {
                 colorPicker.selectedItem = null;
             }
-
-            //dispatch resize event to center the background (if selected).
-            stage.dispatchEvent( new ResizeEvent( ResizeEvent.RESIZE ) );
+            // TODO center background
         }
 
         private function onActAsForegroundChange() : void

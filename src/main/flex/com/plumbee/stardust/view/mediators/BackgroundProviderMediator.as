@@ -23,8 +23,6 @@ public class BackgroundProviderMediator extends Mediator
         addContextListener( RefreshBackgroundViewEvent.CHANGE, handleModelChange, RefreshBackgroundViewEvent );
 
         addViewListener( BackgroundChangeEvent.TYPE, handleViewChange, BackgroundChangeEvent );
-
-        view.stage.addEventListener( Event.RESIZE, handleBackgroundResize );
     }
 
     private function handleViewChange( event : BackgroundChangeEvent ) : void
@@ -39,9 +37,5 @@ public class BackgroundProviderMediator extends Mediator
                      projectModel.stadustSim.backgroundImage);
     }
 
-    private function handleBackgroundResize( event : Event ) : void
-    {
-        // TODO
-    }
 }
 }

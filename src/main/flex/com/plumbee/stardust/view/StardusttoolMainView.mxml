@@ -20,11 +20,10 @@
 
 
         import starling.core.Starling;
-        import starling.display.Sprite;
 
         private static const LOG : ILogger = Log.getLogger( getQualifiedClassName( StardusttoolMainView ).replace( "::", "." ) );
 
-        public static const leftColumnWidth : int = 615;
+        public static const leftColumnWidth : int = 600;
         private const _initializerAC : ArrayCollection = new ArrayCollection();
         private const _actionAC : ArrayCollection = new ArrayCollection();
 
@@ -81,34 +80,18 @@
                 previewGroup.y = stage.stageHeight * 0.5;
                 if ( canvasPosition.centerBackgroundCheckBox.selected )
                 {
-                    if ( background.numChildren == 1 )
-                    {
-                        var dispObj : DisplayObject = background.getChildAt(0);
-                        dispObj.x = previewGroup.x;
-                        dispObj.y = previewGroup.y;
-                    }
+                    backgroundProvider.setBgImagePosition(previewGroup.x, previewGroup.y);
                 }
                 else
                 {
-                    if ( background.numChildren == 1 )
-                    {
-                        dispObj = background.getChildAt(0);
-                        dispObj.x = 0;
-                        dispObj.y = 0;
-                    }
+                    backgroundProvider.setBgImagePosition(0, 0);
                 }
             }
             else
             {
                 previewGroup.x = 0;
                 previewGroup.y = 0;
-
-                if ( background.numChildren == 1 )
-                {
-                    dispObj = background.getChildAt(0);
-                    dispObj.x = 0;
-                    dispObj.y = 0;
-                }
+                backgroundProvider.setBgImagePosition(0, 0);
             }
             Globals.starlingCanvas.x = previewGroup.x + leftColumnWidth;
             Globals.starlingCanvas.y = previewGroup.y;

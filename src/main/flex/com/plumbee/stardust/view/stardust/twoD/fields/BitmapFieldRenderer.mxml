@@ -108,7 +108,9 @@
 
             <s:CheckBox label="repeat" id="repeatCheckBox" change="updateData()"
                         toolTip="Repeat the bitmap indefinietly?"/>
+        </s:HGroup>
 
+        <s:HGroup verticalAlign="middle">
             <s:CheckBox label="massless" id="masslessCheckBox" change="updateData()"
                         toolTip="Is the strength of this force influenced by the mass of this particle?"/>
 
@@ -116,12 +118,12 @@
             <components:CustomNumericStepper id="maxTextInput" stepValue="0.1" width="50" change="updateData()"/>
         </s:HGroup>
 
-        <s:HGroup verticalAlign="middle">
-            <s:Label text="horizontal channel"/>
+        <s:HGroup verticalAlign="middle" >
+            <s:Label text="Channel: horizontal"/>
             <s:DropDownList id="xChannelDDL" dataProvider="{channels}" selectedItem="normal" width="80"
                             change="updateData()" labelFunction="formatDDL"/>
 
-            <s:Label text="vertical channel"/>
+            <s:Label text="vertical"/>
             <s:DropDownList id="yChannelDDL" dataProvider="{channels}" selectedItem="normal" width="80"
                             change="updateData()" labelFunction="formatDDL"/>
         </s:HGroup>
