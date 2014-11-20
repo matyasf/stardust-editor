@@ -53,7 +53,13 @@ public class LoadSimCommand implements ICommand
             {
                 oldEmitterVO.emitter.clearActions();
                 oldEmitterVO.emitter.clearInitializers();
-                oldEmitterVO.emitter.clearParticles()
+                oldEmitterVO.emitter.clearParticles();
+                if (oldEmitterVO.emitter.particleHandler is StarlingHandler)
+                {
+                    const sh : StarlingHandler = StarlingHandler(oldEmitterVO.emitter.particleHandler);
+                    sh.texture.dispose();
+                    Globals.starlingCanvas.removeChild(sh.renderer);
+                }
             }
         }
 

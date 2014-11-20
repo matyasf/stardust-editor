@@ -4,7 +4,6 @@ package com.plumbee.stardust.helpers
 import com.plumbee.stardust.view.stardust.twoD.actions.AccelerateAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.AgeAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.AlphaCurveAction;
-import com.plumbee.stardust.view.stardust.twoD.actions.AnimateSpriteSheetAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DampingAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DeathLifeAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.DeathZoneAction;
@@ -45,7 +44,6 @@ import idv.cjcat.stardustextended.common.initializers.Life;
 import idv.cjcat.stardustextended.common.initializers.Mass;
 import idv.cjcat.stardustextended.common.initializers.Scale;
 import idv.cjcat.stardustextended.twoD.actions.Accelerate;
-import idv.cjcat.stardustextended.twoD.actions.AnimateSpriteSheet;
 import idv.cjcat.stardustextended.twoD.actions.Damping;
 import idv.cjcat.stardustextended.twoD.actions.DeathZone;
 import idv.cjcat.stardustextended.twoD.actions.Deflect;
@@ -72,12 +70,14 @@ import idv.cjcat.stardustextended.twoD.zones.SinglePoint;
 import mx.collections.ArrayCollection;
 import mx.collections.Sort;
 import mx.collections.SortField;
-import mx.core.UIComponent;
 
 import starling.display.BlendMode;
 
 public class Globals
 {
+
+    public static const canvas : flash.display.Sprite = new flash.display.Sprite();
+    public static const starlingCanvas : starling.display.Sprite = new starling.display.Sprite();
 
     public static const initalizerDict : Dictionary = new Dictionary();
     public static const actionDict : Dictionary = new Dictionary();
@@ -111,11 +111,6 @@ public class Globals
         starling.display.BlendMode.BELOW
     ] );
 
-    // TODO move these to a model.
-    public static const canvas : flash.display.Sprite = new flash.display.Sprite();
-    public static var backgroundHolder : UIComponent;
-    public static const starlingCanvas : starling.display.Sprite = new starling.display.Sprite();
-
     public static function init() : void
     {
         initalizerDict[ PositionAnimated ] = new DropdownListVO( "Position", PositionAnimated, PositionInitializer );
@@ -145,7 +140,6 @@ public class Globals
         actionDict[ Gravity ] = new DropdownListVO( "Gravity (acceleration) field", Gravity, GravityAction );
         actionDict[ VelocityField ] = new DropdownListVO( "Velocity field", VelocityField, VelocityFieldAction );
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
-        actionDict[ AnimateSpriteSheet ] = new DropdownListVO( "AnimateSpriteSheet", AnimateSpriteSheet, AnimateSpriteSheetAction );
         //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
@@ -182,22 +176,10 @@ public class Globals
         }
         zonesDDLAC.sort = sort;
         zonesDDLAC.refresh();
+
+        canvas.mouseChildren = canvas.mouseEnabled = false;
+        starlingCanvas.touchable = false;
     }
 
-    public static function stringToBitwiseOR( str : String ) : int
-    {
-        str = str.replace( " ", "" );
-        var arr : Array = str.split( "," );
-        if ( arr.length == 0 )
-        {
-            return 0;
-        }
-        var ret : int = arr[0];
-        for ( var i : int = 1; i < arr.length; i ++ )
-        {
-            ret = ret | parseInt( arr[i] );
-        }
-        return ret;
-    }
 }
 }

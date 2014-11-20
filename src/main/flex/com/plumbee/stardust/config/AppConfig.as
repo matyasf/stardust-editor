@@ -21,7 +21,6 @@ import com.plumbee.stardust.controller.SaveSimCommand;
 import com.plumbee.stardust.controller.SetEmitterInFocusClockTypeToImpulseCommand;
 import com.plumbee.stardust.controller.SetEmitterInFocusClockTypeToSteadyCommand;
 import com.plumbee.stardust.controller.StartSimCommand;
-import com.plumbee.stardust.controller.StartToolCommand;
 import com.plumbee.stardust.controller.UpdateClockInEmitterGroupCommand;
 import com.plumbee.stardust.controller.UpdateClockValuesFromModelCommand;
 import com.plumbee.stardust.controller.UpdateDisplayModeCommand;
@@ -34,7 +33,6 @@ import com.plumbee.stardust.controller.events.FileLoadEvent;
 import com.plumbee.stardust.controller.events.LoadSimEvent;
 import com.plumbee.stardust.controller.events.SaveSimEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
-import com.plumbee.stardust.controller.events.StartToolEvent;
 import com.plumbee.stardust.controller.events.UpdateClockValuesFromModelEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.controller.events.UpdateEmitterDropDownListEvent;
@@ -83,6 +81,11 @@ import robotlegs.bender.framework.api.IConfig;
 import robotlegs.bender.framework.api.IContext;
 import robotlegs.bender.framework.api.IInjector;
 
+import starling.core.Starling;
+
+import starling.display.Sprite;
+import starling.events.Event;
+
 public class AppConfig implements IConfig
 {
     [Inject]
@@ -114,7 +117,6 @@ public class AppConfig implements IConfig
         mediatorMap.map( PositionInitializer ).toMediator( PositionInitializerMediator );
         mediatorMap.map( ClockContainer ).toMediator( ClockContainerMediator );
 
-        eventCommandMap.map( StartToolEvent.START_TOOL ).toCommand( StartToolCommand );
         eventCommandMap.map( StartSimEvent.START ).toCommand( StartSimCommand );
         eventCommandMap.map( UpdateEmitterInfoTicksPerCallEvent.UPDATE ).toCommand( UpdateEmitterInfoTicksPerCallCommand );
         eventCommandMap.map( UpdateDisplayModeEvent.UPDATE, UpdateDisplayModeEvent ).toCommand( UpdateDisplayModeCommand );
@@ -144,16 +146,7 @@ public class AppConfig implements IConfig
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );
         injector.map( ISimLoader ).toSingleton( SimLoader );
         injector.map(SimPlayer).asSingleton();
-
-        context.afterInitializing( init );
     }
 
-    public function init() : void
-    {
-        //The StartToolEvent is called in the StardusttoolMainView
-        IVisualElementContainer( contextView.view ).addElement( new StardusttoolMainView() );
-
-        dispatcher.dispatchEvent( new StartToolEvent() );
-    }
 }
 }

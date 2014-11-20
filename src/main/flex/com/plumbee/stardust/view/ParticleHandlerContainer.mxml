@@ -104,6 +104,10 @@
 
         private function onImagePropsChange():void
         {
+            if (parseInt(speedTextInput.text) < 1)
+            {
+                speedTextInput.text = "1";
+            }
             _handler.smoothing = useSmoothingCheckBox.selected;
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);

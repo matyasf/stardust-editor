@@ -13,6 +13,7 @@ import com.plumbee.stardust.model.ProjectModel;
 import flash.utils.getQualifiedClassName;
 
 import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
+import idv.cjcat.stardustextended.common.emitters.Emitter;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
@@ -30,8 +31,8 @@ public class SetEmitterInFocusClockTypeToImpulseCommand implements ICommand
     {
         LOG.info( "Set Emitter in focus clock to new Impulse Clock." );
 
-        //Set default, changed later
-        project.emitterInFocus.emitter.clock = new ImpulseClock( 1, 1 );
+        const emitter : Emitter = project.emitterInFocus.emitter;
+        emitter.clock = new ImpulseClock( 1, 1 );
     }
 }
 }

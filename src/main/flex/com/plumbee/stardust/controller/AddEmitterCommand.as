@@ -19,6 +19,8 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
+import starling.display.BlendMode;
+
 use namespace sd;
 
 public class AddEmitterCommand implements ICommand
@@ -37,7 +39,6 @@ public class AddEmitterCommand implements ICommand
     <StardustParticleSystem version="2">
         <actions>
             <Age name="Age_0" active="true" mask="1" multiplier="1"/>
-            <AnimateSpriteSheet name="AnimateSpriteSheet_0" active="true" mask="1"/>
             <DeathLife name="DeathLife_0" active="true" mask="1"/>
             <Move name="Move_0" active="true" mask="1" multiplier="1"/>
         </actions>
@@ -47,7 +48,6 @@ public class AddEmitterCommand implements ICommand
         <emitters>
             <Emitter2D name="Default" active="true" clock="SteadyClock_6" particleHandler="DisplayObjectHandler_2">
                 <actions>
-                    <AnimateSpriteSheet name="AnimateSpriteSheet_0"/>
                     <DeathLife name="DeathLife_0"/>
                     <Age name="Age_0"/>
                     <Move name="Move_0"/>
@@ -60,7 +60,8 @@ public class AddEmitterCommand implements ICommand
             </Emitter2D>
         </emitters>
         <handlers>
-            <DisplayObjectSpriteSheetHandler name="DisplayObjectHandler_2" addChildMode="0" forceParentChange="false" blendMode="normal" imgWidth="0" imgHeight="0" animSpeed="0" startAtRandomFrame="false" smoothing="false"/>
+            <DisplayObjectSpriteSheetHandler name="DisplayObjectHandler_2" addChildMode="0" forceParentChange="false"
+                    blendMode="normal" imgWidth="10" imgHeight="10" animSpeed="1" startAtRandomFrame="false" smoothing="false"/>
         </handlers>
         <initializers>
             <Life name="Life_0" active="true" random="UniformRandom_1"/>
@@ -84,6 +85,20 @@ public class AddEmitterCommand implements ICommand
             uniqueID++;
         }
         const emitterData : EmitterValueObject = new EmitterValueObject( uniqueID, EmitterBuilder.buildEmitter(DEFAULT_EMITTER));
+        if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
+        {
+            const sh : StarlingHandler = new StarlingHandler();
+            sh.blendMode = BlendMode.NORMAL;
+            sh.spriteSheetAnimationSpeed = 1;
+            sh.spriteSheetSliceHeight = 10;
+            sh.spriteSheetSliceWidth = 10;
+            sh.container = Globals.starlingCanvas;
+            emitterData.emitter.particleHandler = sh;
+        }
+        else
+        {
+            DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
+        }
         emitterData.image = new BitmapData( 10, 10, false, Math.random()*16777215 );
         emitterData.emitter.name = "Emitter " + uniqueID;
 
@@ -92,16 +107,6 @@ public class AddEmitterCommand implements ICommand
             throw new Error("Emitter with ID" + emitterData.id + "already exists!");
         }
         projectSettings.stadustSim.emitters[emitterData.id] = emitterData;
-
-        //set the simulation for the new emitter
-        if (projectSettings.emitterInFocus.emitter.particleHandler is DisplayObjectSpriteSheetHandler)
-        {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.canvas);
-        }
-        else if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
-        {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.starlingCanvas);
-        }
 
         // display data for the new emitter
         dispatcher.dispatchEvent( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, emitterData ) );

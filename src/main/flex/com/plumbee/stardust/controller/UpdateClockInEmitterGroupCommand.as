@@ -11,6 +11,8 @@ package com.plumbee.stardust.controller
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardust.view.events.UpdateClockInEmitterGroupEvent;
 
+import idv.cjcat.stardustextended.common.emitters.Emitter;
+
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 public class UpdateClockInEmitterGroupCommand implements ICommand
@@ -23,7 +25,8 @@ public class UpdateClockInEmitterGroupCommand implements ICommand
 
     public function execute() : void
     {
-        project.emitterInFocus.emitter.clock = event.clock;
+        var emitter : Emitter = project.emitterInFocus.emitter;
+        emitter.clock = event.clock;
     }
 }
 }

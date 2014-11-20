@@ -24,7 +24,23 @@
         private function updateData() : void
         {
             var dat : CompositeAction = CompositeAction(data);
-            dat.mask = Globals.stringToBitwiseOR(masksTextInput.text);
+            dat.mask = stringToBitwiseOR(masksTextInput.text);
+        }
+
+        private static function stringToBitwiseOR( str : String ) : int
+        {
+            str = str.replace( " ", "" );
+            var arr : Array = str.split( "," );
+            if ( arr.length == 0 )
+            {
+                return 0;
+            }
+            var ret : int = arr[0];
+            for ( var i : int = 1; i < arr.length; i ++ )
+            {
+                ret = ret | parseInt( arr[i] );
+            }
+            return ret;
         }
 
         override public function set data(d : Object) : void

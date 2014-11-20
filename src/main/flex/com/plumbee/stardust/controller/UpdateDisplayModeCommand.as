@@ -4,24 +4,19 @@ package com.plumbee.stardust.controller
 import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.helpers.Globals;
+import com.plumbee.stardust.helpers.ParticleHandlerCopyHelper;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 import com.plumbee.stardust.model.DisplayModes;
-
 import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
-
 import idv.cjcat.stardustextended.common.emitters.Emitter;
-
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
-
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
-
-import starling.display.BlendMode;
 
 use namespace sd;
 
@@ -66,7 +61,7 @@ public class UpdateDisplayModeCommand implements ICommand
                 StarlingHandler(emitter.particleHandler).texture.dispose();
             }
             var handler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
-            copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);
+            ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);
             emitter.particleHandler = handler;
         }
         simPlayer.setRenderTarget(Globals.canvas);
@@ -79,35 +74,12 @@ public class UpdateDisplayModeCommand implements ICommand
         {
             var emitter : Emitter = emitterVO.emitter;
             var starlingHandler : StarlingHandler = new StarlingHandler();
-            copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);
-            starlingHandler.blendMode = getStarlingSafeBlendMode(starlingHandler.blendMode);
+            ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);
             emitter.particleHandler = starlingHandler;
         }
         simPlayer.setRenderTarget(Globals.starlingCanvas);
     }
 
-    private function copyHandlerProperties(from : ISpriteSheetHandler, toHandler : ISpriteSheetHandler) : void
-    {
-        toHandler.bitmapData = from.bitmapData;
-        toHandler.blendMode = from.blendMode;
-        toHandler.smoothing = from.smoothing;
-        toHandler.spriteSheetAnimationSpeed = from.spriteSheetAnimationSpeed;
-        toHandler.spriteSheetSliceHeight = from.spriteSheetSliceHeight;
-        toHandler.spriteSheetSliceWidth = from.spriteSheetSliceWidth;
-        toHandler.spriteSheetStartAtRandomFrame = from.spriteSheetStartAtRandomFrame;
-    }
 
-    private function getStarlingSafeBlendMode(oldBlendMode : String) : String
-    {
-        var starlingBlendModes : Array = Globals.blendModesStarling.source;
-        for ( var i : int = 0; i < starlingBlendModes.length; i++)
-        {
-            if ( starlingBlendModes[i] == oldBlendMode )
-            {
-                return oldBlendMode
-            }
-        }
-        return BlendMode.NORMAL;
-    }
 }
 }

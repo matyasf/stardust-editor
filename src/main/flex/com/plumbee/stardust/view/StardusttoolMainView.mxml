@@ -3,7 +3,6 @@
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx"
          xmlns:view="com.plumbee.stardust.view.*"
-         preinitialize="Globals.init()"
          initialize="initializeCanvasesForEmitters()"
          width="100%"
          height="100%" >
@@ -29,24 +28,10 @@
         private const _initializerAC : ArrayCollection = new ArrayCollection();
         private const _actionAC : ArrayCollection = new ArrayCollection();
 
-        private var starlingInstance : Starling;
-
         private function initializeCanvasesForEmitters() : void
         {
             previewGroup.mx_internal::$addChild( Globals.canvas );
             statsHolder.mx_internal::$addChild( new Stats() );
-            Globals.canvas.mouseChildren = Globals.canvas.mouseEnabled = false;
-            Globals.backgroundHolder = background;
-        }
-
-        public function setupStarlingCanvas() : void
-        {
-            Starling.handleLostContext = true;
-            starlingInstance = new Starling( starling.display.Sprite, stage );
-            starlingInstance.antiAliasing = 1;
-            starlingInstance.start();
-            Globals.starlingCanvas.touchable = false;
-            starlingInstance.stage.addChild( Globals.starlingCanvas );
         }
 
         public function resizeStarlingViewPort() : void
@@ -55,8 +40,8 @@
             viewPortRectangle.width = stage.stageWidth;
             viewPortRectangle.height = stage.stageHeight;
             Starling.current.viewPort = viewPortRectangle;
-            starlingInstance.stage.stageWidth = stage.stageWidth;
-            starlingInstance.stage.stageHeight = stage.stageHeight;
+            Starling.current.stage.stageWidth = stage.stageWidth;
+            Starling.current.stage.stageHeight = stage.stageHeight;
         }
 
         public function get initializerAC() : ArrayCollection

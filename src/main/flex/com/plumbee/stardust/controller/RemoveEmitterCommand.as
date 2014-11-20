@@ -10,12 +10,15 @@ package com.plumbee.stardust.controller
 
 import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
+import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
+
+import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
@@ -39,6 +42,12 @@ public class RemoveEmitterCommand implements ICommand
         if (projectObj.numberOfEmitters > 1)
         {
             projectSettings.emitterInFocus.emitter.clearParticles();
+            if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
+            {
+                const sh : StarlingHandler = StarlingHandler(projectSettings.emitterInFocus.emitter.particleHandler);
+                sh.texture.dispose();
+                Globals.starlingCanvas.removeChild(sh.renderer);
+            }
             delete projectObj.emitters[projectSettings.emitterInFocus.id];
 
             for each (var emitter : EmitterValueObject in projectObj.emitters)

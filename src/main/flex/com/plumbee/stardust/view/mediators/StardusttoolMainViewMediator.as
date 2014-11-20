@@ -54,7 +54,6 @@ public class StardusttoolMainViewMediator extends Mediator
         view.actionAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onActionACChange );
         view.initializerAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onInitializerACChange );
 
-        view.setupStarlingCanvas();
         view.stage.addEventListener( Event.RESIZE, onResize );
 
         view.updateStagePosition();
