@@ -45,7 +45,7 @@ public class SaveSimCommand implements ICommand
     {
         const zip : Zip = new Zip();
         const descObj : Object = {};
-        descObj.version = 1;
+        descObj.version = 2;
 
         addEmittersToProjectFile( zip );
         addBackgroundToProjectFile( zip, descObj );
