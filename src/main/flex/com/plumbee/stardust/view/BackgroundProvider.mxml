@@ -16,101 +16,93 @@
         import starling.display.Quad;
         import starling.textures.Texture;
 
-        private static const LOG : ILogger = Log.getLogger(getQualifiedClassName(BackgroundProvider).replace("::", "."));
+        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(BackgroundProvider).replace("::", "."));
 
-        private var _background : UIComponent;
+        private var _background:UIComponent;
+        private var _starlingBackground:starling.display.DisplayObject;
 
-        public function set background(bg : UIComponent) : void
-        {
+        public function set background(bg:UIComponent):void {
             _background = bg;
         }
 
-        private function onHasBGChange() : void
-        {
+        private function onHasBGChange():void {
             dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.HAS_BACKGROUND, hasBackgroundCheckBox.selected));
         }
 
-        private function onColorChange() : void
-        {
+        private function onColorChange():void {
             dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.COLOR, colorPicker.selectedColor));
         }
 
-        private function onLoadImageClick() : void
-        {
+        private function onLoadImageClick():void {
             dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.IMAGE, null));
         }
 
-        public function setBgImagePosition(xc: Number, yc : Number) : void
-        {
-            if (_background.numChildren > 0)
-            {
+        public function setBgImagePosition(xc:Number, yc:Number):void {
+            if (_background.numChildren > 0) {
                 _background.getChildAt(0).x = xc;
                 _background.getChildAt(0).y = yc;
             }
-            if (Starling.current.stage.numChildren > 1)
-            {
-                Starling.current.stage.getChildAt(0).x = StardusttoolMainView.leftColumnWidth + xc;
-                Starling.current.stage.getChildAt(0).y = yc;
+            if (_starlingBackground) {
+                _starlingBackground.x = StardusttoolMainView.leftColumnWidth + xc;
+                _starlingBackground.y = yc;
             }
         }
 
-        public function setData(hasBackground : Boolean, backgroundColor : uint, backgroundImage : DisplayObject) : void
-        {
+        public function setData(hasBackground:Boolean, backgroundColor:uint, backgroundImage:DisplayObject):void {
             _background.removeChildren();
             _background.graphics.clear();
-            var starlingInstance : Starling = Starling.current;
-            if (starlingInstance.stage.numChildren > 1)
-            {
-                starlingInstance.stage.removeChildAt(0, true);
+            if (_starlingBackground && _starlingBackground.parent) {
+                _starlingBackground.parent.removeChild(_starlingBackground);
             }
 
             colorPicker.selectedItem = null;
             hasBackgroundCheckBox.selected = hasBackground;
-            if (hasBackground)
-            {
-                if (backgroundImage)
-                {
-                    if (backgroundImage is Bitmap)
-                    {
-                        var image : Image = new Image(Texture.fromBitmapData(Bitmap(backgroundImage).bitmapData));
-                        image.x = StardusttoolMainView.leftColumnWidth + _background.x;
-                        image.y = _background.y;
-                        Starling.current.stage.addChildAt(image, 0);
+            if (hasBackground) {
+                if (backgroundImage) {
+                    if (backgroundImage is Bitmap) {
+                        _starlingBackground = new Image(Texture.fromBitmapData(Bitmap(backgroundImage).bitmapData));
+                        _starlingBackground.x = StardusttoolMainView.leftColumnWidth + _background.x;
+                        _starlingBackground.y = _background.y;
+                        Starling.current.stage.addChildAt(_starlingBackground, 0);
                     }
-                    else
-                    {
+                    else {
                         _background.addChild(backgroundImage); // MovieClip
                     }
                 }
-                else
-                {
+                else {
                     colorPicker.selectedItem = backgroundColor;
                     colorPicker.current.color = backgroundColor;
 
-                    var quad : Quad = new Quad(_background.width, _background.height, backgroundColor);
-                    quad.x = StardusttoolMainView.leftColumnWidth;
-                    Starling.current.stage.addChildAt(quad, 0);
+                    _starlingBackground = new Quad(_background.width, _background.height, backgroundColor);
+                    _starlingBackground.x = StardusttoolMainView.leftColumnWidth;
+                    Starling.current.stage.addChildAt(_starlingBackground, 0);
                 }
             }
-            else
-            {
+            else {
                 colorPicker.selectedItem = null;
+                if (_starlingBackground && _starlingBackground is Image)
+                {
+                    Image(_starlingBackground).dispose();
+                }
             }
-            // TODO center background
         }
 
-        private function onActAsForegroundChange() : void
-        {
-            if (actAsForegroundCheckBox.selected)
-            {
+        private function onActAsForegroundChange():void {
+            if (actAsForegroundCheckBox.selected) {
+                if (_starlingBackground)
+                {
+                    Starling.current.stage.setChildIndex(_starlingBackground, Starling.current.stage.numChildren);
+                }
                 _background.depth = 1;
             }
-            else
-            {
+            else {
                 _background.depth = 0;
+                if (_starlingBackground)
+                {
+                    Starling.current.stage.setChildIndex(_starlingBackground, 0);
+                }
             }
         }
-
         ]]></fx:Script>
 
     <s:Rect includeInLayout="false" width="{width}" height="{height}">

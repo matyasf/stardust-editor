@@ -20,6 +20,8 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
+import spark.components.Alert;
+
 public class LoadSimCommand implements ICommand
 {
     [Inject]
@@ -39,8 +41,15 @@ public class LoadSimCommand implements ICommand
 
     public function execute() : void
     {
-        simLoader.addEventListener(Event.COMPLETE, onLoaded);
-        simLoader.loadSim( event.sdeFile );
+        try
+        {
+            simLoader.addEventListener(Event.COMPLETE, onLoaded);
+            simLoader.loadSim( event.sdeFile );
+        }
+        catch (err: Error)
+        {
+            Alert.show("Unable to load simulation. " + err.toString(), "ERROR");
+        }
     }
 
     private function onLoaded(event : Event) : void

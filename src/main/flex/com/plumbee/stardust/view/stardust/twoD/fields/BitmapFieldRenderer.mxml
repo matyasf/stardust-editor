@@ -114,7 +114,7 @@
             <s:CheckBox label="massless" id="masslessCheckBox" change="updateData()"
                         toolTip="Is the strength of this force influenced by the mass of this particle?"/>
 
-            <s:Label text="max strenght"/>
+            <s:Label text="max strength"/>
             <components:CustomNumericStepper id="maxTextInput" stepValue="0.1" width="50" change="updateData()"/>
         </s:HGroup>
 
