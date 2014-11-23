@@ -42,29 +42,17 @@
             singleImageRadioButton.selected = !_handler.isSpriteSheet;
 
             if (_handler is StarlingHandler) {
-                starlingRadioButton.selected = true;
                 if (blendModesAC != Globals.blendModesStarling) {
                     blendModesAC = Globals.blendModesStarling;
                 }
             }
             else if (_handler is DisplayObjectSpriteSheetHandler) {
-                displayObjectRadioButton.selected = true;
                 if (blendModesAC != Globals.blendModesDisplayList) {
                     blendModesAC = Globals.blendModesDisplayList;
                 }
             }
             validateNow();
             blendModeList.selectedItem = _handler.blendMode;
-        }
-
-        private function updateRenderMode():void {
-            validateNow(); // radio buttons suck
-            if (displayObjectRadioButton.selected) {
-                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.DISPLAY_LIST));
-            }
-            else if (starlingRadioButton.selected) {
-                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
-            }
         }
 
         private function loadImageFromFile():void {
@@ -118,19 +106,7 @@
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Render mode:"/>
-        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
-                       selected="true" change="updateRenderMode()"/>
-        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
-
-        <s:CheckBox id="useSmoothingCheckBox" label="Use Smoothing" change="onImagePropsChange()"/>
-        <s:Label text="Blend mode:"/>
-        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
-                        change="onImagePropsChange()" width="100" />
-    </s:HGroup>
-
-    <s:HGroup verticalAlign="middle">
-        <s:Label text="Graphic asset"/>
+        <s:Label text="Graphic"/>
 
         <s:Image maxWidth="40" maxHeight="40" source="{sourceBD}"/>
 
@@ -140,6 +116,11 @@
                        id="singleImageRadioButton" change="changePropsAndRestartSim()"/>
         <s:RadioButton groupName="imageTypeRBG" label="Sprite sheet" enabled="{sourceBD != null}"
                        id="spriteSheetRadioButton" change="changePropsAndRestartSim()"/>
+
+        <s:CheckBox id="useSmoothingCheckBox" label="Smoothing" change="onImagePropsChange()"/>
+        <s:Label text="Blendmode"/>
+        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
+                        change="onImagePropsChange()" width="94" />
     </s:HGroup>
 
     <s:HGroup visible="{spriteSheetRadioButton.selected}" verticalAlign="middle"
@@ -152,7 +133,7 @@
         <components:CustomNumericStepper id="heightTextInput" restrict="0-9" minimum="1" maximum="2048" width="50"
                                          change="changePropsAndRestartSim()"/>
 
-        <s:Label text="anim. speed"/>
+        <s:Label text="animation speed"/>
         <components:CustomNumericStepper id="speedTextInput" restrict="0-9" minimum="1" maximum="1000" width="50"
                                          change="onImagePropsChange()" />
 

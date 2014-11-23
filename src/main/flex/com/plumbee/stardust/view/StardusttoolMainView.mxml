@@ -30,7 +30,9 @@
         private function initializeCanvasesForEmitters() : void
         {
             previewGroup.mx_internal::$addChild( Globals.canvas );
-            statsHolder.mx_internal::$addChild( new Stats() );
+            var stats : Stats = new Stats();
+            stats.x = 71;
+            statsHolder.mx_internal::$addChild( stats );
         }
 
         public function resizeStarlingViewPort() : void
@@ -129,7 +131,7 @@
         <view:BackgroundProvider background="{background}" width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
         <s:Spacer height="100%"/>
-        <mx:UIComponent id="statsHolder" height="125"/>
+        <mx:UIComponent id="statsHolder" height="125" />
     </s:VGroup>
 
     <s:Label id="infoLabel" bottom="5" right="5" backgroundColor="0x11183D"

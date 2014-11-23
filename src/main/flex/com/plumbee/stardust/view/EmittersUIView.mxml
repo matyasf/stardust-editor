@@ -3,14 +3,23 @@
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:clocks="com.plumbee.stardust.view.stardust.common.clocks.*"
           xmlns:view="com.plumbee.stardust.view.*"
-          width="100%" >
+          xmlns:components="com.plumbee.stardust.view.components.*"
+          width="100%"
+          addedToStage="onAdded()">
 
     <fx:Script><![CDATA[
         import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
+        import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
+        import com.plumbee.stardust.model.DisplayModes;
         import com.plumbee.stardust.view.components.InputPopup;
         import com.plumbee.stardust.view.events.EmitterChangeUIViewEvent;
         import com.plumbee.stardust.view.events.EmitterNameChangeEvent;
         import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+
+        import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+
+        import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+        import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
         import mx.events.CloseEvent;
@@ -25,6 +34,16 @@
         private const _emitterAC : ArrayCollection = new ArrayCollection();
 
         private var emitterNameWindow : InputPopup;
+
+        public function set handler(handler:ISpriteSheetHandler):void {
+            if (handler is StarlingHandler) {
+                starlingRadioButton.selected = true;
+            }
+            else if (handler is DisplayObjectSpriteSheetHandler) {
+                displayObjectRadioButton.selected = true;
+            }
+            validateNow();
+        }
 
         private function onClickAdd(event : MouseEvent) : void
         {
@@ -88,7 +107,41 @@
         {
             return EmitterValueObject(item).emitter.name;
         }
+
+        private function updateRenderMode():void {
+            validateNow(); // radio buttons suck
+            if (displayObjectRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.DISPLAY_LIST));
+            }
+            else if (starlingRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
+            }
+        }
+
+        private function onAdded():void {
+            fpsStepper.text = stage.frameRate.toString();
+        }
+
+        private function onFPSUserChange():void {
+            if (Number(fpsStepper.text) < 1) {
+                fpsStepper.text = "1";
+            }
+            if (Number(fpsStepper.text) > 60  || isNaN(Number(fpsStepper.text))) {
+                fpsStepper.text = "60";
+            }
+            stage.frameRate = Number(fpsStepper.text);
+        }
         ]]></fx:Script>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Render mode:" fontSize="16" fontWeight="bold"/>
+        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
+                       selected="true" change="updateRenderMode()"/>
+        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
+        <s:Label text="FPS:" />
+        <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
+                change="onFPSUserChange()"/>
+    </s:HGroup>
 
     <s:HGroup verticalAlign="middle" width="100%">
         <s:Label id="containerLabel" text="Emitters" fontSize="14" fontWeight="bold"/>
@@ -107,8 +160,8 @@
         </s:layout>
 
         <clocks:ClockContainer />
+
         <view:ParticleHandlerContainer />
     </s:BorderContainer>
-
 
 </s:VGroup>

@@ -9,10 +9,14 @@ package com.plumbee.stardust.view.mediators
 {
 import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.plumbee.stardust.controller.events.EmitterChangeEvent;
+import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.SetResultsForEmitterDropDownListEvent;
+import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.view.EmittersUIView;
 import com.plumbee.stardust.view.events.EmitterChangeUIViewEvent;
 import com.plumbee.stardust.view.events.EmitterNameChangeEvent;
+
+import flash.events.Event;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
@@ -23,17 +27,20 @@ public class EmittersUIViewMediator extends Mediator
 
     override public function initialize() : void
     {
+
+        addViewListener( UpdateDisplayModeEvent.UPDATE, redispatchEvent, UpdateDisplayModeEvent );
         addViewListener( EmitterChangeUIViewEvent.ADD, handleAddEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
-        addViewListener( EmitterNameChangeEvent.CHANGE, handleNameChangeEvent, EmitterNameChangeEvent );
-        addViewListener( ChangeEmitterInFocusEvent.CHANGE, handleChangeEmitterInFocusEvent, ChangeEmitterInFocusEvent );
+        addViewListener( EmitterNameChangeEvent.CHANGE, redispatchEvent, EmitterNameChangeEvent );
+        addViewListener( ChangeEmitterInFocusEvent.CHANGE, redispatchEvent, ChangeEmitterInFocusEvent );
 
         addContextListener( SetResultsForEmitterDropDownListEvent.UPDATE, handleSetResultsDropDownListEvent, SetResultsForEmitterDropDownListEvent );
+        addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );
     }
 
-    private function handleChangeEmitterInFocusEvent( event : ChangeEmitterInFocusEvent ) : void
+    private function redispatchEvent( event : Event ) : void
     {
-        dispatch( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, event.emitter ) );
+        dispatch( event );
     }
 
     private function handleAddEmitterButton( event : EmitterChangeUIViewEvent ) : void
@@ -46,14 +53,14 @@ public class EmittersUIViewMediator extends Mediator
         dispatch( new EmitterChangeEvent( EmitterChangeEvent.REMOVE ) );
     }
 
-    private function handleNameChangeEvent( event : EmitterNameChangeEvent ) : void
-    {
-        dispatch( new EmitterNameChangeEvent( EmitterNameChangeEvent.CHANGE, event.name, event.emitterVO ) );
-    }
-
     private function handleSetResultsDropDownListEvent( event : SetResultsForEmitterDropDownListEvent ) : void
     {
         view.setDropDownListResult( event.list, event.emitterInFocus );
+    }
+
+    private function setParticleHandler( event : SetParticleHandlerEvent ) : void
+    {
+        view.handler = event.handler;
     }
 }
 }

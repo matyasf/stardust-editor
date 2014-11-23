@@ -78,7 +78,7 @@ public class LoadEmitterPathCommand implements ICommand
         {
             var currChild : DisplayObject = mc.getChildAt( k );
             var className : String = getQualifiedClassName( currChild );
-            if ( className == "emitter" )
+            if ( className.toLowerCase() == "emitter" )
             {
                 path.push( new Point( currChild.x, currChild.y ) );
                 emitterFound = true;
