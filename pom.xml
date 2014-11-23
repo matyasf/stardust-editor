@@ -4,7 +4,7 @@
 
 	<groupId>com.plumbee</groupId>
 	<artifactId>stardust-editor</artifactId>
-	<version>2.92</version>
+	<version>3.0</version>
 	<packaging>swf</packaging>
 
 	<name>Stardust editor</name>
@@ -13,7 +13,7 @@
 	<properties>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 
-        <stardust.sim.loader.version>2.46</stardust.sim.loader.version>
+        <stardust.sim.loader.version>3.0</stardust.sim.loader.version>
         <plumbee.s3.maven.plugin.version>2.13</plumbee.s3.maven.plugin.version>
 
         <!-- External dependencies -->
@@ -248,13 +248,6 @@
             <groupId>com.plumbee</groupId>
             <artifactId>stardust-sim-loader</artifactId>
             <version>${stardust.sim.loader.version}</version>
-            <type>swc</type>
-        </dependency>
-
-        <dependency>
-            <groupId>com.gamua</groupId>
-            <artifactId>starling-framework</artifactId>
-            <version>1.4</version>
             <type>swc</type>
         </dependency>
 

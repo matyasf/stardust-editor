@@ -9,26 +9,24 @@
         import idv.cjcat.stardustextended.twoD.zones.SinglePoint;
         import idv.cjcat.stardustextended.twoD.zones.Zone;
 
-        private var zone : SinglePoint;
+        private var zone:SinglePoint;
 
-        public function setData(d : Zone) : void
-        {
+        public function setData(d:Zone):void {
             zone = SinglePoint(d);
-            x1.text = zone.x.toString();
-            y1.text = zone.y.toString();
+            xTextInput.text = zone.x.toString();
+            yTextInput.text = zone.y.toString();
         }
 
-        private function updateData() : void
-        {
-            zone.x = Number(x1.text);
-            zone.y = Number(y1.text);
+        private function updateData():void {
+            zone.x = Number(xTextInput.text);
+            zone.y = Number(yTextInput.text);
         }
         ]]></fx:Script>
 
     <s:Label text="x"/>
-    <components:CustomNumericStepper id="x1" text="1" change="updateData()"/>
+    <components:CustomNumericStepper id="xTextInput" text="1" change="updateData()"/>
 
     <s:Label text="y"/>
-    <components:CustomNumericStepper id="y1" text="1" change="updateData()"/>
+    <components:CustomNumericStepper id="yTextInput" text="1" change="updateData()"/>
 
 </s:HGroup>

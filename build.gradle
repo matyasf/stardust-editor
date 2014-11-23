@@ -20,7 +20,7 @@ apply plugin: 'ideafx'
 apply plugin: 'maven'
 
 group = 'com.plumbee'
-version = '2.92'
+version = '3.0'
 type = 'swf'
 
 srcDirs	= ['src/main/flex']
@@ -50,7 +50,7 @@ dependencies {
     merged group: 'org.robotlegs', name: 'robotlegs-framework', version: '2.2.1', ext: 'swc'
     merged group: 'com.gamua', name: 'starling-framework', version: '1.5.1', ext: 'swc'
 
-    merged group: 'com.plumbee', name: 'stardust-sim-loader', version: '2.46', ext: 'swc'
+    merged group: 'com.plumbee', name: 'stardust-sim-loader', version: '3.0', ext: 'swc'
 }
 
 additionalCompilerOptions = [

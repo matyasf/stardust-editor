@@ -5,41 +5,121 @@
 
         import com.plumbee.stardust.helpers.DropdownListVO;
         import com.plumbee.stardust.helpers.Globals;
+        import com.plumbee.stardust.view.StardusttoolMainView;
 
-        import idv.cjcat.stardustextended.common.StardustElement;
+        import idv.cjcat.stardustextended.twoD.actions.IZoneContainer;
 
         import idv.cjcat.stardustextended.twoD.zones.Zone;
 
-        private static const ZONE_PROPERTY_NAME : String = "zone";
-        private var itemWithZone : StardustElement;
+        import spark.components.TextInput;
 
-        private function onSelChange() : void
-        {
-            const it : DropdownListVO = DropdownListVO(ddl.selectedItem);
-            const zone : Zone = new it.stardustClass();
-            itemWithZone[ZONE_PROPERTY_NAME] = zone;
-            setRenderer(it.viewClass, zone);
+        import spark.events.TextOperationEvent;
+
+        private var itemWithZone:IZoneContainer;
+        private var storedX:int = 0;
+        private var storedY:int = 0;
+        private var zoneRenderer : IZoneRenderer;
+
+        private function onSelChange():void {
+            const it:DropdownListVO = DropdownListVO(ddl.selectedItem);
+            var _zone:Zone = new it.stardustClass();
+            itemWithZone.zone = _zone;
+            setRenderer(it.viewClass, _zone);
         }
 
-        public function setData(_itemWithZone : StardustElement) : void
-        {
+        public function setData(_itemWithZone:IZoneContainer):void {
             itemWithZone = _itemWithZone;
-            const zone : Zone = itemWithZone[ZONE_PROPERTY_NAME];
-            const ZoneClass : Class = Class(getDefinitionByName(getQualifiedClassName(zone)));
-            const currentData : DropdownListVO = Globals.zonesDict[ZoneClass];
+            var _zone:Zone = itemWithZone.zone;
+            const ZoneClass:Class = Class(getDefinitionByName(getQualifiedClassName(_zone)));
+            const currentData:DropdownListVO = Globals.zonesDict[ZoneClass];
             ddl.selectedItem = currentData;
             ddl.validateProperties();
 
-            setRenderer(currentData.viewClass, zone);
+            setRenderer(currentData.viewClass, _zone);
         }
 
-        private function setRenderer(RendererClass : Class, data : Zone) : void
-        {
+        private function setRenderer(RendererClass:Class, data:Zone):void {
             content.removeAllElements();
-            const renderer : IZoneRenderer = new RendererClass();
-            content.addElement(renderer);
-            renderer.setData(data);
+            zoneRenderer = new RendererClass();
+            content.addElement(zoneRenderer);
+            zoneRenderer.setData(data);
+            if (zoneRenderer is CompositeZone)
+            {
+                removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
+                followMouseCheckBox.selected = false;
+                followMouseCheckBox.enabled = false;
+            }
+            else
+            {
+                followMouseCheckBox.enabled = true;
+            }
         }
+
+        private function followMouseChangeHandler(event:Event):void {
+            if (followMouseCheckBox.selected) {
+                addEventListener(Event.ENTER_FRAME, handleFollowMouse);
+                if (zoneRenderer is SinglePointZone) // TODO store others too
+                {
+                    var content:SinglePointZone = zoneRenderer as SinglePointZone;
+                    storedX = parseInt(content.xTextInput.text);
+                    storedY = parseInt(content.yTextInput.text);
+                }
+            }
+            else {
+                removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
+                setZoneRendererCoords(storedX, storedY);
+            }
+        }
+
+        private function handleFollowMouse(event:Event):void {
+            setZoneRendererCoords((stage.mouseX - StardusttoolMainView.leftColumnWidth), stage.mouseY);
+        }
+
+        private function setZoneRendererCoords(xc:Number, yc:Number):void {
+            var xInput:TextInput;
+            var yInput:TextInput;
+            if (zoneRenderer is SinglePointZone) {
+                var sz:SinglePointZone = zoneRenderer as SinglePointZone;
+                xInput = sz.xTextInput;
+                yInput = sz.yTextInput;
+            }
+            else if (zoneRenderer is CircleZone) {
+                var cz:CircleZone = zoneRenderer as CircleZone;
+                xInput = cz.xTextInput;
+                yInput = cz.yTextInput;
+            }
+            else if (zoneRenderer is CircleContourZone) {
+                var ccz:CircleContourZone = zoneRenderer as CircleContourZone;
+                xInput = ccz.xTextInput;
+                yInput = ccz.yTextInput;
+            }
+            else if (zoneRenderer is RectZone) {
+                var rz:RectZone = zoneRenderer as RectZone;
+                xInput = rz.xTextInput;
+                yInput = rz.yTextInput;
+            }
+            else if (zoneRenderer is RectContourZone) {
+                var rcz:RectContourZone = zoneRenderer as RectContourZone;
+                xInput = rcz.xTextInput;
+                yInput = rcz.yTextInput;
+            }
+            else if (zoneRenderer is SectorZone) {
+                var secZ:SectorZone = zoneRenderer as SectorZone;
+                xInput = secZ.xTextInput;
+                yInput = secZ.yTextInput;
+            }
+            else {
+                var lz:LineZone = zoneRenderer as LineZone;
+                xInput = lz.x1;
+                yInput = lz.y1;
+                lz.x2.text = (xc + parseInt(lz.x2.text) - parseInt(lz.x1.text)).toString();
+                lz.y2.text = (yc + parseInt(lz.y2.text) - parseInt(lz.y1.text)).toString();
+            }
+            xInput.text = xc.toString();
+            yInput.text = yc.toString();
+            xInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE));
+        }
+
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
@@ -48,5 +128,8 @@
                         labelField="name" requireSelection="true" selectedIndex="0"/>
     </s:HGroup>
     <s:Group id="content"/>
+
+    <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
+            toolTip="This is for testing in the editor, it will not be saved with the simulation!"/>
 
 </s:VGroup>
