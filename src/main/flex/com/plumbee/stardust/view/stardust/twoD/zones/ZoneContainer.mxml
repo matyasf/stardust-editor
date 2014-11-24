@@ -6,7 +6,6 @@
 
         import com.plumbee.stardust.helpers.DropdownListVO;
         import com.plumbee.stardust.helpers.Globals;
-        import com.plumbee.stardust.view.StardusttoolMainView;
 
         import idv.cjcat.stardustextended.twoD.actions.IZoneContainer;
 
@@ -73,7 +72,7 @@
         }
 
         private function handleFollowMouse(event:Event):void {
-            setZoneRendererCoords((stage.mouseX - StardusttoolMainView.leftColumnWidth), stage.mouseY);
+            setZoneRendererCoords(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
         }
 
         private function setZoneRendererCoords(xc:Number, yc:Number):void {
