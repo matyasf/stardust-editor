@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark">
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          removedFromStage="removeEventListener(Event.ENTER_FRAME, handleFollowMouse)">
     <fx:Script><![CDATA[
 
         import com.plumbee.stardust.helpers.DropdownListVO;
@@ -120,16 +121,18 @@
             xInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE));
         }
 
+        public function set followMouseVisible(val:Boolean) : void {
+            followMouseCheckBox.visible = followMouseCheckBox.includeInLayout = val;
+        }
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
         <s:Label text="Zone type:"/>
         <s:DropDownList id="ddl" dataProvider="{Globals.zonesDDLAC}" change="onSelChange()"
                         labelField="name" requireSelection="true" selectedIndex="0"/>
+        <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
+                    toolTip="This is for testing in the editor, it will not be saved with the simulation!"/>
     </s:HGroup>
     <s:Group id="content"/>
-
-    <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
-            toolTip="This is for testing in the editor, it will not be saved with the simulation!"/>
 
 </s:VGroup>

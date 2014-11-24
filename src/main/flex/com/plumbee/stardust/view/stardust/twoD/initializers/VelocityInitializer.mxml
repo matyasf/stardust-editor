@@ -20,6 +20,6 @@
         }
         ]]></fx:Script>
 
-    <zones:ZoneContainer id="zc" width="100%"/>
+    <zones:ZoneContainer id="zc" width="100%" followMouseVisible="false"/>
 
 </twod:PropertyRendererBase>
