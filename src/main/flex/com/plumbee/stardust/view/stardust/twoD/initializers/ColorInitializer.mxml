@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                           xmlns:math="com.plumbee.stardust.view.stardust.common.math.*"
+                           xmlns:twod="com.plumbee.stardust.view.stardust.twoD.*"
+                           xmlns:layouts="spark.layouts.*" xmlns:s="library://ns.adobe.com/flex/spark"
+                           toolTip="Sets the initial color of a particle. Color values should be between 0 and 1"
+                           nameText="Color">
+
+    <fx:Script><![CDATA[
+
+        import idv.cjcat.stardustextended.common.initializers.Color;
+
+        override public function set data(d : Object) : void
+        {
+            super.data = d;
+            if (d == null)
+            {
+                return;
+            }
+            var dat : Color = data as Color;
+            colorR.setData(dat.colorR);
+            colorG.setData(dat.colorG);
+            colorB.setData(dat.colorB);
+        }
+        ]]></fx:Script>
+
+    <twod:layout>
+        <layouts:VerticalLayout />
+    </twod:layout>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Red" />
+        <math:UniformRandomMath id="colorR"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Green" />
+        <math:UniformRandomMath id="colorG"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Blue" />
+        <math:UniformRandomMath id="colorB"/>
+    </s:HGroup>
+
+</twod:PropertyRendererBase>

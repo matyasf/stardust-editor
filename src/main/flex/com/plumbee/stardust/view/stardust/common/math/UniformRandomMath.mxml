@@ -32,17 +32,17 @@
             }
             else
             {
-                toolTip="The final value is randomly between " +
-                        avgTextInput.text + "-" + varTextInput.text + " and " + avgTextInput.text + "+" + varTextInput.text;
+                toolTip="The value is randomly between " +
+                (Number(avgTextInput.text) - Number(varTextInput.text)).toPrecision(2) + " and " + (Number(avgTextInput.text) + Number(varTextInput.text)).toPrecision(2);
             }
 
         }
         ]]></fx:Script>
 
     <s:Label text="average value"/>
-    <components:CustomNumericStepper id="avgTextInput" restrict="0-9.\-" width="50" change="updateData()"/>
+    <components:CustomNumericStepper id="avgTextInput" restrict="0-9.\-" width="50" change="updateData()" stepValue="0.1"/>
 
     <s:Label text="variation"/>
-    <components:CustomNumericStepper id="varTextInput" restrict="0-9.\-" width="50" change="updateData()" />
+    <components:CustomNumericStepper id="varTextInput" restrict="0-9.\-" width="50" change="updateData()" stepValue="0.1"/>
 
 </s:HGroup>

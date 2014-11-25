@@ -19,6 +19,7 @@ import com.plumbee.stardust.view.stardust.twoD.actions.SpeedLimitAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.SpinAction;
 import com.plumbee.stardust.view.stardust.twoD.actions.VelocityFieldAction;
 import com.plumbee.stardust.view.stardust.twoD.initializers.AlphaInitializer;
+import com.plumbee.stardust.view.stardust.twoD.initializers.ColorInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.LifeInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.MassInitializer;
 import com.plumbee.stardust.view.stardust.twoD.initializers.OmegaInitializer;
@@ -40,6 +41,7 @@ import idv.cjcat.stardustextended.common.actions.AlphaCurve;
 import idv.cjcat.stardustextended.common.actions.DeathLife;
 import idv.cjcat.stardustextended.common.actions.ScaleCurve;
 import idv.cjcat.stardustextended.common.initializers.Alpha;
+import idv.cjcat.stardustextended.common.initializers.Color;
 import idv.cjcat.stardustextended.common.initializers.Life;
 import idv.cjcat.stardustextended.common.initializers.Mass;
 import idv.cjcat.stardustextended.common.initializers.Scale;
@@ -120,6 +122,7 @@ public class Globals
         initalizerDict[ Scale ] = new DropdownListVO( "Scale", Scale, ScaleInitializer );
         initalizerDict[ Omega ] = new DropdownListVO( "Rotation speed", Omega, OmegaInitializer );
         initalizerDict[ Mass ] = new DropdownListVO( "Mass", Mass, MassInitializer );
+        initalizerDict[ Color ] = new DropdownListVO( "Color", Color, ColorInitializer );
         //initalizerDict[ CollisionRadius ] = new DropdownListVO( "Collision radius", CollisionRadius, CollisionRadiusInitializer );
         //initalizerDict[ Mask ] = new DropdownListVO("Mask", Mask, MaskInitializer);
 
