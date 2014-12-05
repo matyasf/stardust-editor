@@ -62,6 +62,10 @@ public class SaveSimCommand implements ICommand
         {
             var pngEncoder : PNGEncoder = new PNGEncoder();
             zip.addFile( ZipFileNames.getImageName(emitterVO.id), pngEncoder.encode( emitterVO.image ), false );
+            if (emitterVO.emitterSnapshot)
+            {
+                zip.addFile( ZipFileNames.getParticleSnapshotName(emitterVO.id), emitterVO.emitterSnapshot, false );
+            }
             zip.addFileFromString( ZipFileNames.getXMLName(emitterVO.id), XMLBuilder.buildXML( emitterVO.emitter ).toString() );
         }
     }

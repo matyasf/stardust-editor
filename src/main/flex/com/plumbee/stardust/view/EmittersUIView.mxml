@@ -9,6 +9,7 @@
 
     <fx:Script><![CDATA[
         import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
+        import com.plumbee.stardust.controller.events.SnapshotEvent;
         import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.model.DisplayModes;
         import com.plumbee.stardust.view.components.InputPopup;
@@ -131,6 +132,16 @@
             }
             stage.frameRate = Number(fpsStepper.text);
         }
+
+        private function takeSnapshot() : void
+        {
+            dispatchEvent(new SnapshotEvent(true));
+        }
+
+        private function clearSnapshot() : void
+        {
+            dispatchEvent(new SnapshotEvent(false));
+        }
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
@@ -140,7 +151,9 @@
         <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
         <s:Label text="FPS:" />
         <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
-                change="onFPSUserChange()"/>
+                change="onFPSUserChange()" width="60"/>
+        <s:Button label="Take snapshot" click="takeSnapshot()" toolTip="Takes a snapshot of the current state of the particles. This will be stored when saving the simulation and upon loading the particles will start from this state."/>
+        <s:Button label="Clear snapshot" click="clearSnapshot()" toolTip="Clears the current snapshot (if any)"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle" width="100%">

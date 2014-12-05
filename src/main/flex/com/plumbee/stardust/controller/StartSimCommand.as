@@ -8,6 +8,7 @@ import com.plumbee.stardust.controller.events.UpdateEmitterDropDownListEvent;
 import com.plumbee.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.SimPlayer;
+import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.MovieClip;
 import flash.events.IEventDispatcher;
@@ -62,6 +63,12 @@ public class StartSimCommand implements ICommand
 
         dispatcher.dispatchEvent( new InitalizeZoneDrawerEvent( InitalizeZoneDrawerEvent.RESET ) );
 
+        for each (var emitterValueObject:EmitterValueObject in projectSettings.stadustSim.emitters) {
+            if (emitterValueObject.emitterSnapshot)
+            {
+                emitterValueObject.addParticlesFromSnapshot();
+            }
+        }
         dispatcher.dispatchEvent( new InitCompleteEvent() );
     }
 

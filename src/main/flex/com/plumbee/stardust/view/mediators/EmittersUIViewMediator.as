@@ -1,16 +1,10 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 23/12/13
- * Time: 14:35
- * To change this template use File | Settings | File Templates.
- */
 package com.plumbee.stardust.view.mediators
 {
 import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.plumbee.stardust.controller.events.EmitterChangeEvent;
 import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.SetResultsForEmitterDropDownListEvent;
+import com.plumbee.stardust.controller.events.SnapshotEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.view.EmittersUIView;
 import com.plumbee.stardust.view.events.EmitterChangeUIViewEvent;
@@ -33,6 +27,7 @@ public class EmittersUIViewMediator extends Mediator
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( EmitterNameChangeEvent.CHANGE, redispatchEvent, EmitterNameChangeEvent );
         addViewListener( ChangeEmitterInFocusEvent.CHANGE, redispatchEvent, ChangeEmitterInFocusEvent );
+        addViewListener( SnapshotEvent.TYPE, redispatchEvent, SnapshotEvent );
 
         addContextListener( SetResultsForEmitterDropDownListEvent.UPDATE, handleSetResultsDropDownListEvent, SetResultsForEmitterDropDownListEvent );
         addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );
