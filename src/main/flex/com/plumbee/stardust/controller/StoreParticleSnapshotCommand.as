@@ -8,6 +8,7 @@ import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 
 import flash.net.registerClassAlias;
 import flash.utils.ByteArray;
+import flash.utils.getQualifiedClassName;
 
 import idv.cjcat.stardustextended.common.particles.Particle;
 
@@ -33,7 +34,7 @@ public class StoreParticleSnapshotCommand
         }
         else
         {
-            registerClassAlias("idv.cjcat.stardustextended.twoD.particles.Particle2DSnapshot", Particle2DSnapshot);
+            registerClassAlias(getQualifiedClassName(Particle2DSnapshot), Particle2DSnapshot);
             const particleData : Object = {};
             for each (var em : EmitterValueObject in projectSettings.stadustSim.emitters)
             {
