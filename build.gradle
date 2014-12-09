@@ -11,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1-FP-2'
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1-FP-3'
     }
 }
 
@@ -24,8 +24,8 @@ version = '3.0'
 type = 'swf'
 
 srcDirs	= ['src/main/flex']
-
 mainClass = 'com/plumbee/stardust/Stardusttool.mxml'
+frameworkLinkage = 'merged'
 
 repositories {
     mavenLocal()
