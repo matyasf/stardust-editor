@@ -2,6 +2,7 @@ package com.plumbee.stardust.view.mediators
 {
 import com.plumbee.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.plumbee.stardust.controller.events.EmitterChangeEvent;
+import com.plumbee.stardust.controller.events.RefreshFPSTextEvent;
 import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.SetResultsForEmitterDropDownListEvent;
 import com.plumbee.stardust.controller.events.SnapshotEvent;
@@ -21,7 +22,6 @@ public class EmittersUIViewMediator extends Mediator
 
     override public function initialize() : void
     {
-
         addViewListener( UpdateDisplayModeEvent.UPDATE, redispatchEvent, UpdateDisplayModeEvent );
         addViewListener( EmitterChangeUIViewEvent.ADD, handleAddEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
@@ -31,6 +31,7 @@ public class EmittersUIViewMediator extends Mediator
 
         addContextListener( SetResultsForEmitterDropDownListEvent.UPDATE, handleSetResultsDropDownListEvent, SetResultsForEmitterDropDownListEvent );
         addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );
+        addContextListener( RefreshFPSTextEvent.TYPE, setFPSText, RefreshFPSTextEvent );
     }
 
     private function redispatchEvent( event : Event ) : void
@@ -56,6 +57,11 @@ public class EmittersUIViewMediator extends Mediator
     private function setParticleHandler( event : SetParticleHandlerEvent ) : void
     {
         view.handler = event.handler;
+    }
+
+    private function setFPSText( event : RefreshFPSTextEvent ) : void
+    {
+        view.refreshFPSText();
     }
 }
 }

@@ -133,6 +133,11 @@
             stage.frameRate = Number(fpsStepper.text);
         }
 
+        public function refreshFPSText() : void
+        {
+            fpsStepper.text = stage.frameRate.toString();
+        }
+
         private function takeSnapshot() : void
         {
             dispatchEvent(new SnapshotEvent(true));

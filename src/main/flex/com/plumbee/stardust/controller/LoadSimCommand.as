@@ -2,6 +2,7 @@ package com.plumbee.stardust.controller
 {
 
 import com.plumbee.stardust.controller.events.LoadSimEvent;
+import com.plumbee.stardust.controller.events.RefreshFPSTextEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.helpers.Globals;
 import com.plumbee.stardust.model.ProjectModel;
@@ -10,6 +11,8 @@ import com.plumbee.stardustplayer.ISimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 
+import flash.display.DisplayObject;
+
 import flash.events.Event;
 
 import flash.events.IEventDispatcher;
@@ -17,6 +20,8 @@ import flash.events.IEventDispatcher;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+
+import mx.core.FlexGlobals;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
@@ -89,6 +94,9 @@ public class LoadSimCommand implements ICommand
         }
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
+
+        DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate = projectSettings.stadustSim.fps;
+        dispatcher.dispatchEvent( new RefreshFPSTextEvent() );
 
         dispatcher.dispatchEvent( new StartSimEvent() );
     }

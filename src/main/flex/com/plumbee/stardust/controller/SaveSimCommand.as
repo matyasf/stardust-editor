@@ -7,6 +7,8 @@ import com.plumbee.stardustplayer.ZipFileNames;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
+import flash.display.DisplayObject;
+
 import flash.events.IEventDispatcher;
 import flash.events.IOErrorEvent;
 import flash.net.FileReference;
@@ -15,6 +17,7 @@ import flash.utils.ByteArray;
 import idv.cjcat.stardustextended.common.xml.XMLBuilder;
 
 import mx.controls.Alert;
+import mx.core.FlexGlobals;
 import mx.graphics.codec.PNGEncoder;
 
 import org.as3commons.zip.Zip;
@@ -46,6 +49,7 @@ public class SaveSimCommand implements ICommand
         const zip : Zip = new Zip();
         const descObj : Object = {};
         descObj.version = 2;
+        descObj.fps = DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate;
 
         addEmittersToProjectFile( zip );
         addBackgroundToProjectFile( zip, descObj );
