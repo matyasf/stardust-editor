@@ -127,7 +127,7 @@
         <s:Button label="Load" click="dispatchLoadSimEvent()" width="100%"/>
         <s:Button label="Save as.." click="dispatchSaveSimEvent()" width="100%"/>
         <mx:Spacer height="13"/>
-        <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox"/>
+        <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox" toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
         <view:BackgroundProvider background="{background}" width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
         <s:Spacer height="100%"/>

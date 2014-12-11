@@ -5,6 +5,8 @@
           verticalAlign="middle" >
 
     <fx:Script><![CDATA[
+        import com.plumbee.stardust.helpers.Globals;
+
         import idv.cjcat.stardustextended.common.math.UniformRandom;
 
         private var data:UniformRandom;
@@ -28,14 +30,13 @@
         {
             if (varTextInput.text == "0")
             {
-                toolTip="The final value is " + avgTextInput.text;
+                toolTip = "The final value is " + avgTextInput.text;
             }
             else
             {
-                toolTip="The value is randomly between " +
-                (Number(avgTextInput.text) - Number(varTextInput.text)).toPrecision(2) + " and " + (Number(avgTextInput.text) + Number(varTextInput.text)).toPrecision(2);
+                toolTip = "The value is randomly between " +
+                Globals.toNiceString(Number(avgTextInput.text) - Number(varTextInput.text)) + " and " + Globals.toNiceString(Number(avgTextInput.text) + Number(varTextInput.text));
             }
-
         }
         ]]></fx:Script>
 
