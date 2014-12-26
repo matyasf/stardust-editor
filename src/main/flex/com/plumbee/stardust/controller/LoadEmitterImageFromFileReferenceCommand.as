@@ -1,7 +1,6 @@
 package com.plumbee.stardust.controller
 {
 
-import com.plumbee.stardust.controller.events.SetParticleHandlerEvent;
 import com.plumbee.stardust.controller.events.StartSimEvent;
 import com.plumbee.stardust.model.ProjectModel;
 import com.plumbee.stardustplayer.emitter.EmitterValueObject;
@@ -17,7 +16,6 @@ import flash.net.FileFilter;
 import flash.net.FileReference;
 
 import idv.cjcat.stardustextended.sd;
-import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
@@ -74,7 +72,6 @@ public class LoadEmitterImageFromFileReferenceCommand implements ICommand
         }
         const loadJob : LoadByteArrayJob = sequenceLoader.getJobByName( emitterVO.id.toString() );
         emitterVO.image = ( loadJob.content as Bitmap ).bitmapData;
-        emitterVO.emitter.name = loadJob.fileName;
         // If the image changes the animation frames are recalculated and there might be particles on the screen which
         // are now at a non-existent frame number.
         dispatcher.dispatchEvent( new StartSimEvent() );

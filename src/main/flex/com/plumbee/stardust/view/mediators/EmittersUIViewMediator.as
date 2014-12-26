@@ -9,7 +9,6 @@ import com.plumbee.stardust.controller.events.SnapshotEvent;
 import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
 import com.plumbee.stardust.view.EmittersUIView;
 import com.plumbee.stardust.view.events.EmitterChangeUIViewEvent;
-import com.plumbee.stardust.view.events.EmitterNameChangeEvent;
 
 import flash.events.Event;
 
@@ -25,7 +24,6 @@ public class EmittersUIViewMediator extends Mediator
         addViewListener( UpdateDisplayModeEvent.UPDATE, redispatchEvent, UpdateDisplayModeEvent );
         addViewListener( EmitterChangeUIViewEvent.ADD, handleAddEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
-        addViewListener( EmitterNameChangeEvent.CHANGE, redispatchEvent, EmitterNameChangeEvent );
         addViewListener( ChangeEmitterInFocusEvent.CHANGE, redispatchEvent, ChangeEmitterInFocusEvent );
         addViewListener( SnapshotEvent.TYPE, redispatchEvent, SnapshotEvent );
 

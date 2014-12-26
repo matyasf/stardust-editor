@@ -3,7 +3,7 @@
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:sparkcolorpicker="com.plumbee.stardust.view.components.sparkcolorpicker.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4"
-          toolTip="Set a background/foreground for the simulation. This *will* be saved with the simulation, which is likely something you dont want for the final version.">
+          toolTip="Set a background/foreground for the simulation. The image *will* be saved with the simulation, which is likely something you dont want for the final version.">
 
     <fx:Script><![CDATA[
         import com.plumbee.stardust.controller.events.BackgroundChangeEvent;

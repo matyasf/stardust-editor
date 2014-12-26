@@ -3,7 +3,6 @@ package com.plumbee.stardust.config
 
 import com.plumbee.stardust.controller.AddEmitterCommand;
 import com.plumbee.stardust.controller.ChangeEmitterInFocusCommand;
-import com.plumbee.stardust.controller.EmitterNameChangeCommand;
 import com.plumbee.stardust.controller.FileLoadCommand;
 import com.plumbee.stardust.controller.ImpulseClockRendererUpdateEmitterInfoCommand;
 import com.plumbee.stardust.controller.InitializeZoneDrawerFromEmitterCommand;
@@ -45,7 +44,6 @@ import com.plumbee.stardust.view.EmittersUIView;
 import com.plumbee.stardust.view.ParticleHandlerContainer;
 import com.plumbee.stardust.view.StardusttoolMainView;
 import com.plumbee.stardust.view.events.ClockTypeChangeEvent;
-import com.plumbee.stardust.view.events.EmitterNameChangeEvent;
 import com.plumbee.stardust.view.events.ImpulseClockRendererUpdateEmitterInfoEvent;
 import com.plumbee.stardust.view.events.InitializeZoneDrawerFromEmitterGroupEvent;
 import com.plumbee.stardust.view.events.LoadEmitterImageFromFileEvent;
@@ -126,7 +124,6 @@ public class AppConfig implements IConfig
         eventCommandMap.map( EmitterChangeEvent.REMOVE ).toCommand( RemoveEmitterCommand );
         eventCommandMap.map( ChangeEmitterInFocusEvent.CHANGE ).toCommand( ChangeEmitterInFocusCommand );
         eventCommandMap.map( UpdateEmitterDropDownListEvent.UPDATE ).toCommand( UpdateEmitterDropDownListCommand );
-        eventCommandMap.map( EmitterNameChangeEvent.CHANGE ).toCommand( EmitterNameChangeCommand );
         eventCommandMap.map( UpdateClockInEmitterGroupEvent.UPDATE ).toCommand( UpdateClockInEmitterGroupCommand );
         eventCommandMap.map( ImpulseClockRendererUpdateEmitterInfoEvent.UPDATE ).toCommand( ImpulseClockRendererUpdateEmitterInfoCommand );
         eventCommandMap.map( OnActionACChangeEvent.ADD ).toCommand( OnActionACAddCommand );

@@ -100,7 +100,6 @@ public class AddEmitterCommand implements ICommand
             DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
         }
         emitterData.image = new BitmapData( 10, 10, false, Math.random()*16777215 );
-        emitterData.emitter.name = "Emitter " + uniqueID;
 
         if (projectSettings.stadustSim.emitters[emitterData.id])
         {

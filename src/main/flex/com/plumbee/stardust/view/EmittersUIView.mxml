@@ -12,9 +12,7 @@
         import com.plumbee.stardust.controller.events.SnapshotEvent;
         import com.plumbee.stardust.controller.events.UpdateDisplayModeEvent;
         import com.plumbee.stardust.model.DisplayModes;
-        import com.plumbee.stardust.view.components.InputPopup;
         import com.plumbee.stardust.view.events.EmitterChangeUIViewEvent;
-        import com.plumbee.stardust.view.events.EmitterNameChangeEvent;
         import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 
         import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
@@ -23,18 +21,14 @@
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
-        import mx.events.CloseEvent;
         import mx.logging.ILogger;
         import mx.logging.Log;
-        import mx.managers.PopUpManager;
 
         import spark.events.IndexChangeEvent;
 
         private static const LOG : ILogger = Log.getLogger(getQualifiedClassName(EmittersUIView).replace("::", "."));
 
         private const _emitterAC : ArrayCollection = new ArrayCollection();
-
-        private var emitterNameWindow : InputPopup;
 
         public function set handler(handler:ISpriteSheetHandler):void {
             if (handler is StarlingHandler) {
@@ -58,37 +52,6 @@
             LOG.debug("Remove Emitter");
 
             dispatchEvent(new EmitterChangeUIViewEvent(EmitterChangeUIViewEvent.REMOVE));
-        }
-
-        private function onClickRename(event : MouseEvent) : void
-        {
-            LOG.debug("Rename Emitter");
-
-            emitterNameWindow = PopUpManager.createPopUp(this, InputPopup, true) as InputPopup;
-            emitterNameWindow.closeButton.visible = false;
-            emitterNameWindow.moveArea.visible = false;
-
-            emitterNameWindow.addEventListener(CloseEvent.CLOSE, removeRenamePopup);
-            emitterNameWindow.okButton.addEventListener(MouseEvent.CLICK, handleRenamePopupEvent);
-            emitterNameWindow.cancelButton.addEventListener(MouseEvent.CLICK, removeRenamePopup);
-
-            emitterNameWindow.label = EmitterValueObject(dropdownList.selectedItem).emitter.name;
-
-            PopUpManager.centerPopUp(emitterNameWindow);
-        }
-
-        private function removeRenamePopup(event : Event) : void
-        {
-            PopUpManager.removePopUp(emitterNameWindow);
-        }
-
-        private function handleRenamePopupEvent(event : Event) : void
-        {
-            var result : String = emitterNameWindow.emitterName.text;
-            PopUpManager.removePopUp(emitterNameWindow);
-            var emitter : EmitterValueObject = dropdownList.selectedItem as EmitterValueObject;
-
-            dispatchEvent(new EmitterNameChangeEvent(EmitterNameChangeEvent.CHANGE, result, emitter));
         }
 
         private function onDropDownChange(event : IndexChangeEvent) : void
@@ -169,7 +132,6 @@
                         change="onDropDownChange(event)"/>
         <s:Button label="Add" click="onClickAdd(event)"/>
         <s:Button label="Remove" click="onClickRemove(event)"/>
-        <s:Button label="Rename" click="onClickRename(event)"/>
     </s:HGroup>
 
     <s:BorderContainer width="100%" height="100%" backgroundColor="#2F3B3F">
