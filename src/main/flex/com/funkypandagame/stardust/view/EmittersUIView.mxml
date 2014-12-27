@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.funkypandagame.stardust.view.components.*"
+          xmlns:clocks="com.funkypandagame.stardust.view.stardust.common.clocks.*"
+          xmlns:view="com.funkypandagame.stardust.view.*"
+          width="100%"
+          addedToStage="onAdded()">
+
+    <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
+        import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
+        import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
+        import com.funkypandagame.stardust.controller.events.SnapshotEvent;
+
+        import com.funkypandagame.stardust.model.DisplayModes;
+        import com.funkypandagame.stardust.view.events.EmitterChangeUIViewEvent;
+
+        import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+
+        import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+        import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+
+        import mx.collections.ArrayCollection;
+        import mx.logging.ILogger;
+        import mx.logging.Log;
+
+        import spark.events.IndexChangeEvent;
+
+        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(EmittersUIView).replace("::", "."));
+
+        private const _emitterAC:ArrayCollection = new ArrayCollection();
+
+        public function set handler(handler:ISpriteSheetHandler):void {
+            if (handler is StarlingHandler) {
+                starlingRadioButton.selected = true;
+            }
+            else if (handler is DisplayObjectSpriteSheetHandler) {
+                displayObjectRadioButton.selected = true;
+            }
+            validateNow();
+        }
+
+        private function onClickAdd(event:MouseEvent):void {
+            LOG.debug("Add Emitter");
+
+            dispatchEvent(new EmitterChangeUIViewEvent(EmitterChangeUIViewEvent.ADD));
+        }
+
+        private function onClickRemove(event:MouseEvent):void {
+            LOG.debug("Remove Emitter");
+
+            dispatchEvent(new EmitterChangeUIViewEvent(EmitterChangeUIViewEvent.REMOVE));
+        }
+
+        private function onDropDownChange(event:IndexChangeEvent):void {
+            var emitter:EmitterValueObject = dropdownList.selectedItem as EmitterValueObject;
+            dispatchEvent(new ChangeEmitterInFocusEvent(ChangeEmitterInFocusEvent.CHANGE, emitter));
+            LOG.debug("Change Emitter: " + emitter);
+        }
+
+        public function setDropDownListResult(list:Array, emitterInFocus:EmitterValueObject):void {
+            _emitterAC.source = list;
+            dropdownList.selectedItem = emitterInFocus;
+        }
+
+        private static function emitterNameDDL(item:Object):String {
+            return EmitterValueObject(item).emitter.name;
+        }
+
+        private function updateRenderMode():void {
+            validateNow(); // radio buttons suck
+            if (displayObjectRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.DISPLAY_LIST));
+            }
+            else if (starlingRadioButton.selected) {
+                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
+            }
+        }
+
+        private function onAdded():void {
+            fpsStepper.text = stage.frameRate.toString();
+        }
+
+        private function onFPSUserChange():void {
+            if (Number(fpsStepper.text) < 1) {
+                fpsStepper.text = "1";
+            }
+            if (Number(fpsStepper.text) > 60 || isNaN(Number(fpsStepper.text))) {
+                fpsStepper.text = "60";
+            }
+            stage.frameRate = Number(fpsStepper.text);
+        }
+
+        public function refreshFPSText():void {
+            fpsStepper.text = stage.frameRate.toString();
+        }
+
+        private function takeSnapshot():void {
+            dispatchEvent(new SnapshotEvent(true));
+        }
+
+        private function clearSnapshot():void {
+            dispatchEvent(new SnapshotEvent(false));
+        }
+        ]]></fx:Script>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Render mode:" fontSize="16" fontWeight="bold"/>
+        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
+                       selected="true" change="updateRenderMode()"/>
+        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
+        <s:Label text="FPS:" />
+        <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
+                change="onFPSUserChange()" width="60"/>
+        <s:Button label="Take snapshot" click="takeSnapshot()" toolTip="Takes a snapshot of the current state of the particles. This will be stored when saving the simulation and upon loading the particles will start from this state."/>
+        <s:Button label="Clear snapshot" click="clearSnapshot()" toolTip="Clears the current snapshot (if any)"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle" width="100%">
+        <s:Label id="containerLabel" text="Emitters" fontSize="14" fontWeight="bold"/>
+        <s:DropDownList id="dropdownList" labelFunction="emitterNameDDL"
+                        dataProvider="{_emitterAC}" requireSelection="true"
+                        width="220"
+                        change="onDropDownChange(event)"/>
+        <s:Button label="Add" click="onClickAdd(event)"/>
+        <s:Button label="Remove" click="onClickRemove(event)"/>
+    </s:HGroup>
+
+    <s:BorderContainer width="100%" height="100%" backgroundColor="#2F3B3F">
+        <s:layout>
+            <s:VerticalLayout/>
+        </s:layout>
+
+        <clocks:ClockContainer />
+
+        <view:ParticleHandlerContainer />
+    </s:BorderContainer>
+
+</s:VGroup>

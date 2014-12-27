@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<s:Application
+        xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:view2="com.funkypandagame.stardust.view.*"
+        backgroundColor="0x353D3F"
+        backgroundAlpha="0"
+        frameRate="30"
+        applicationComplete="initApp()">
+
+    <view2:StardusttoolMainView/>
+
+    <fx:Script><![CDATA[
+        import com.junkbyte.console.Cc;
+
+        import com.funkypandagame.stardust.config.AppConfig;
+
+        import com.funkypandagame.stardust.controller.events.LoadSimEvent;
+        import com.funkypandagame.stardust.debug.FlashConsoleTarget;
+        import com.funkypandagame.stardust.helpers.Globals;
+
+        import mx.core.FlexGlobals;
+
+        import mx.logging.Log;
+        import mx.logging.LogEventLevel;
+
+        import robotlegs.bender.bundles.mvcs.MVCSBundle;
+        import robotlegs.bender.extensions.contextView.ContextView;
+        import robotlegs.bender.framework.api.IContext;
+        import robotlegs.bender.framework.impl.Context;
+
+        import starling.core.Starling;
+
+        import starling.display.Sprite;
+        import starling.events.Event;
+
+        [Embed(source="../../../../resources/stardustProjectDEFAULT.sde", mimeType="application/octet-stream")]
+        private var ExampleSim:Class;
+
+        private var context:IContext;
+        private var starlingInstance:Starling;
+
+        private function initApp():void {
+            setupLogging();
+
+            Globals.init();
+            Starling.handleLostContext = true;
+            starlingInstance = new Starling(starling.display.Sprite, stage);
+            starlingInstance.addEventListener(starling.events.Event.ROOT_CREATED, onStarlingReady);
+            starlingInstance.antiAliasing = 1;
+            starlingInstance.start();
+            starlingInstance.stage.addChild(Globals.starlingCanvas);
+        }
+
+        private function onStarlingReady(event:starling.events.Event):void {
+            context = new Context();
+            context.install(MVCSBundle).configure(AppConfig).configure(new ContextView(this));
+            const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
+            dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+        }
+
+        private static function setupLogging():void {
+            const LOG_FILTERS:Array = ["com.funkypandagame.*"];
+            const LOG_LEVELS:int = LogEventLevel.ALL;
+            Cc.startOnStage(FlexGlobals.topLevelApplication as DisplayObjectContainer, "+");
+            Cc.config.commandLineAllowed = true;
+            Cc.commandLine = true;
+            Cc.x = 20;
+            Cc.width = 800;
+            Cc.height = 400;
+
+            var consoleLogTarget:FlashConsoleTarget = new FlashConsoleTarget();
+            consoleLogTarget.includeTime = true;
+            consoleLogTarget.includeCategory = true;
+            consoleLogTarget.includeLevel = true;
+            consoleLogTarget.filters = LOG_FILTERS;
+            consoleLogTarget.level = LOG_LEVELS;
+            Log.addTarget(consoleLogTarget);
+        }
+        ]]>
+    </fx:Script>
+
+    <fx:Style>
+        @namespace mx "library://ns.adobe.com/flex/mx";
+        @namespace s "library://ns.adobe.com/flex/spark";
+
+        mx|ToolTip {
+            fontSize: 14px;
+            backgroundColor: #7FB290;
+        }
+
+        s|DropDownList {
+            skinClass: ClassReference("com.funkypandagame.stardust.view.skins.DropdownListSkin");
+        }
+
+        s|List {
+            contentBackgroundColor: #2F3B3F;
+            selectionColor: #11183D;
+            rollOverColor: #696969;
+        }
+
+        s|Label {
+            color: #D0D0D0;
+        }
+
+        s|TextInput {
+            color: #DADADA;
+            contentBackgroundColor: #0E2D38;
+        }
+
+        s|Button {
+            color: #D0D0D0;
+            skinClass: ClassReference("com.funkypandagame.stardust.view.skins.ButtonSkin");
+        }
+
+        s|TitleWindow {
+            backgroundColor: #2F3B3F;
+            skinClass: ClassReference("com.funkypandagame.stardust.view.skins.TitleWindowSkin");
+        }
+
+    </fx:Style>
+</s:Application>

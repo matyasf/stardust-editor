@@ -19,12 +19,11 @@ apply plugin: 'gradlefx'
 apply plugin: 'ideafx'
 apply plugin: 'maven'
 
-group = 'com.plumbee'
-version = '3.0'
+group = 'com.funkypandagame'
+version = '3.2'
 type = 'swf'
-
 srcDirs	= ['src/main/flex']
-mainClass = 'com/plumbee/stardust/Stardusttool.mxml'
+mainClass = 'com/funkypandagame/stardust/Stardusttool.mxml'
 frameworkLinkage = 'merged'
 
 repositories {
@@ -46,16 +45,20 @@ repositories {
 dependencies {
     flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: '4.13.0', ext: 'tar.gz'
 
-    merged group: 'com.junkbyte', name: 'flash-console', version: '2.6', ext: 'swc'
-    merged group: 'org.robotlegs', name: 'robotlegs-framework', version: '2.2.1', ext: 'swc'
-    merged group: 'com.gamua', name: 'starling-framework', version: '1.5.1', ext: 'swc'
-
-    merged group: 'com.plumbee', name: 'stardust-sim-loader', version: '3.0', ext: 'swc'
+    merged 'com.junkbyte:flash-console:2.6'
+    merged 'org.robotlegs:robotlegs-framework:2.2.1'
+    merged 'com.funkypandagame:stardust-sim-loader:3.2'
 }
 
 additionalCompilerOptions = [
-    '-debug=true',
-    '-keep-as3-metadata+=Inject,Embed,ChangeEvent,NonCommittingChangeEvent,PreDestroy,Bindable'
+    // AS3 metadata
+    '-keep-as3-metadata+=Inline,Embed,SWF,Transient',
+    // Flex metadata
+    '-keep-as3-metadata+=Alternative,ArrayElementType,Bindable,DefaultProperty,Deprecated,Effect,Event,' +
+                        'HostComponent,IconFile,Inspectable,InstanceType,NonCommittingChangeEvent,RemoteClass,' +
+                        'RichTextContent,SkinPart,SkinState,Style',
+    // Robotlegs metadata
+    '-keep-as3-metadata+=Inject,PreDestroy,PostConstruct'
 ]
 
 sdkAutoInstall {
@@ -87,4 +90,3 @@ uploadArchives {
         //}
     }
 }
-
