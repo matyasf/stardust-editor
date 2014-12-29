@@ -7,12 +7,10 @@ import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.helpers.ParticleHandlerCopyHelper;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimPlayer;
-import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 import com.funkypandagame.stardust.model.DisplayModes;
 import flash.events.IEventDispatcher;
-import flash.utils.Dictionary;
-import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.sd;
+import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
@@ -52,10 +50,8 @@ public class UpdateDisplayModeCommand implements ICommand
 
     private function setDisplayModeDisplayList() : void
     {
-        const emitters : Dictionary = projectSettings.stadustSim.emitters;
-        for each( var emitterVO : EmitterValueObject in emitters )
+        for each( var emitter : Emitter2D in projectSettings.stadustSim.emittersArr )
         {
-            var emitter : Emitter = emitterVO.emitter;
             if (emitter.particleHandler is StarlingHandler)
             {
                 StarlingHandler(emitter.particleHandler).texture.dispose();
@@ -69,10 +65,8 @@ public class UpdateDisplayModeCommand implements ICommand
 
     private function setDisplayModeStarling() : void
     {
-        const emitters : Dictionary = projectSettings.stadustSim.emitters;
-        for each( var emitterVO : EmitterValueObject in emitters )
+        for each( var emitter : Emitter2D in projectSettings.stadustSim.emittersArr )
         {
-            var emitter : Emitter = emitterVO.emitter;
             var starlingHandler : StarlingHandler = new StarlingHandler();
             ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);
             emitter.particleHandler = starlingHandler;

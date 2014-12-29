@@ -17,6 +17,8 @@ import flash.events.Event;
 
 import flash.events.IEventDispatcher;
 
+import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
+
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
@@ -63,14 +65,14 @@ public class LoadSimCommand implements ICommand
 
         if ( projectSettings.stadustSim )
         {
-            for each (var oldEmitterVO : EmitterValueObject in projectSettings.stadustSim.emitters)
+            for each (var oldEmitter : Emitter2D in projectSettings.stadustSim.emittersArr)
             {
-                oldEmitterVO.emitter.clearActions();
-                oldEmitterVO.emitter.clearInitializers();
-                oldEmitterVO.emitter.clearParticles();
-                if (oldEmitterVO.emitter.particleHandler is StarlingHandler)
+                oldEmitter.clearActions();
+                oldEmitter.clearInitializers();
+                oldEmitter.clearParticles();
+                if (oldEmitter.particleHandler is StarlingHandler)
                 {
-                    const sh : StarlingHandler = StarlingHandler(oldEmitterVO.emitter.particleHandler);
+                    const sh : StarlingHandler = StarlingHandler(oldEmitter.particleHandler);
                     sh.texture.dispose();
                     Globals.starlingCanvas.removeChild(sh.renderer);
                 }

@@ -3,5 +3,6 @@
 /target
 .gradle/*
 build/*
+!build/stardust-editor.swf
 bin-debug/*
 *.iml

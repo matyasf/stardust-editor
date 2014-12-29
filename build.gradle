@@ -11,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1-FP-3'
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.1'
     }
 }
 
@@ -20,7 +20,7 @@ apply plugin: 'ideafx'
 apply plugin: 'maven'
 
 group = 'com.funkypandagame'
-version = '3.2'
+version = '3.3'
 type = 'swf'
 srcDirs	= ['src/main/flex']
 mainClass = 'com/funkypandagame/stardust/Stardusttool.mxml'
@@ -37,7 +37,6 @@ repositories {
     }
     ivy {
         name 'Apache'
-        //artifactPattern 'http://apache.cu.be/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
         artifactPattern 'http://archive.apache.org/dist/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
     }
 }
@@ -47,7 +46,7 @@ dependencies {
 
     merged 'com.junkbyte:flash-console:2.6'
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
-    merged 'com.funkypandagame:stardust-sim-loader:3.2'
+    merged 'com.funkypandagame:stardust-sim-loader:3.3'
 }
 
 additionalCompilerOptions = [

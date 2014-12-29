@@ -54,14 +54,14 @@ public class ZoneDrawer
             return;
         }
         graphics.clear();
-        for each ( var init : Initializer in emitter.sd::initializers )
+        for each ( var init : Initializer in emitter.initializers )
         {
             if ( init is PositionAnimated )
             {
                 drawZone( graphics, PositionAnimated( init ).zone, 0x75FF56, PositionAnimated( init ).currentPosition );
             }
         }
-        for each ( var act : Action in emitter.sd::actions )
+        for each ( var act : Action in emitter.actions )
         {
             if ( act is DeathZone )
             {

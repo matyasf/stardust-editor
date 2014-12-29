@@ -88,7 +88,7 @@ public class LoadEmitterPathCommand implements ICommand
         if ( currentFrame >= mc.totalFrames )
         {
             mc.removeEventListener( Event.FRAME_CONSTRUCTED, onFrameReady );
-            for each (var initalizer : Initializer in model.emitterInFocus.emitter.sd::initializers)
+            for each (var initalizer : Initializer in model.emitterInFocus.emitter.initializers)
             {
                 if ( initalizer is PositionAnimated)
                 {
