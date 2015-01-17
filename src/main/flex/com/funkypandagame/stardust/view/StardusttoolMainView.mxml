@@ -7,6 +7,7 @@
          height="100%">
 
     <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.controller.events.LoadSimEvent;
         import com.funkypandagame.stardust.controller.events.StartSimEvent;
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.helpers.Stats;
@@ -14,8 +15,10 @@
         import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
 
         import mx.collections.ArrayCollection;
+        import mx.events.CloseEvent;
         import mx.logging.ILogger;
         import mx.logging.Log;
+        import mx.managers.PopUpManager;
 
 
         import starling.core.Starling;
@@ -25,6 +28,7 @@
         public static const leftColumnWidth:int = 600;
         private const _initializerAC:ArrayCollection = new ArrayCollection();
         private const _actionAC:ArrayCollection = new ArrayCollection();
+        private var examplesPopup : ExamplesPopup;
 
         private function initializeCanvasesForEmitters():void {
             previewGroup.mx_internal::$addChild(Globals.canvas);
@@ -85,6 +89,22 @@
             Globals.starlingCanvas.x = previewGroup.x + leftColumnWidth;
             Globals.starlingCanvas.y = previewGroup.y;
         }
+
+        private function showExamples() : void
+        {
+            if (examplesPopup == null)
+            {
+                examplesPopup = new ExamplesPopup();
+                examplesPopup..callback = loadExample;
+            }
+            PopUpManager.addPopUp(examplesPopup, this, true);
+            PopUpManager.centerPopUp(examplesPopup);
+        }
+
+        private function loadExample(sdeFile : ByteArray) : void
+        {
+            dispatchEvent(new LoadSimEvent(sdeFile));
+        }
         ]]></fx:Script>
 
     <s:Group left="{leftColumnWidth}" right="100" height="100%">
@@ -113,6 +133,8 @@
         <s:Button label="Restart sim" click="dispatchStartSimEvent()" width="100%"/>
         <s:Button label="Load" click="dispatchLoadSimEvent()" width="100%"/>
         <s:Button label="Save as.." click="dispatchSaveSimEvent()" width="100%"/>
+        <s:Button label="Examples" click="showExamples()" width="100%"/>
+
         <mx:Spacer height="13"/>
         <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox" toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
         <view:BackgroundProvider background="{background}" width="100%" id="backgroundProvider"/>

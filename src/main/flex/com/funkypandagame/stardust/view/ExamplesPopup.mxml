@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<components:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+                        xmlns:components="spark.components.*" xmlns:view="com.funkypandagame.stardust.view.*"
+                        title="Examples"
+                        close="closeHandler(event)">
+
+    <fx:Script><![CDATA[
+        import mx.events.CloseEvent;
+        import mx.managers.PopUpManager;
+
+        [Embed(source="../../../../../resources/dry_ice.sde", mimeType="application/octet-stream")]
+        private static var DryIceSim:Class;
+
+        [Embed(source="../../../../../resources/snowfall.sde", mimeType="application/octet-stream")]
+        private static var SnowfallSim:Class;
+
+        [Embed(source="../../../../../resources/coins_particles.sde", mimeType="application/octet-stream")]
+        private static var CoinShowerSim:Class;
+
+        [Embed(source="../../../../../resources/glitter_burst.sde", mimeType="application/octet-stream")]
+        private static var GlitterBurst:Class;
+
+        public var callback : Function;
+
+        private function closeHandler(event:CloseEvent) : void
+        {
+            PopUpManager.removePopUp(this);
+        }
+
+        private function loadSim(sdeFile : ByteArray) : void
+        {
+            PopUpManager.removePopUp(this);
+            callback(sdeFile);
+        }
+
+    ]]></fx:Script>
+
+    <components:VGroup width="100%" height="100%" gap="2">
+
+        <components:Label text="WARNING: If you load a new simulation you will lose all your unsaved changes!"
+                paddingTop="2" paddingRight="2" paddingLeft="2" paddingBottom="2"/>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new DryIceSim()}">
+            <view:HTMLdescription><![CDATA[<b>Dry ice</b><br/>It is a quite heavy simulation because it renders a lot of big particles.]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SnowfallSim()}">
+        <view:HTMLdescription><![CDATA[<b>Snowfall</b><br/>Simple snowfall + obstacles in the way of the snow.]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new CoinShowerSim()}">
+            <view:HTMLdescription><![CDATA[<b>Coin shower</b><br/>Coins flying around]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new GlitterBurst()}">
+            <view:HTMLdescription><![CDATA[<b>Confetti</b><br/>Confetti/glitter explosion]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+    </components:VGroup>
+</components:TitleWindow>

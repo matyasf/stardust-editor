@@ -3,6 +3,7 @@ package com.funkypandagame.stardust.view.mediators
 
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
 import com.funkypandagame.stardust.controller.events.InitCompleteEvent;
+import com.funkypandagame.stardust.controller.events.LoadSimEvent;
 import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.InitalizeZoneDrawerEvent;
@@ -44,7 +45,8 @@ public class StardusttoolMainViewMediator extends Mediator
     {
         addViewListener( MainViewLoadSimEvent.LOAD, handleLoadSim, MainViewLoadSimEvent );
         addViewListener( MainViewSaveSimEvent.SAVE, handleSaveSim, MainViewSaveSimEvent );
-        addViewListener( StartSimEvent.START, handleRestartSim, StartSimEvent );
+        addViewListener( StartSimEvent.START, redispatchEvent, StartSimEvent );
+        addViewListener( LoadSimEvent.LOAD, redispatchEvent, LoadSimEvent );
 
         addContextListener( InitalizeZoneDrawerEvent.RESET, initZoneDrawer, InitalizeZoneDrawerEvent );
         addContextListener( UpdateEmitterFromViewUICollectionsEvent.UPDATE, updateEmitterFromViewUICollections, UpdateEmitterFromViewUICollectionsEvent );
@@ -57,6 +59,11 @@ public class StardusttoolMainViewMediator extends Mediator
         view.stage.addEventListener( Event.RESIZE, onResize );
 
         view.updateStagePosition();
+    }
+
+    private function redispatchEvent(event : Event) : void
+    {
+        dispatch(event);
     }
 
     private function onActionACChange(event : CollectionEvent) : void
@@ -81,11 +88,6 @@ public class StardusttoolMainViewMediator extends Mediator
         {
             dispatch(new OnInitializerACChangeEvent(OnInitializerACChangeEvent.REMOVE, Initializer(event.items[0])));
         }
-    }
-
-    private function handleRestartSim( event : StartSimEvent ) : void
-    {
-        dispatch( event );
     }
 
     private function handleSimInitComplete( event : InitCompleteEvent ) : void
