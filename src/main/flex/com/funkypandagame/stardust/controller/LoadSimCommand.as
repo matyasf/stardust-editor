@@ -79,7 +79,8 @@ public class LoadSimCommand implements ICommand
             }
         }
 
-        projectSettings.stadustSim = simLoader.project;
+        projectSettings.stadustSim = simLoader.createProjectInstance();
+
         for each (var emitterVO : EmitterValueObject in projectSettings.stadustSim.emitters)
         {
             projectSettings.emitterInFocus = emitterVO;
