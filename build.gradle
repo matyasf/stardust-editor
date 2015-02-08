@@ -19,7 +19,7 @@ apply plugin: 'gradlefx'
 apply plugin: 'ideafx'
 
 group = 'com.funkypandagame'
-version = '3.3'
+version = '3.4'
 type = 'swf'
 srcDirs	= ['src/main/flex']
 mainClass = 'com/funkypandagame/stardust/Stardusttool.mxml'
@@ -45,7 +45,7 @@ dependencies {
 
     merged 'com.junkbyte:flash-console:2.6'
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
-    merged 'com.funkypandagame:stardust-sim-loader:3.3'
+    merged 'com.funkypandagame:stardust-sim-loader:3.4'
 }
 
 additionalCompilerOptions = [

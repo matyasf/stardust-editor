@@ -41,7 +41,7 @@
 
     <s:VGroup width="100%">
         <s:HGroup verticalAlign="middle">
-            <s:Label text="x"/>
+            <s:Label text="Radial x"/>
             <components:CustomNumericStepper id="xTextInput" width="50" change="updateData()"/>
 
             <s:Label text="y"/>

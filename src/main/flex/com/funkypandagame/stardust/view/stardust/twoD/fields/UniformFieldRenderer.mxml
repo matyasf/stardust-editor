@@ -32,7 +32,7 @@
         <s:HorizontalLayout verticalAlign="middle"/>
     </s:layout>
 
-    <s:Label text="x"/>
+    <s:Label text="Uniform  x"/>
     <components:CustomNumericStepper id="xInput" stepValue="0.1" width="50" change="updateData()"/>
 
     <s:Label text="y"/>

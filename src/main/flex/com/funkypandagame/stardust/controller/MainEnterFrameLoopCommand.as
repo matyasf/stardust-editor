@@ -41,9 +41,9 @@ public class MainEnterFrameLoopCommand implements ICommand
 
         calcTime = (getTimer() - startTime);
         view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime + "ms";
-        if (project.stadustSim.numberOfParticles > StardustStarlingRenderer.MAX_PARTICLES)
+        if (project.stadustSim.numberOfParticles > StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES)
         {
-            view.infoLabel.text += " Particles over " + StardustStarlingRenderer.MAX_PARTICLES + " will not be rendered.";
+            view.infoLabel.text += " Particles over " + StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES + " will not be rendered.";
         }
         if ( view.zonesVisibleCheckBox.selected )
         {
