@@ -77,16 +77,11 @@ public class SaveSimCommand implements ICommand
     private function addBackgroundToProjectFile( zip : Zip, descObj : Object ) : void
     {
         const sim : ProjectValueObject = projectSettings.stadustSim;
-        if ( sim.backgroundImage != null )
+        if ( projectSettings.backgroundImage != null )
         {
-            zip.addFile( sim.backgroundFileName, sim.backgroundRawData );
-            descObj.backgroundFileName = sim.backgroundFileName;
+            zip.addFile( SimLoader.BACKGROUND_FILENAME, projectSettings.backgroundRawData );
         }
-        else
-        {
-            descObj.backgroundFileName = "";
-        }
-        if ( sim.hasBackground )
+        if ( projectSettings.hasBackground )
         {
             descObj.hasBackground = "true";
         }
@@ -94,7 +89,7 @@ public class SaveSimCommand implements ICommand
         {
             descObj.hasBackground = "false";
         }
-        descObj.backgroundColor = sim.backgroundColor;
+        descObj.backgroundColor = projectSettings.backgroundColor;
     }
 
 }

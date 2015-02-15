@@ -50,9 +50,9 @@ public class StartSimCommand implements ICommand
         dispatcher.dispatchEvent( new UpdateClockContainerFromEmitter( UpdateClockContainerFromEmitter.UPDATE, projectSettings.emitterInFocus ) );
 
         //If the bg is a .swf, restart it so it syncs up with the animated emitter path.
-        if (projectSettings.stadustSim.backgroundImage is MovieClip)
+        if (projectSettings.backgroundImage is MovieClip)
         {
-            MovieClip(projectSettings.stadustSim.backgroundImage).gotoAndPlay(1);
+            MovieClip(projectSettings.backgroundImage).gotoAndPlay(1);
         }
 
         //refresh the emitter dropdown list.

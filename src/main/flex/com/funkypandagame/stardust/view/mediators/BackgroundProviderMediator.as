@@ -32,9 +32,9 @@ public class BackgroundProviderMediator extends Mediator
 
     private function handleModelChange( event : RefreshBackgroundViewEvent ) : void
     {
-        view.setData(projectModel.stadustSim.hasBackground,
-                     projectModel.stadustSim.backgroundColor,
-                     projectModel.stadustSim.backgroundImage);
+        view.setData(projectModel.hasBackground,
+                     projectModel.backgroundColor,
+                     projectModel.backgroundImage);
     }
 
 }

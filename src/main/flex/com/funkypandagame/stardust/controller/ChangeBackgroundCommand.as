@@ -52,27 +52,24 @@ public class ChangeBackgroundCommand implements ICommand
         }
         else if (event.property == BackgroundChangeEvent.COLOR)
         {
-            projectModel.stadustSim.backgroundColor = event.value as uint;
+            projectModel.backgroundColor = event.value as uint;
             dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
         }
         else if (event.property == BackgroundChangeEvent.HAS_BACKGROUND)
         {
-            projectModel.stadustSim.hasBackground = event.value as Boolean;
-            if (projectModel.stadustSim.hasBackground == false)
+            projectModel.hasBackground = event.value as Boolean;
+            if (projectModel.hasBackground == false)
             {
-                projectModel.stadustSim.backgroundColor = 0;
-                projectModel.stadustSim.backgroundImage = null;
-                projectModel.stadustSim.backgroundFileName = "";
-                projectModel.stadustSim.backgroundRawData = null;
+                projectModel.backgroundColor = 0;
+                projectModel.backgroundImage = null;
+                projectModel.backgroundRawData = null;
             }
             else
             {
                 // TODO store bg settings temporarly. Sim needs to be restarted if bg is MovieClip
-                projectModel.stadustSim.backgroundColor = 0;
-                projectModel.stadustSim.backgroundImage = null;
-                projectModel.stadustSim.backgroundFileName = "";
-                projectModel.stadustSim.backgroundRawData = null;
-
+                projectModel.backgroundColor = 0;
+                projectModel.backgroundImage = null;
+                projectModel.backgroundRawData = null;
             }
             dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
         }
@@ -98,13 +95,12 @@ public class ChangeBackgroundCommand implements ICommand
     {
         sequenceLoader.removeEventListener( Event.COMPLETE, onBackgroundLoaded );
         var job : LoadByteArrayJob = sequenceLoader.getJobByName(BACKGROUND_JOB_ID);
-        projectModel.stadustSim.backgroundImage = job.content;
-        projectModel.stadustSim.backgroundRawData = job.byteArray;
-        projectModel.stadustSim.backgroundFileName = job.fileName;
+        projectModel.backgroundImage = job.content;
+        projectModel.backgroundRawData = job.byteArray;
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
 
-        if (projectModel.stadustSim.backgroundImage is MovieClip)
+        if (projectModel.backgroundImage is MovieClip)
         {
             dispatcher.dispatchEvent( new StartSimEvent() );
         }
