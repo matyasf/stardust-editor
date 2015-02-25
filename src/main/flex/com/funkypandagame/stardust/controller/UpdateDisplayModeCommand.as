@@ -35,7 +35,7 @@ public class UpdateDisplayModeCommand implements ICommand
     public function execute() : void
     {
         Globals.starlingCanvas.removeChildren();
-        simPlayer.resetSimulation();
+        projectSettings.stadustSim.resetSimulation();
         switch ( event.mode )
         {
             case DisplayModes.DISPLAY_LIST :

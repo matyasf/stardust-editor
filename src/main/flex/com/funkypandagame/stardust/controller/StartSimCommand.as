@@ -7,7 +7,6 @@ import com.funkypandagame.stardust.controller.events.UpdateClockContainerFromEmi
 import com.funkypandagame.stardust.controller.events.UpdateEmitterDropDownListEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
 import com.funkypandagame.stardust.model.ProjectModel;
-import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.MovieClip;
@@ -30,9 +29,6 @@ public class StartSimCommand implements ICommand
     [Inject]
     public var dispatcher : IEventDispatcher;
 
-    [Inject]
-    public var simPlayer : SimPlayer;
-
     private static const LOG : ILogger = Log.getLogger( getQualifiedClassName( StartSimCommand ).replace( "::", "." ) );
 
     [Inject]
@@ -42,7 +38,7 @@ public class StartSimCommand implements ICommand
     {
         LOG.info( "Restart SIM" );
 
-        simPlayer.resetSimulation();
+        projectSettings.stadustSim.resetSimulation();
 
         // refresh the initializer/action arrayCollections
         dispatcher.dispatchEvent( new UpdateEmitterFromViewUICollectionsEvent( UpdateEmitterFromViewUICollectionsEvent.UPDATE, projectSettings.emitterInFocus ) );
