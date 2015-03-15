@@ -3,7 +3,7 @@
                            xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
                            xmlns:layouts="spark.layouts.*" xmlns:s="library://ns.adobe.com/flex/spark"
-                           toolTip="Sets the initial color of a particle. Color values should be between 0 and 1"
+                           toolTip="Sets the color of a particle. Color values are normally between 0 and 1. To display the ending color add the 'Animate Color' action"
                            nameText="Color">
 
     <fx:Script><![CDATA[
@@ -21,6 +21,10 @@
             colorR.setData(dat.colorR);
             colorG.setData(dat.colorG);
             colorB.setData(dat.colorB);
+
+            endColorR.setData(dat.endColorR);
+            endColorG.setData(dat.endColorG);
+            endColorB.setData(dat.endColorB);
         }
         ]]></fx:Script>
 
@@ -29,18 +33,33 @@
     </twod:layout>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Red" />
+        <s:Label text="starting red" />
         <math:UniformRandomMath id="colorR"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Green" />
+        <s:Label text="starting green" />
         <math:UniformRandomMath id="colorG"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Blue" />
+        <s:Label text="starting blue" />
         <math:UniformRandomMath id="colorB"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="end red" />
+        <math:UniformRandomMath id="endColorR"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="end green" />
+        <math:UniformRandomMath id="endColorG"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="end blue" />
+        <math:UniformRandomMath id="endColorB"/>
     </s:HGroup>
 
 </twod:PropertyRendererBase>

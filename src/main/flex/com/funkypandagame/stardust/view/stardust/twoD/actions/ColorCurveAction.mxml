@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                           toolTip="Works, there is a 'Lifespan' initializer"
-                           nameText="DeathLife   Particles are removed, if their life reaches 0">
+                           nameText="AnimateColor    Animate the particle's color based on the 'Color' initializer">
 
 </twod:PropertyRendererBase>

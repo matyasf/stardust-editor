@@ -39,7 +39,7 @@
 
     <s:HGroup width="100%" verticalAlign="middle">
         <s:Label text="initial alpha"/>
-        <components:CustomNumericStepper id="initAlphaTextInput" restrict="0-9." minimum="0" maximum="1" stepValue="0.1"
+        <components:CustomNumericStepper id="initAlphaTextInput" restrict="0-9.\-" minimum="-10" maximum="10" stepValue="0.1"
                                          width="50" change="updateData()"
                                          toolTip="The alpha value of a particle when its created."/>
 
@@ -51,7 +51,7 @@
 
     <s:HGroup width="100%" verticalAlign="middle">
         <s:Label text="final alpha"/>
-        <components:CustomNumericStepper id="outAlphaTextInput" restrict="0-9." minimum="0" maximum="1" stepValue="0.1"
+        <components:CustomNumericStepper id="outAlphaTextInput" restrict="0-9.\-" minimum="-10" maximum="10" stepValue="0.1"
                                          width="50" change="updateData()"
                                          toolTip="The final alpha value of a particle (at the end of its lifespan)."/>
 

@@ -31,6 +31,15 @@
 
             sourceBD = _handler.bitmapData;
             useSmoothingCheckBox.selected = _handler.smoothing;
+            if (handler is StarlingHandler)
+            {
+                premultiplyAlphaCheckBox.selected = StarlingHandler(handler).premultiplyAlpha;
+                premultiplyAlphaCheckBox.enabled = true;
+            }
+            else
+            {
+                premultiplyAlphaCheckBox.enabled = false;
+            }
 
             widthTextInput.text = _handler.spriteSheetSliceWidth.toString();
             heightTextInput.text = _handler.spriteSheetSliceHeight.toString();
@@ -94,10 +103,21 @@
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
             _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
-
+            if (_handler is StarlingHandler)
+            {
+                StarlingHandler(_handler).premultiplyAlpha = premultiplyAlphaCheckBox.selected;
+            }
             validateNow();
         }
         ]]></fx:Script>
+
+    <s:HGroup verticalAlign="middle">
+        <s:CheckBox id="useSmoothingCheckBox" label="Smoothing" change="onImagePropsChange()"/>
+        <s:CheckBox id="premultiplyAlphaCheckBox" label="Premultiply Alpha" change="onImagePropsChange()"/>
+        <s:Label text="Blendmode"/>
+        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
+                        change="onImagePropsChange()" width="94" />
+    </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
         <s:Label text="Graphic"/>
@@ -110,11 +130,6 @@
                        id="singleImageRadioButton" change="changePropsAndRestartSim()"/>
         <s:RadioButton groupName="imageTypeRBG" label="Sprite sheet" enabled="{sourceBD != null}"
                        id="spriteSheetRadioButton" change="changePropsAndRestartSim()"/>
-
-        <s:CheckBox id="useSmoothingCheckBox" label="Smoothing" change="onImagePropsChange()"/>
-        <s:Label text="Blendmode"/>
-        <s:DropDownList id="blendModeList" dataProvider="{blendModesAC}" selectedItem="normal"
-                        change="onImagePropsChange()" width="94" />
     </s:HGroup>
 
     <s:HGroup visible="{spriteSheetRadioButton.selected}" verticalAlign="middle"
