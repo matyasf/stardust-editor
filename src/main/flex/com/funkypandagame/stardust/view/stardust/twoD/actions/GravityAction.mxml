@@ -14,7 +14,7 @@
         private function updateData(e : Event) : void
         {
             var dat : Gravity = data as Gravity;
-            dat.sd::fields = fieldContainer.getData();
+            dat.fields = fieldContainer.getData();
         }
 
         override public function set data(d : Object) : void
@@ -25,7 +25,7 @@
                 return;
             }
             var dat : Gravity = d as Gravity;
-            fieldContainer.setData(dat.sd::fields);
+            fieldContainer.setData(dat.fields);
         }
         ]]></fx:Script>
 
