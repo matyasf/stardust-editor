@@ -13,11 +13,6 @@ public class FlashConsoleTarget extends LineFormattedTarget
 {
     private var pendingMessage : String;
 
-    public function FlashConsoleTarget()
-    {
-        super();
-    }
-
     override public function logEvent( event : LogEvent ) : void
     {
         super.logEvent( event );

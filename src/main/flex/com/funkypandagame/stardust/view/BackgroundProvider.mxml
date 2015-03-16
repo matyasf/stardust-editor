@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
-          xmlns:sparkcolorpicker="com.funkypandagame.stardust.view.components.sparkcolorpicker.*"
+          xmlns:components="spark.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4"
           toolTip="Set a background/foreground for the simulation. The image *will* be saved with the simulation, which is likely something you dont want for the final version.">
 
@@ -32,7 +32,7 @@
         }
 
         private function onColorChange():void {
-            dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.COLOR, colorPicker.selectedColor));
+            dispatchEvent(new BackgroundChangeEvent(BackgroundChangeEvent.COLOR, colorPicker.selectedItem));
         }
 
         private function onLoadImageClick():void {
@@ -57,7 +57,6 @@
                 _starlingBackground.parent.removeChild(_starlingBackground);
             }
 
-            colorPicker.selectedItem = null;
             hasBackgroundCheckBox.selected = hasBackground;
             if (hasBackground) {
                 if (backgroundImage) {
@@ -73,7 +72,7 @@
                 }
                 else {
                     colorPicker.selectedItem = backgroundColor;
-                    colorPicker.current.color = backgroundColor;
+                    colorPicker.selectedColor = backgroundColor;
 
                     _starlingBackground = new Quad(_background.width, _background.height, backgroundColor);
                     _starlingBackground.x = StardusttoolMainView.leftColumnWidth;
@@ -81,7 +80,6 @@
                 }
             }
             else {
-                colorPicker.selectedItem = null;
                 if (_starlingBackground && _starlingBackground is Image) {
                     Image(_starlingBackground).dispose();
                 }
@@ -120,8 +118,7 @@
 
         <s:HGroup verticalAlign="middle">
             <s:Label text="color"/>
-            <sparkcolorpicker:SparkColorPicker id="colorPicker" change="onColorChange()"
-                                               skinClass="com.funkypandagame.stardust.view.components.sparkcolorpicker.ColorPickerListSkin"/>
+            <components:ColorPicker id="colorPicker" change="onColorChange()" />
         </s:HGroup>
 
         <s:Button label="Or image" click="onLoadImageClick()" width="100%"/>

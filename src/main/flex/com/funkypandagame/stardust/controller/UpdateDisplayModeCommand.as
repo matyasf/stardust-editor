@@ -9,14 +9,11 @@ import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardust.model.DisplayModes;
 import flash.events.IEventDispatcher;
-import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
-
-use namespace sd;
 
 public class UpdateDisplayModeCommand implements ICommand
 {

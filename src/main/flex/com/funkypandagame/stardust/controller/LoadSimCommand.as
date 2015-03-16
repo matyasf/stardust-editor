@@ -134,14 +134,17 @@ public class LoadSimCommand implements ICommand
             projectSettings.emitterInFocus = emitterVO;
             break;
         }
+
+        simPlayer.setProject( projectSettings.stadustSim);
+
         const handler : ISpriteSheetHandler = ISpriteSheetHandler(projectSettings.emitterInFocus.emitter.particleHandler);
         if (handler is DisplayObjectSpriteSheetHandler)
         {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.canvas);
+            simPlayer.setRenderTarget( Globals.canvas);
         }
         else if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
-            simPlayer.setSimulation( projectSettings.stadustSim, Globals.starlingCanvas);
+            simPlayer.setRenderTarget( Globals.starlingCanvas);
         }
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );

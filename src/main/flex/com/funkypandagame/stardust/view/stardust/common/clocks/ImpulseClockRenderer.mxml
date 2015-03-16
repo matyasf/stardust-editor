@@ -16,7 +16,6 @@
 
         private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(ImpulseClockRenderer).replace("::", "."));
 
-        //TODO move into model/service?
         private var clock:ImpulseClock;
 
         public function setData(d:ImpulseClock):void {

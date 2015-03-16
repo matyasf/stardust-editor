@@ -33,9 +33,6 @@ public class ChangeBackgroundCommand implements ICommand
     [Inject]
     public var projectModel : ProjectModel;
 
-  //  [Inject]
-   // public var bgModel : BackgroundModel;
-
     private var _backgroundFileReference : FileReference;
     public static const BACKGROUND_JOB_ID : String = "backgroundJobId";
 

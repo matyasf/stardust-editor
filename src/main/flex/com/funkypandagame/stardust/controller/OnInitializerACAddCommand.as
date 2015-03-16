@@ -18,7 +18,6 @@ public class OnInitializerACAddCommand implements ICommand
 
     public function execute() : void
     {
-        //LOG.debug( "Initializer Added: " + e.items[0] );
         project.emitterInFocus.emitter.addInitializer( Initializer( event.initializer ) );
     }
 }

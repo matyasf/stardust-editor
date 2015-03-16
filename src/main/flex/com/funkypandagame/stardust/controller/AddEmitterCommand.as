@@ -5,7 +5,6 @@ import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.model.ProjectModel;
-import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardustplayer.emitter.EmitterBuilder;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
@@ -13,7 +12,6 @@ import flash.display.BitmapData;
 
 import flash.events.IEventDispatcher;
 
-import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -21,13 +19,8 @@ import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 import starling.display.BlendMode;
 
-use namespace sd;
-
 public class AddEmitterCommand implements ICommand
 {
-
-    [Inject]
-    public var simPlayer : SimPlayer;
 
     [Inject]
     public var projectSettings : ProjectModel;

@@ -17,7 +17,6 @@ public class InitializeZoneDrawerFromEmitterCommand implements ICommand
 
     public function execute() : void
     {
-        // TODO support all emitters
         ZoneDrawer.init( projectSettings.emitterInFocus.emitter, event.targetGraphics );
     }
 }

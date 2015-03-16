@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 19/12/13
- * Time: 15:27
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.view.events
 {
 import flash.events.Event;

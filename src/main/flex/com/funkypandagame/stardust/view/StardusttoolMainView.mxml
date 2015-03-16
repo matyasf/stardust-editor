@@ -15,11 +15,9 @@
         import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
 
         import mx.collections.ArrayCollection;
-        import mx.events.CloseEvent;
         import mx.logging.ILogger;
         import mx.logging.Log;
         import mx.managers.PopUpManager;
-
 
         import starling.core.Starling;
 

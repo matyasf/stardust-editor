@@ -70,21 +70,10 @@ import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardustplayer.sequenceLoader.ISequenceLoader;
 import com.funkypandagame.stardustplayer.sequenceLoader.SequenceLoader;
 
-import flash.events.IEventDispatcher;
-
-import mx.core.IVisualElementContainer;
-
-import robotlegs.bender.extensions.contextView.ContextView;
 import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
 import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
 import robotlegs.bender.framework.api.IConfig;
-import robotlegs.bender.framework.api.IContext;
 import robotlegs.bender.framework.api.IInjector;
-
-import starling.core.Starling;
-
-import starling.display.Sprite;
-import starling.events.Event;
 
 public class AppConfig implements IConfig
 {
@@ -92,19 +81,10 @@ public class AppConfig implements IConfig
     public var injector : IInjector;
 
     [Inject]
-    public var context : IContext;
-
-    [Inject]
     public var eventCommandMap : IEventCommandMap;
 
     [Inject]
     public var mediatorMap : IMediatorMap;
-
-    [Inject]
-    public var dispatcher : IEventDispatcher;
-
-    [Inject]
-    public var contextView : ContextView;
 
     public function configure() : void
     {
@@ -142,6 +122,7 @@ public class AppConfig implements IConfig
         eventCommandMap.map( InitializeZoneDrawerFromEmitterGroupEvent.INITIALIZE, InitializeZoneDrawerFromEmitterGroupEvent ).toCommand( InitializeZoneDrawerFromEmitterCommand );
         eventCommandMap.map( MainEnterFrameLoopEvent.ENTER_FRAME, MainEnterFrameLoopEvent ).toCommand( MainEnterFrameLoopCommand );
         eventCommandMap.map( SnapshotEvent.TYPE, SnapshotEvent ).toCommand( StoreParticleSnapshotCommand );
+
         injector.map( ProjectModel ).asSingleton();
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );
         injector.map( ISimLoader ).toSingleton( SimLoader );

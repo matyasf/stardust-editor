@@ -15,12 +15,9 @@ import flash.events.IEventDispatcher;
 import flash.net.FileFilter;
 import flash.net.FileReference;
 
-import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
-
-use namespace sd;
 
 public class LoadEmitterImageFromFileReferenceCommand implements ICommand
 {

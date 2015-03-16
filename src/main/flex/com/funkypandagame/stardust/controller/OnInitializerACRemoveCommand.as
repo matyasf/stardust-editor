@@ -19,8 +19,6 @@ public class OnInitializerACRemoveCommand implements ICommand
 
     public function execute() : void
     {
-
-        //LOG.debug( "Initializer Removed: " + e.items[0] );
         project.emitterInFocus.emitter.removeInitializer( Initializer( event.initializer ) );
     }
 }

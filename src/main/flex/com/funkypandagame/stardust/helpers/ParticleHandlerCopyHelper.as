@@ -1,5 +1,4 @@
 package com.funkypandagame.stardust.helpers {
-import com.funkypandagame.stardust.helpers.*;
 
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;

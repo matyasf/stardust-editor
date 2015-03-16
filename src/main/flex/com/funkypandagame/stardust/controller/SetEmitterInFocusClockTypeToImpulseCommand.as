@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 14/01/14
- * Time: 10:44
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.controller
 {
 

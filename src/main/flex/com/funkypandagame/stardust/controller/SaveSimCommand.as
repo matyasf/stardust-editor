@@ -5,18 +5,15 @@ import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.ZipFileNames;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
-import com.funkypandagame.stardustplayer.project.ProjectValueObject;
 
 import flash.display.DisplayObject;
 
-import flash.events.IEventDispatcher;
 import flash.events.IOErrorEvent;
 import flash.net.FileReference;
 import flash.utils.ByteArray;
 
 import idv.cjcat.stardustextended.common.xml.XMLBuilder;
 
-import mx.controls.Alert;
 import mx.core.FlexGlobals;
 import mx.graphics.codec.PNGEncoder;
 
@@ -24,10 +21,10 @@ import org.as3commons.zip.Zip;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
+import spark.components.Alert;
+
 public class SaveSimCommand implements ICommand
 {
-    [Inject]
-    public var dispatcher : IEventDispatcher;
 
     [Inject]
     public var projectSettings : ProjectModel;
@@ -76,7 +73,6 @@ public class SaveSimCommand implements ICommand
 
     private function addBackgroundToProjectFile( zip : Zip, descObj : Object ) : void
     {
-        const sim : ProjectValueObject = projectSettings.stadustSim;
         if ( projectSettings.backgroundImage != null )
         {
             zip.addFile( SimLoader.BACKGROUND_FILENAME, projectSettings.backgroundRawData );

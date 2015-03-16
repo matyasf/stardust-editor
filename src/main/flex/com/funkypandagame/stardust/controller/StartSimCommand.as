@@ -59,7 +59,8 @@ public class StartSimCommand implements ICommand
 
         dispatcher.dispatchEvent( new InitalizeZoneDrawerEvent( InitalizeZoneDrawerEvent.RESET ) );
 
-        for each (var emitterValueObject:EmitterValueObject in projectSettings.stadustSim.emitters) {
+        for each (var emitterValueObject : EmitterValueObject in projectSettings.stadustSim.emitters)
+        {
             if (emitterValueObject.emitterSnapshot)
             {
                 emitterValueObject.addParticlesFromSnapshot();

@@ -6,8 +6,6 @@ import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.view.BackgroundProvider;
 import com.funkypandagame.stardust.view.events.RefreshBackgroundViewEvent;
 
-import flash.events.Event;
-
 import robotlegs.bender.bundles.mvcs.Mediator;
 
 public class BackgroundProviderMediator extends Mediator

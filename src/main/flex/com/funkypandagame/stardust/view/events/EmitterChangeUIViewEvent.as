@@ -7,9 +7,9 @@ public class EmitterChangeUIViewEvent extends Event
     public static const ADD : String = "EmitterChangeUIViewEvent_ADD";
     public static const REMOVE : String = "EmitterChangeUIViewEvent_REMOVE";
 
-    public function EmitterChangeUIViewEvent( type : String )
+    public function EmitterChangeUIViewEvent( evtType : String )
     {
-        super( type );
+        super( evtType );
     }
 
     override public function clone() : Event

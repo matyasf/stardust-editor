@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 13/01/14
- * Time: 15:07
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.controller
 {
 
@@ -32,10 +25,7 @@ public class UpdateClockValuesFromModelCommand implements ICommand
 
     public function execute() : void
     {
-        var emitterVO : EmitterValueObject = projectSettings.emitterInFocus;
-
-        var clock : Clock = emitterVO.emitter.clock;
-
+        var clock : Clock = projectSettings.emitterInFocus.emitter.clock;
         if ( clock is SteadyClock )
         {
             var ticksPerCall : Number = SteadyClock( clock ).ticksPerCall;

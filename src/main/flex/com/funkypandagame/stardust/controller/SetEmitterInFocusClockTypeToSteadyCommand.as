@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 14/01/14
- * Time: 10:45
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.controller
 {
 
@@ -28,8 +21,6 @@ public class SetEmitterInFocusClockTypeToSteadyCommand implements ICommand
 
     public function execute() : void
     {
-
-        //Set default, changed later
         projectSettings.emitterInFocus.emitter.clock = new SteadyClock( 1 );
     }
 }
