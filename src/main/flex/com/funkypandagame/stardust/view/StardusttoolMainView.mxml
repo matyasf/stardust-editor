@@ -93,7 +93,7 @@
             if (examplesPopup == null)
             {
                 examplesPopup = new ExamplesPopup();
-                examplesPopup..callback = loadExample;
+                examplesPopup.callback = loadExample;
             }
             PopUpManager.addPopUp(examplesPopup, this, true);
             PopUpManager.centerPopUp(examplesPopup);
