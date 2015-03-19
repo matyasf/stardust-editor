@@ -8,6 +8,9 @@
         import mx.events.CloseEvent;
         import mx.managers.PopUpManager;
 
+        [Embed(source="../../../../../resources/blazing_fire.sde", mimeType="application/octet-stream")]
+        private static var BlazingFireSim:Class;
+
         [Embed(source="../../../../../resources/dry_ice.sde", mimeType="application/octet-stream")]
         private static var DryIceSim:Class;
 
@@ -39,6 +42,10 @@
 
         <components:Label text="WARNING: If you load a new simulation you will lose all your unsaved changes!"
                 paddingTop="2" paddingRight="2" paddingLeft="2" paddingBottom="2"/>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BlazingFireSim()}">
+            <view:HTMLdescription><![CDATA[<b>Blazing fire</b><br/>Big fire]]></view:HTMLdescription>
+        </view:ExampleRenderer>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new DryIceSim()}">
             <view:HTMLdescription><![CDATA[<b>Dry ice</b><br/>It is a quite heavy simulation because it renders a lot of big particles.]]></view:HTMLdescription>

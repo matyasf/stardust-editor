@@ -22,7 +22,7 @@
   </s:Rect>
 
   <s:HGroup paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5" width="100%">
-    <s:RichText id="descriptionTxt" width="100%" height="70" />
+    <s:RichText id="descriptionTxt" width="100%" height="60" />
 
     <s:Button label="Load" click="callback(sdeFile)" />
   </s:HGroup>

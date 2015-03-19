@@ -19,7 +19,7 @@ apply plugin: 'gradlefx'
 apply plugin: 'ideafx'
 
 group = 'com.funkypandagame'
-version = '3.5'
+version = '3.6'
 type = 'swf'
 srcDirs	= ['src/main/flex']
 mainClass = 'com/funkypandagame/stardust/Stardusttool.mxml'
@@ -45,7 +45,8 @@ dependencies {
 
     merged 'com.junkbyte:flash-console:2.6'
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
-    merged 'com.funkypandagame:stardust-sim-loader:3.7'
+
+    merged 'com.funkypandagame:stardust-sim-loader:3.11'
 }
 
 additionalCompilerOptions = [
@@ -56,7 +57,8 @@ additionalCompilerOptions = [
                         'HostComponent,IconFile,Inspectable,InstanceType,NonCommittingChangeEvent,RemoteClass,' +
                         'RichTextContent,SkinPart,SkinState,Style',
     // Robotlegs metadata
-    '-keep-as3-metadata+=Inject,PreDestroy,PostConstruct'
+    '-keep-as3-metadata+=Inject,PreDestroy,PostConstruct',
+    '-advanced-telemetry'
 ]
 
 sdkAutoInstall {
