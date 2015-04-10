@@ -23,16 +23,12 @@ import idv.cjcat.stardustextended.common.actions.Action;
 
 import idv.cjcat.stardustextended.common.initializers.Initializer;
 
-import idv.cjcat.stardustextended.sd;
-
 import mx.events.CollectionEvent;
 import mx.events.CollectionEventKind;
 import mx.logging.ILogger;
 import mx.logging.Log;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
-
-use namespace sd;
 
 public class StardusttoolMainViewMediator extends Mediator
 {

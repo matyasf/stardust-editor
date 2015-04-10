@@ -6,11 +6,9 @@
                            nameText="Velocity field">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.sd;
+
         import idv.cjcat.stardustextended.twoD.actions.VelocityField;
         import idv.cjcat.stardustextended.twoD.fields.Field;
-
-        use namespace sd;
 
         private function updateData(e : Event) : void
         {

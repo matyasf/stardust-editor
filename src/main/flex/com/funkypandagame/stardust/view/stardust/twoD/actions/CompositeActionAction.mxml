@@ -6,13 +6,11 @@
                 preinitialize="actionsAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange)">
 
     <fx:Script><![CDATA[
-        import Globals.funkypandagame.stardust.helpers.Globals;
 
         import com.funkypandagame.stardust.helpers.Globals;
 
         import idv.cjcat.stardustextended.common.actions.Action;
         import idv.cjcat.stardustextended.common.actions.CompositeAction;
-        import idv.cjcat.stardustextended.sd;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
@@ -20,46 +18,54 @@
 
         import spark.components.List;
 
-        use namespace sd;
         private const actionsAC:ArrayCollection = new ArrayCollection();
 
-        private function updateData():void {
+        private function updateData():void
+        {
             var dat:CompositeAction = CompositeAction(data);
             dat.mask = stringToBitwiseOR(masksTextInput.text);
         }
 
-        private static function stringToBitwiseOR(str:String):int {
+        private static function stringToBitwiseOR(str:String):int
+        {
             str = str.replace(" ", "");
             var arr:Array = str.split(",");
             if (arr.length == 0) {
                 return 0;
             }
             var ret:int = arr[0];
-            for (var i:int = 1; i < arr.length; i++) {
+            for (var i:int = 1; i < arr.length; i++)
+            {
                 ret = ret | parseInt(arr[i]);
             }
             return ret;
         }
 
-        override public function set data(d:Object):void {
+        override public function set data(d:Object):void
+        {
             super.data = d;
-            if (d == null) {
+            if (d == null)
+            {
                 return;
             }
             var dat:CompositeAction = CompositeAction(data);
             masksTextInput.text = dat.mask.toString();
-            for each (var act:Action in dat.sd::actionCollection.actions) {
+            for each (var act:Action in dat.actionCollection.actions)
+            {
                 actionsAC.source.push(act);
             }
             actionsAC.refresh();
         }
 
-        private function onACChange(e:CollectionEvent):void {
+        private function onACChange(e:CollectionEvent):void
+        {
             var dat:CompositeAction = CompositeAction(data);
-            if (e.kind == CollectionEventKind.ADD) {
+            if (e.kind == CollectionEventKind.ADD)
+            {
                 dat.addAction(Action(e.items[0]));
             }
-            if (e.kind == CollectionEventKind.REMOVE) {
+            if (e.kind == CollectionEventKind.REMOVE)
+            {
                 dat.removeAction(Action(e.items[0]));
             }
         }

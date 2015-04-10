@@ -4,12 +4,12 @@
           xmlns:components="com.funkypandagame.stardust.view.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
+
         import com.funkypandagame.stardust.controller.events.StartSimEvent;
 
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.view.events.LoadEmitterImageFromFileEvent;
 
-        import idv.cjcat.stardustextended.sd;
         import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
@@ -23,8 +23,6 @@
         public var sourceBD:BitmapData;
 
         private var _handler:ISpriteSheetHandler;
-
-        use namespace sd;
 
         public function set handler(handler:ISpriteSheetHandler):void {
             _handler = handler;

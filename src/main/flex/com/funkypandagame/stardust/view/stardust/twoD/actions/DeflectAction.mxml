@@ -12,7 +12,6 @@
         import com.funkypandagame.stardust.view.stardust.twoD.actions.deflectors.LineDeflectorRenderer;
         import com.funkypandagame.stardust.view.stardust.twoD.actions.deflectors.WrappingBoxRenderer;
 
-        import idv.cjcat.stardustextended.sd;
         import idv.cjcat.stardustextended.twoD.actions.Deflect;
         import idv.cjcat.stardustextended.twoD.deflectors.CircleDeflector;
         import idv.cjcat.stardustextended.twoD.deflectors.Deflector;
@@ -22,8 +21,6 @@
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
-
-        use namespace sd;
 
         private const deflectorAC:ArrayCollection = new ArrayCollection();
         private static const deflectorDict:Dictionary = new Dictionary();
@@ -59,8 +56,8 @@
             }
             var dat:Deflect = data as Deflect;
             deflectorAC.removeAll();
-            for (var i:int = 0; i < dat.sd::deflectors.length; i++) {
-                deflectorAC.addItem(dat.sd::deflectors[i]);
+            for (var i:int = 0; i < dat.deflectors.length; i++) {
+                deflectorAC.addItem(dat.deflectors[i]);
             }
         }
 

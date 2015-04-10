@@ -13,15 +13,12 @@ import flash.display.MovieClip;
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
-
-use namespace sd;
 
 public class StartSimCommand implements ICommand
 {

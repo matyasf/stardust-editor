@@ -1,5 +1,6 @@
 package com.funkypandagame.stardust.helpers
 {
+
 import flash.display.Graphics;
 import flash.geom.Point;
 import flash.utils.getQualifiedClassName;
@@ -7,7 +8,6 @@ import flash.utils.getQualifiedClassName;
 import idv.cjcat.stardustextended.common.actions.Action;
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.common.initializers.Initializer;
-import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.actions.DeathZone;
 import idv.cjcat.stardustextended.twoD.actions.Deflect;
 import idv.cjcat.stardustextended.twoD.actions.FollowWaypoints;
@@ -30,7 +30,6 @@ import idv.cjcat.stardustextended.twoD.zones.Zone;
 import mx.logging.ILogger;
 import mx.logging.Log;
 
-use namespace sd;
 
 /** static helper function to visualize com.funkypandagame.stardust.view.zones */
 public class ZoneDrawer

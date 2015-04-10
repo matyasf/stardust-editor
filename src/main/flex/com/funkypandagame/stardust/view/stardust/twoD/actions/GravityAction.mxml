@@ -6,10 +6,8 @@
                            toolTip="Applies acceleration(s) to particles according to the associated fields, in pixels.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.sd;
-        import idv.cjcat.stardustextended.twoD.actions.Gravity;
 
-        use namespace sd;
+        import idv.cjcat.stardustextended.twoD.actions.Gravity;
 
         private function updateData(e : Event) : void
         {
