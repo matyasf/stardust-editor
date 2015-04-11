@@ -20,6 +20,7 @@
             yTextInput.text = dat.y.toString();
             slopeTextInput.text = (dat.normal.angle + 90).toString();
             frictionTextInput.text = dat.bounce.toString();
+            slipperinessTextInput.text = dat.slipperiness.toString();
         }
 
         private function updateData() : void
@@ -29,6 +30,7 @@
             dat.y = Number(yTextInput.text);
             dat.normal.angle = Number(slopeTextInput.text) - 90;
             dat.bounce = Number(frictionTextInput.text);
+            dat.slipperiness = Number(slipperinessTextInput.text);
         }
         ]]></fx:Script>
 
@@ -39,20 +41,24 @@
 
     <s:VGroup>
         <s:HGroup verticalAlign="middle">
-            <s:Label text="x"/>
+            <s:Label text="Line   x"/>
             <components:CustomNumericStepper id="xTextInput" width="50" change="updateData()"/>
 
             <s:Label text="y"/>
             <components:CustomNumericStepper id="yTextInput" width="50" change="updateData()"/>
+
+            <s:Label text="angle(degrees)"/>
+            <components:CustomNumericStepper id="slopeTextInput" width="50" change="updateData()" />
         </s:HGroup>
 
         <s:HGroup verticalAlign="middle">
-            <s:Label text="angle(degrees)"/>
-            <components:CustomNumericStepper id="slopeTextInput" width="50" change="updateData()"
-                                             toolTip="0-360 degrees"/>
 
             <s:Label text="bounciness"/>
             <components:CustomNumericStepper id="frictionTextInput" stepValue="0.1" width="50" change="updateData()"/>
+
+            <s:Label text="slipperiness"/>
+            <components:CustomNumericStepper id="slipperinessTextInput" stepValue="0.1" width="50" change="updateData()"
+                                             minimum="0" restrict="0-9."/>
         </s:HGroup>
     </s:VGroup>
 
