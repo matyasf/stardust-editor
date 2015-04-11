@@ -5,7 +5,6 @@
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
-        import com.funkypandagame.stardust.helpers.Globals;
 
         import idv.cjcat.stardustextended.twoD.actions.IZoneContainer;
 
@@ -14,6 +13,9 @@
         import spark.components.TextInput;
 
         import spark.events.TextOperationEvent;
+
+        [Bindable]
+        public var zeroAreaZonesVisible : Boolean = true;
 
         private var itemWithZone:IZoneContainer;
         private var storedX:int = 0;
@@ -41,16 +43,17 @@
         private function setRenderer(RendererClass:Class, data:Zone):void {
             content.removeAllElements();
             zoneRenderer = new RendererClass();
-            content.addElement(zoneRenderer);
-            zoneRenderer.setData(data);
             if (zoneRenderer is CompositeZone) {
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
                 followMouseCheckBox.selected = false;
                 followMouseCheckBox.enabled = false;
+                CompositeZone(zoneRenderer).zeroAreaZonesVisible = zeroAreaZonesVisible;
             }
             else {
                 followMouseCheckBox.enabled = true;
             }
+            content.addElement(zoneRenderer);
+            zoneRenderer.setData(data);
         }
 
         private function followMouseChangeHandler(event:Event):void {
@@ -121,11 +124,12 @@
         public function set followMouseVisible(val:Boolean):void {
             followMouseCheckBox.visible = followMouseCheckBox.includeInLayout = val;
         }
+
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
         <s:Label text="Zone type:"/>
-        <s:DropDownList id="ddl" dataProvider="{Globals.zonesDDLAC}" change="onSelChange()"
+        <s:DropDownList id="ddl" dataProvider="{zeroAreaZonesVisible ? Globals.zonesDDLAC : Globals.noZeroAreaZonesDDLAC}" change="onSelChange()"
                         labelField="name" requireSelection="true" selectedIndex="0"/>
         <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
                     toolTip="This is for testing in the editor, it will not be saved with the simulation!"/>

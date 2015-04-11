@@ -3,7 +3,7 @@
                            xmlns:fields="com.funkypandagame.stardust.view.stardust.twoD.fields.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
                            nameText="Gravity"
-                           toolTip="Applies acceleration(s) to particles according to the associated fields, in pixels.">
+                           toolTip="Applies acceleration(s) to particles according to the associated fields, in pixels. Fields always affect all particles.">
 
     <fx:Script><![CDATA[
 

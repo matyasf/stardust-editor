@@ -2,6 +2,7 @@ package com.funkypandagame.stardust.helpers
 {
 
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerateAction;
+import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerationZoneAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AgeAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AlphaCurveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ColorCurveAction;
@@ -49,6 +50,7 @@ import idv.cjcat.stardustextended.common.initializers.Life;
 import idv.cjcat.stardustextended.common.initializers.Mass;
 import idv.cjcat.stardustextended.common.initializers.Scale;
 import idv.cjcat.stardustextended.twoD.actions.Accelerate;
+import idv.cjcat.stardustextended.twoD.actions.AccelerationZone;
 import idv.cjcat.stardustextended.twoD.actions.Damping;
 import idv.cjcat.stardustextended.twoD.actions.DeathZone;
 import idv.cjcat.stardustextended.twoD.actions.Deflect;
@@ -90,6 +92,7 @@ public class Globals
     public static const actionsDDLAC : ArrayCollection = new ArrayCollection();
     public static const zonesDict : Dictionary = new Dictionary();
     public static const zonesDDLAC : ArrayCollection = new ArrayCollection();
+    public static const noZeroAreaZonesDDLAC : ArrayCollection = new ArrayCollection();
     public static const blendModesDisplayList : ArrayCollection = new ArrayCollection( [
         flash.display.BlendMode.NORMAL,
         flash.display.BlendMode.LAYER,
@@ -147,6 +150,7 @@ public class Globals
         actionDict[ VelocityField ] = new DropdownListVO( "Velocity field", VelocityField, VelocityFieldAction );
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
         actionDict[ ColorCurve ] = new DropdownListVO( "Change color", ColorCurve, ColorCurveAction );
+        actionDict[ AccelerationZone ] = new DropdownListVO( "Acceleration zone", AccelerationZone, AccelerationZoneAction );
         //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
@@ -172,7 +176,10 @@ public class Globals
 
         for each ( var ddlVO : DropdownListVO in actionDict )
         {
-            actionsDDLAC.addItem( ddlVO );
+            if (ddlVO.stardustClass != Damping )
+            {
+                actionsDDLAC.addItem( ddlVO );
+            }
         }
         actionsDDLAC.sort = sort;
         actionsDDLAC.refresh();
@@ -183,6 +190,12 @@ public class Globals
         }
         zonesDDLAC.sort = sort;
         zonesDDLAC.refresh();
+
+        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.RectZone]);
+        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.CircleZone]);
+        noZeroAreaZonesDDLAC.addItem(zonesDict[Sector]);
+        noZeroAreaZonesDDLAC.addItem(zonesDict[Composite]);
+        noZeroAreaZonesDDLAC.refresh();
 
         canvas.mouseChildren = canvas.mouseEnabled = false;
         starlingCanvas.touchable = false;

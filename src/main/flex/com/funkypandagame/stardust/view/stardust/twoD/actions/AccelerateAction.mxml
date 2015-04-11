@@ -25,7 +25,7 @@
         }
         ]]></fx:Script>
 
-    <components:CustomNumericStepper id="accTextInput" restrict="0-9." width="50" change="updateData()" minimum="0"
+    <components:CustomNumericStepper id="accTextInput" restrict="0-9." width="50" change="updateData()"
                                      stepValue="0.1"
                                      toolTip="The amount of acceleration in each emitter step."/>
 

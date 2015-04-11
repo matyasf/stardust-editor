@@ -14,6 +14,8 @@
 
         import mx.collections.ArrayCollection;
 
+        public var zeroAreaZonesVisible : Boolean = true;
+
         private var zone:Composite;
 
         public function setData(d:Zone):void {
@@ -42,7 +44,8 @@
 
         private function createDDLDataProvider():void {
             const zones:ArrayCollection = new ArrayCollection();
-            zones.addAll(Globals.zonesDDLAC);
+            var allZones : ArrayCollection = zeroAreaZonesVisible ? Globals.zonesDDLAC : Globals.noZeroAreaZonesDDLAC;
+            zones.addAll(allZones);
             // do not allow to create a composite zone inside a composite zone
             for (var j:int = 0; j < zones.length; j++) {
                 var item:DropdownListVO = zones[j];
@@ -55,7 +58,7 @@
         }
         ]]></fx:Script>
 
-    <s:HGroup verticalAlign="middle" toolTip="Lines have 1 width.">
+    <s:HGroup verticalAlign="middle">
         <s:Label text="new subzone type:"/>
         <s:DropDownList id="ddl"
                         labelField="name" requireSelection="true" selectedIndex="0"/>

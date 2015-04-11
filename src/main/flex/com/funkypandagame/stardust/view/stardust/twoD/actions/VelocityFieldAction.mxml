@@ -2,7 +2,7 @@
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                            xmlns:fields="com.funkypandagame.stardust.view.stardust.twoD.fields.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                           toolTip="Alters a particle's velocity based on a vector field."
+                           toolTip="Alters a particle's speed based on a field. Fields always affect all particles."
                            nameText="Velocity field">
 
     <fx:Script><![CDATA[

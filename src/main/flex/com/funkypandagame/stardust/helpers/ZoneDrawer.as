@@ -8,9 +8,9 @@ import flash.utils.getQualifiedClassName;
 import idv.cjcat.stardustextended.common.actions.Action;
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.common.initializers.Initializer;
-import idv.cjcat.stardustextended.twoD.actions.DeathZone;
 import idv.cjcat.stardustextended.twoD.actions.Deflect;
 import idv.cjcat.stardustextended.twoD.actions.FollowWaypoints;
+import idv.cjcat.stardustextended.twoD.actions.IZoneContainer;
 import idv.cjcat.stardustextended.twoD.actions.waypoints.Waypoint;
 import idv.cjcat.stardustextended.twoD.deflectors.CircleDeflector;
 import idv.cjcat.stardustextended.twoD.deflectors.Deflector;
@@ -62,9 +62,9 @@ public class ZoneDrawer
         }
         for each ( var act : Action in emitter.actions )
         {
-            if ( act is DeathZone )
+            if ( act is IZoneContainer )
             {
-                drawZone( graphics, DeathZone( act ).zone, 0xE03535, null );
+                drawZone( graphics, IZoneContainer( act ).zone, 0xE03535, null );
             }
             else if ( act is Deflect )
             {
