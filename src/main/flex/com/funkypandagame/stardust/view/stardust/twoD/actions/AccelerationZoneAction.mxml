@@ -12,8 +12,11 @@
 
         private function updateData() : void
         {
-            AccelerationZone(data).inverted = isInvertedCheckBox.selected;
-            AccelerationZone(data).acceleration = parseFloat(accelerationTextInput.text);
+            var dat : AccelerationZone = AccelerationZone(data);
+            dat.inverted = isInvertedCheckBox.selected;
+            dat.acceleration = parseFloat(accelerationTextInput.text);
+            dat.useParticleDirection = useParticleDirectionCheckBox.selected;
+            dat.direction.angle = parseFloat(angleTextInput.text);
         }
 
         override public function set data(d : Object) : void
@@ -27,6 +30,8 @@
             zc.setData(dat);
             accelerationTextInput.text = dat.acceleration.toString();
             isInvertedCheckBox.selected = dat.inverted;
+            useParticleDirectionCheckBox.selected = dat.useParticleDirection;
+            angleTextInput.text = dat.direction.angle.toString();
         }
 
         ]]></fx:Script>
@@ -36,11 +41,23 @@
     </twod:layout>
 
     <s:HGroup verticalAlign="middle" >
-        <s:Label text="Acceleration"/>
+        <s:Label text="Acceleration" />
         <components:CustomNumericStepper id="accelerationTextInput" width="50" change="updateData()" stepValue="0.1"/>
 
         <s:CheckBox id="isInvertedCheckBox" label="Inverted?" toolTip="Inverts the zone."
                     change="updateData()"/>
+
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle" >
+
+        <s:CheckBox id="useParticleDirectionCheckBox" label="Use particle direction?"
+                    change="updateData()"/>
+
+        <s:Label text="angle(degrees)" enabled="{!useParticleDirectionCheckBox.selected}"/>
+        <components:CustomNumericStepper id="angleTextInput" width="50" change="updateData()"
+                                         enabled="{!useParticleDirectionCheckBox.selected}" />
+
     </s:HGroup>
 
     <zones:ZoneContainer id="zc" width="100%" zeroAreaZonesVisible="false"/>

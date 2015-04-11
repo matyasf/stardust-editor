@@ -33,12 +33,12 @@
     </twod:layout>
 
     <s:Label text="max X"/>
-    <components:CustomNumericStepper id="maxXTextInput" text="0.2" stepValue="0.1" width="50" change="updateData(event)"
-                                     toolTip="The acceleration's x component ranges from -maxX to maxX."/>
+    <components:CustomNumericStepper id="maxXTextInput" stepValue="0.1" width="50" change="updateData(event)"
+                                     toolTip="The acceleration's horizontal component ranges from -maxX to maxX."/>
 
     <s:Label text="max Y"/>
-    <components:CustomNumericStepper id="maxYTextInput" text="0.2" stepValue="0.1" width="50" change="updateData(event)"
-                                     toolTip="The acceleration's y component ranges from -maxY to maxY."/>
+    <components:CustomNumericStepper id="maxYTextInput" stepValue="0.1" width="50" change="updateData(event)"
+                                     toolTip="The acceleration's vertical component ranges from -maxY to maxY."/>
 
     <s:CheckBox label="massless?" id="massCheckBox" change="updateData(event)"
                 toolTip="Whether the particles acceleration is divided by their masses before applied to them, true by default. When set to true, it simulates a gravity that applies equal acceleration on all particles."/>
