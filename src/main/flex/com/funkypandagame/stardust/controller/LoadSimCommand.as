@@ -20,7 +20,7 @@ import flash.events.Event;
 
 import flash.events.IEventDispatcher;
 
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 

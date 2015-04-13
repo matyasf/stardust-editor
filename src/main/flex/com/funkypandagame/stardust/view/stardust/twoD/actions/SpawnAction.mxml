@@ -12,7 +12,7 @@
         import idv.cjcat.stardustextended.common.initializers.Mask;
         import idv.cjcat.stardustextended.common.math.UniformRandom;
         import idv.cjcat.stardustextended.twoD.actions.Spawn;
-        import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
+        import idv.cjcat.stardustextended.flashdisplay.initializers.PooledDisplayObjectClass;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;

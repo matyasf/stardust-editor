@@ -4,13 +4,12 @@
           xmlns:components="com.funkypandagame.stardust.view.components.*"
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
-
         import com.funkypandagame.stardust.controller.events.StartSimEvent;
 
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.view.events.LoadEmitterImageFromFileEvent;
 
-        import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+        import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -29,13 +28,11 @@
 
             sourceBD = _handler.bitmapData;
             useSmoothingCheckBox.selected = _handler.smoothing;
-            if (handler is StarlingHandler)
-            {
+            if (handler is StarlingHandler) {
                 premultiplyAlphaCheckBox.selected = StarlingHandler(handler).premultiplyAlpha;
                 premultiplyAlphaCheckBox.enabled = true;
             }
-            else
-            {
+            else {
                 premultiplyAlphaCheckBox.enabled = false;
             }
 
@@ -101,8 +98,7 @@
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
             _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
-            if (_handler is StarlingHandler)
-            {
+            if (_handler is StarlingHandler) {
                 StarlingHandler(_handler).premultiplyAlpha = premultiplyAlphaCheckBox.selected;
             }
             validateNow();

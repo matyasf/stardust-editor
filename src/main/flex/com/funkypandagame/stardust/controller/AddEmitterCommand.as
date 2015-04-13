@@ -12,7 +12,7 @@ import flash.display.BitmapData;
 
 import flash.events.IEventDispatcher;
 
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;

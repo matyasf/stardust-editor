@@ -4,8 +4,6 @@ import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.events.Event;
 
-import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-
 public class ChangeEmitterInFocusEvent extends Event
 {
     public static const CHANGE : String = "ChangeEmitterInFocusEvent_CHANGE";

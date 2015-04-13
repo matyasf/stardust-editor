@@ -15,7 +15,7 @@
         import com.funkypandagame.stardust.model.DisplayModes;
         import com.funkypandagame.stardust.view.events.EmitterChangeUIViewEvent;
 
-        import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+        import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 
         import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;

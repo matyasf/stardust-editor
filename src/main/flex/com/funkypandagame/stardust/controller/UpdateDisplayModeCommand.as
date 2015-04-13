@@ -9,8 +9,9 @@ import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardust.model.DisplayModes;
 import flash.events.IEventDispatcher;
-import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectSpriteSheetHandler;
+
+import idv.cjcat.stardustextended.common.emitters.Emitter;
+import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
@@ -47,7 +48,7 @@ public class UpdateDisplayModeCommand implements ICommand
 
     private function setDisplayModeDisplayList() : void
     {
-        for each( var emitter : Emitter2D in projectSettings.stadustSim.emittersArr )
+        for each( var emitter : Emitter in projectSettings.stadustSim.emittersArr )
         {
             if (emitter.particleHandler is StarlingHandler)
             {
@@ -62,7 +63,7 @@ public class UpdateDisplayModeCommand implements ICommand
 
     private function setDisplayModeStarling() : void
     {
-        for each( var emitter : Emitter2D in projectSettings.stadustSim.emittersArr )
+        for each( var emitter : Emitter in projectSettings.stadustSim.emittersArr )
         {
             var starlingHandler : StarlingHandler = new StarlingHandler();
             ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), starlingHandler);

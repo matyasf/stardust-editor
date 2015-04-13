@@ -12,8 +12,6 @@ import flash.utils.getQualifiedClassName;
 
 import idv.cjcat.stardustextended.common.particles.Particle;
 
-import idv.cjcat.stardustextended.twoD.particles.Particle2D;
-
 public class StoreParticleSnapshotCommand
 {
 
@@ -43,7 +41,7 @@ public class StoreParticleSnapshotCommand
                 for (var i:int = 0; i < particles.length; i++)
                 {
                     var snapshot : Particle2DSnapshot = new Particle2DSnapshot();
-                    snapshot.storeParticle( Particle2D(particles[i]) );
+                    snapshot.storeParticle( particles[i] );
                     allParticles.push(snapshot);
                 }
                 particleData[em.id] = allParticles;
