@@ -1,5 +1,4 @@
-/stardust-sim-editor.iml
-/.idea
+.idea/*
 /target
 .gradle/*
 build/*
