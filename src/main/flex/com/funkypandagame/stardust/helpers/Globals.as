@@ -43,7 +43,7 @@ import flash.utils.Dictionary;
 import idv.cjcat.stardustextended.common.actions.Age;
 import idv.cjcat.stardustextended.common.actions.AlphaCurve;
 import idv.cjcat.stardustextended.common.actions.ColorCurve;
-import idv.cjcat.stardustextended.common.actions.ColorCurveAdvanced;
+import idv.cjcat.stardustextended.common.actions.ColorGradient;
 import idv.cjcat.stardustextended.common.actions.DeathLife;
 import idv.cjcat.stardustextended.common.actions.ScaleCurve;
 import idv.cjcat.stardustextended.common.initializers.Alpha;
@@ -153,7 +153,7 @@ public class Globals
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
         actionDict[ ColorCurve ] = new DropdownListVO( "Change color", ColorCurve, ColorCurveAction );
         actionDict[ AccelerationZone ] = new DropdownListVO( "Acceleration zone", AccelerationZone, AccelerationZoneAction );
-        actionDict[ ColorCurveAdvanced ] = new DropdownListVO( "Color curve V2 (in progress)", ColorCurveAdvanced, ColorCurveAdvancedAction );
+        actionDict[ ColorGradient ] = new DropdownListVO( "Color curve V2 (in progress)", ColorGradient, ColorCurveAdvancedAction );
         //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );

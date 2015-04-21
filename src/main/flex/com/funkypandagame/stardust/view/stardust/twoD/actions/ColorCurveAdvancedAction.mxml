@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                           xmlns:s="library://ns.adobe.com/flex/spark"
-                           nameText="Color curve V2"
-                           toolTip="todo">
+                           xmlns:local="com.funkypandagame.stardust.view.components.gradientChooser.*"
+                           nameText="Color curve"
+                           initialize="onInit()"
+                           height="480">
 
     <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.view.components.gradientChooser.GradientDisplay;
 
-        private function updateData(e : Event) : void
-        {
+        import idv.cjcat.stardustextended.common.actions.ColorGradient;
 
-        }
+        private var gradientDisplay : GradientDisplay;
 
         override public function set data(d : Object) : void
         {
@@ -19,8 +20,45 @@
             {
                 return;
             }
+            gradientDisplay.removeAll();
+            var dat : ColorGradient = ColorGradient(d);
+            for (var j : int = 0; j < dat.colors.length; j++)
+            {
+                gradientDisplay.addColor(dat.colors[j], dat.ratios[j]);
+            }
+        }
+
+
+        private function updateData() : void
+        {
+            var dat : ColorGradient = ColorGradient(data);
+            dat.setGradient(gradientDisplay.colors, gradientDisplay.ratios);
+        }
+
+        private function onInit() : void
+        {
+            gradientDisplay = new GradientDisplay();
+            gradientDisplay.init(400, 40, onGradientColorChanged);
+            mx_internal::$addChild(gradientDisplay);
+            gradientDisplay.y = 400;
+            gradientDisplay.x = 90;
+
+            picker.onColorChanged = onPickerColorChanged;
+        }
+
+        private function onGradientColorChanged() : void
+        {
+            picker.setColor(gradientDisplay.currentColor);
+            updateData();
+        }
+
+        private function onPickerColorChanged() : void
+        {
+            gradientDisplay.setCurrentColor(picker.currentColor);
+            updateData();
         }
         ]]></fx:Script>
 
-    <s:Label text="(in progress)" />
+    <local:ColorPickerGroup id="picker" x="5" y="-30" />
+
 </twod:PropertyRendererBase>

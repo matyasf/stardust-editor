@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         initialize="onInit()">
+
+    <fx:Script><![CDATA[
+
+        private var picker : ColorPicker;
+        public var onColorChanged : Function;
+        public var currentColor : uint;
+
+        private function onInit():void
+        {
+            picker = new ColorPicker(400, 300);
+            mx_internal::$addChild(picker);
+            picker.onColorChanged = _onColorChanged;
+        }
+
+        private function _onColorChanged() : void
+        {
+            currentColor = picker.color;
+            colorInput.text = ColorUtils.displayInHex(currentColor);
+            onColorChanged();
+        }
+
+        private function changeColor() : void
+        {
+            var col : uint = parseInt(colorInput.text, 16);
+            picker.color = col;
+            currentColor = col;
+            onColorChanged();
+        }
+
+        public function setColor(color : uint) : void
+        {
+            if (currentColor == color)
+            {
+                return;
+            }
+            currentColor = color;
+            picker.color = currentColor;
+            colorInput.text = ColorUtils.displayInHex(currentColor);
+        }
+
+        ]]></fx:Script>
+
+    <s:HGroup verticalAlign="middle" y="310">
+        <s:Label text="Color:" />
+        <s:TextInput id="colorInput" change="changeColor()"
+                     width="65" restrict="0123456789abcdef" maxChars="6" />
+    </s:HGroup>
+
+</s:Group>
