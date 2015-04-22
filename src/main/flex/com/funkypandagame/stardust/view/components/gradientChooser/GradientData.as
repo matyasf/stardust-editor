@@ -9,6 +9,7 @@ public class GradientData
     public function set selectedItem(item : GradientComponentButton) : void
     {
         _selectedItem = item;
+        setDeleteButtonState();
         for each (var button : GradientComponentButton in components)
         {
             button.selected = (button == _selectedItem);
@@ -18,6 +19,7 @@ public class GradientData
     public function deleteItem(item : GradientComponentButton) : void
     {
         components.splice(components.indexOf(item), 1);
+        components.sort(sortOnRatio);
         selectedItem = components[0];
         setDeleteButtonState();
     }
@@ -25,6 +27,8 @@ public class GradientData
     public function addItem(item : GradientComponentButton) : void
     {
         components.push(item);
+        components.sort(sortOnRatio);
+        selectedItem = item;
         setDeleteButtonState();
     }
 
@@ -46,11 +50,21 @@ public class GradientData
     public function get ratios() : Array
     {
         components.sort(sortOnRatio);
-        setDeleteButtonState();
         var ret : Array = [];
         for (var i:int = 0; i < components.length; i++)
         {
             ret.push(components[i].ratio);
+        }
+        return ret;
+    }
+
+    public function get alphas() : Array
+    {
+        components.sort(sortOnRatio);
+        var ret : Array = [];
+        for (var i:int = 0; i < components.length; i++)
+        {
+            ret.push(components[i].colorAlpha);
         }
         return ret;
     }

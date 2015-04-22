@@ -17,10 +17,11 @@ public class GradientComponentButton extends Sprite
     private var _selected : Boolean;
     private var _removeButtonVisible : Boolean;
     public var ratio : uint;
+    public var colorAlpha : Number;
     private var colorDisplay : Sprite;
     private var removeButton : Sprite;
 
-    public function GradientComponentButton(color : uint, ratio : uint)
+    public function GradientComponentButton(color : uint, ratio : uint, alpha : Number)
     {
         colorDisplay = new Sprite();
         addChild(colorDisplay);
@@ -33,6 +34,7 @@ public class GradientComponentButton extends Sprite
 
         this.color = color;
         this.ratio = ratio;
+        this.colorAlpha = alpha;
 
         colorDisplay.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
         removeButton.addEventListener(MouseEvent.CLICK, onMouseClick);

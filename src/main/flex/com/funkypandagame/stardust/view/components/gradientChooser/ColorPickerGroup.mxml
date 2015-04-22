@@ -1,18 +1,20 @@
 <?xml version="1.0"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-         xmlns:s="library://ns.adobe.com/flex/spark"
-         initialize="onInit()">
+         xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.funkypandagame.stardust.view.components.*"
+         preinitialize="onInit()"
+         width="410" height="345">
 
     <fx:Script><![CDATA[
 
-        private var picker : ColorPicker;
+        private var picker : ColorPicker = new ColorPicker(400, 300);
         public var onColorChanged : Function;
         public var currentColor : uint;
 
         private function onInit():void
         {
-            picker = new ColorPicker(400, 300);
             mx_internal::$addChild(picker);
+            picker.x = 5;
+            picker.y = 5;
             picker.onColorChanged = _onColorChanged;
         }
 
@@ -31,7 +33,12 @@
             onColorChanged();
         }
 
-        public function setColor(color : uint) : void
+        private function changeAlpha() : void
+        {
+            onColorChanged();
+        }
+
+        public function setColor(color : uint, alpha : Number) : void
         {
             if (currentColor == color)
             {
@@ -40,14 +47,29 @@
             currentColor = color;
             picker.color = currentColor;
             colorInput.text = ColorUtils.displayInHex(currentColor);
+            alphaInput.text = alpha.toString();
+        }
+
+        public function get currentAlpha() : Number
+        {
+            return parseFloat(alphaInput.text);
         }
 
         ]]></fx:Script>
 
-    <s:HGroup verticalAlign="middle" y="310">
+    <s:Rect width="100%" height="100%">
+        <s:fill>
+            <s:SolidColor color="0x595959" />
+        </s:fill>
+    </s:Rect>
+
+    <s:HGroup verticalAlign="middle" y="310" x="5">
         <s:Label text="Color:" />
         <s:TextInput id="colorInput" change="changeColor()"
                      width="65" restrict="0123456789abcdef" maxChars="6" />
+        <s:Label text="Alpha:" />
+        <components:CustomNumericStepper id="alphaInput" change="changeAlpha()" stepValue="0.1"
+                     width="65" restrict="0123456789." maxChars="4" />
     </s:HGroup>
 
 </s:Group>
