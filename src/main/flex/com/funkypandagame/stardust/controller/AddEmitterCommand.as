@@ -88,9 +88,11 @@ public class AddEmitterCommand implements ICommand
             sh.container = Globals.starlingCanvas;
             emitterData.emitter.particleHandler = sh;
             var subTextures : Vector.<SubTexture> = new Vector.<SubTexture>();
-            var tempTex : Texture = Texture.fromBitmapData(new BitmapData( 10, 10, false, Math.random()*16777215 ));
+            var bd : BitmapData = new BitmapData( 10, 10, false, Math.random()*16777215 );
+            var tempTex : Texture = Texture.fromBitmapData(bd);
             subTextures.push(new SubTexture(tempTex));
             sh.setTextures(subTextures);
+            projectSettings.emitterImages[emitterData.id] = new <BitmapData>[bd];
         }
         else
         {
