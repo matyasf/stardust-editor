@@ -30,8 +30,6 @@ public class ClockContainerMediator extends Mediator
     private function handleClockContainerUpdateFromEmitter( event : UpdateClockContainerFromEmitter ) : void
     {
         view.setData( event.emitter.emitter );
-        //TODO too early to dispatch here since mediator might not be ready?
-        //dispatch( new UpdateClockValuesFromModelEvent( UpdateClockValuesFromModelEvent.UPDATE ) );
     }
 
     private function handleClockTypeChange( event : ClockTypeChangeEvent ) : void

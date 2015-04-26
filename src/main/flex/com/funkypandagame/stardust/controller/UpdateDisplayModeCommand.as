@@ -52,7 +52,7 @@ public class UpdateDisplayModeCommand implements ICommand
         {
             if (emitter.particleHandler is StarlingHandler)
             {
-                StarlingHandler(emitter.particleHandler).texture.dispose();
+                StarlingHandler(emitter.particleHandler).textures[0].root.dispose();
             }
             var handler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
             ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);

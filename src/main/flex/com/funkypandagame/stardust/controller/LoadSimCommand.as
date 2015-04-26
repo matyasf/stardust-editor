@@ -10,7 +10,7 @@ import com.funkypandagame.stardust.view.events.RefreshBackgroundViewEvent;
 import com.funkypandagame.stardustplayer.ISimLoader;
 import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.SimPlayer;
-import com.funkypandagame.stardustplayer.ZipFileNames;
+import com.funkypandagame.stardustplayer.SDEConstants;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 import com.funkypandagame.stardustplayer.sequenceLoader.LoadByteArrayJob;
 import com.funkypandagame.stardustplayer.sequenceLoader.SequenceLoader;
@@ -119,10 +119,10 @@ public class LoadSimCommand implements ICommand
         projectModel.emitterImages = new Dictionary();
         // Reads BDs from the raw atlases image. Store it in a model.
         var hasAtlas : Boolean = false;
-        for (var i:int = 0; i < loadedZip.getFileCount(); i++)
+        for (var i : int = 0; i < loadedZip.getFileCount(); i++)
         {
             var loadedFileName : String = loadedZip.getFileAt(i).filename;
-            if (ZipFileNames.isAtlasImageName(loadedFileName))
+            if (SDEConstants.isAtlasImageName(loadedFileName))
             {
                 hasAtlas = true;
                 const loadAtlasJob : LoadByteArrayJob = new LoadByteArrayJob(
@@ -143,13 +143,13 @@ public class LoadSimCommand implements ICommand
             for (var j:int = 0; j < loadedZip.getFileCount(); j++)
             {
                 var loadedFileName2 : String = loadedZip.getFileAt(j).filename;
-                if (ZipFileNames.isEmitterXMLName(loadedFileName2))
+                if (SDEConstants.isEmitterXMLName(loadedFileName2))
                 {
-                    var emitterId : uint = ZipFileNames.getEmitterID(loadedFileName2);
+                    var emitterId : uint = SDEConstants.getEmitterID(loadedFileName2);
                     const loadImageJob : LoadByteArrayJob = new LoadByteArrayJob(
                             emitterId.toString(),
-                            ZipFileNames.getImageName(emitterId),
-                            loadedZip.getFileByName(ZipFileNames.getImageName(emitterId)).content );
+                            SDEConstants.getImageName(emitterId),
+                            loadedZip.getFileByName(SDEConstants.getImageName(emitterId)).content );
                     sequenceLoader.addJob( loadImageJob );
                 }
             }
@@ -165,9 +165,9 @@ public class LoadSimCommand implements ICommand
         for (var i:int = 0; i < loadedZip.getFileCount(); i++)
         {
             var loadedFileName : String = loadedZip.getFileAt(i).filename;
-            if (ZipFileNames.isEmitterXMLName(loadedFileName))
+            if (SDEConstants.isEmitterXMLName(loadedFileName))
             {
-                const emitterId : uint = ZipFileNames.getEmitterID(loadedFileName);
+                const emitterId : uint = SDEConstants.getEmitterID(loadedFileName);
                 const job : LoadByteArrayJob = sequenceLoader.getJobByName( emitterId.toString() );
 
                 var image : BitmapData = Bitmap(job.content).bitmapData;

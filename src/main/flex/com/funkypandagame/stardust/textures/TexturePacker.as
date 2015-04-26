@@ -46,7 +46,8 @@ public class TexturePacker
                 }
                 else
                 {
-                    // The texture size cannot grow, make a new atlas. TODO make new atlas based on emitters
+                    // The texture size cannot grow.
+                    // TODO make new atlas based if the first one gets full. It should group textures based on emitters
                     trace("Texture size " + atlasSize + " cannot grow because max size is " +_maxAtlasSize + ". Aborting");
                     _atlas = null;
                     return;

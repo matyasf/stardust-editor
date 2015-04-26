@@ -86,7 +86,9 @@ public class GradientDisplay extends Sprite
 
     public function removeAll() : void
     {
-        // TODO
+        removeChildren();
+        addChild(gradient);
+        dat = new GradientData();
     }
 
     private function deleteKnob(evt : Event) : void

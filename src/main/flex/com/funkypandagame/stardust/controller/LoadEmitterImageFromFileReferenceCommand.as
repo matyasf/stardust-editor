@@ -1,6 +1,7 @@
 package com.funkypandagame.stardust.controller
 {
 
+import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.view.SetEmitterImagePopup;
@@ -14,12 +15,11 @@ import flash.display.DisplayObject;
 
 import flash.events.Event;
 import flash.events.IEventDispatcher;
-import flash.geom.Rectangle;
 
 import flash.net.FileFilter;
 import flash.net.FileReference;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.flashdisplay.handlers.SpriteSheetBitmapSlicedCache;
 
 import mx.core.FlexGlobals;
 
@@ -27,17 +27,13 @@ import mx.managers.PopUpManager;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
-import starling.textures.SubTexture;
-import starling.textures.Texture;
-import starling.textures.TextureAtlas;
-
 public class LoadEmitterImageFromFileReferenceCommand implements ICommand
 {
     [Inject]
     public var sequenceLoader : ISequenceLoader;
 
     [Inject]
-    public var projectSettings : ProjectModel;
+    public var projectModel : ProjectModel;
 
     [Inject]
     public var dispatcher : IEventDispatcher;
@@ -63,7 +59,7 @@ public class LoadEmitterImageFromFileReferenceCommand implements ICommand
 
     private function loadEmitterFromByteArray( event : Event ) : void
     {
-        var emitterName : String = projectSettings.emitterInFocus.id.toString();
+        var emitterName : String = projectModel.emitterInFocus.id.toString();
         sequenceLoader.removeCompletedJobByName( emitterName );
         var job : LoadByteArrayJob = new LoadByteArrayJob( emitterName, _emitterImageFile.name, _emitterImageFile.data );
         sequenceLoader.addJob( job );
@@ -82,38 +78,22 @@ public class LoadEmitterImageFromFileReferenceCommand implements ICommand
 
     private function onImagePropsClosed(spWidth : Number, spHeight : Number) : void
     {
-        const emitterVO : EmitterValueObject = projectSettings.emitterInFocus;
+        const emitterVO : EmitterValueObject = projectModel.emitterInFocus;
         const loadJob : LoadByteArrayJob = sequenceLoader.getCompletedJobs().pop();
         var rawData : BitmapData = Bitmap(loadJob.content).bitmapData;
-        var allTextures : Vector.<SubTexture> = new Vector.<SubTexture>();
 
         var isSpriteSheet : Boolean = (spWidth > 0 && spHeight > 0) &&
                 (rawData.width >= spWidth * 2 || rawData.height >= spHeight * 2);
         if (isSpriteSheet)
         {
-            var tmpAtlas : TextureAtlas = new TextureAtlas(Texture.fromBitmapData(rawData, false));
-            const xIter : int = Math.floor( rawData.width / spWidth );
-            const yIter : int = Math.floor( rawData.height / spHeight );
-            for ( var j : int = 0; j < yIter; j ++ )
-            {
-                for ( var i : int = 0; i < xIter; i ++ )
-                {
-                    tmpAtlas.addRegion(j + "_" + i, new Rectangle( i * spWidth, j * spHeight, spWidth, spHeight ));
-                }
-            }
-            var texs : Vector.<Texture> = tmpAtlas.getTextures("");
-            for each (var tex : SubTexture in texs)
-            {
-                allTextures.push(tex);
-            }
+            var splicer : SpriteSheetBitmapSlicedCache = new SpriteSheetBitmapSlicedCache(rawData, spWidth, spHeight);
+            projectModel.emitterImages[emitterVO.id] = splicer.bds;
         }
         else
         {
-            var subTex : SubTexture = new SubTexture(Texture.fromBitmapData(rawData, false), null);
-            allTextures.push(subTex);
+            projectModel.emitterImages[emitterVO.id] = new <BitmapData>[rawData];
         }
-
-        StarlingHandler(emitterVO.emitter.particleHandler).setTextures(allTextures);
+        dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
         // If the image changes the animation frames are recalculated and there might be particles on the screen which
         // are now at a non-existent frame number.
         dispatcher.dispatchEvent( new StartSimEvent() );

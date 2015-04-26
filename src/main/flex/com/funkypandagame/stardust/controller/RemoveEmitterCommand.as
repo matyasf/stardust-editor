@@ -2,6 +2,7 @@ package com.funkypandagame.stardust.controller
 {
 
 import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
+import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.model.ProjectModel;
@@ -22,7 +23,7 @@ public class RemoveEmitterCommand implements ICommand
 {
 
     [Inject]
-    public var projectSettings : ProjectModel;
+    public var projectModel : ProjectModel;
 
     [Inject]
     public var dispatcher : IEventDispatcher;
@@ -31,22 +32,28 @@ public class RemoveEmitterCommand implements ICommand
 
     public function execute() : void
     {
-        const projectObj : ProjectValueObject = projectSettings.stadustSim;
+        const projectObj : ProjectValueObject = projectModel.stadustSim;
         if (projectObj.numberOfEmitters > 1)
         {
-            projectSettings.emitterInFocus.emitter.clearParticles();
-            if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
+            projectModel.emitterInFocus.emitter.clearParticles();
+            if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
             {
-                const sh : StarlingHandler = StarlingHandler(projectSettings.emitterInFocus.emitter.particleHandler);
+                const sh : StarlingHandler = StarlingHandler(projectModel.emitterInFocus.emitter.particleHandler);
                 Globals.starlingCanvas.removeChild(sh.renderer);
             }
-            delete projectObj.emitters[projectSettings.emitterInFocus.id];
+            delete projectObj.emitters[projectModel.emitterInFocus.id];
+            delete projectModel.emitterImages[projectModel.emitterInFocus.id];
 
             for each (var emitter : EmitterValueObject in projectObj.emitters)
             {
                 dispatcher.dispatchEvent( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, emitter ) );
                 break;
             }
+            if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
+            {
+                dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
+            }
+
             dispatcher.dispatchEvent( new StartSimEvent() );
         }
         else

@@ -2,7 +2,7 @@ package com.funkypandagame.stardust.textures
 {
 import com.funkypandagame.stardust.helpers.Utils;
 import com.funkypandagame.stardustplayer.SimLoader;
-import com.funkypandagame.stardustplayer.ZipFileNames;
+import com.funkypandagame.stardustplayer.SDEConstants;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -38,7 +38,7 @@ public class Atlas
     {
         if (_image == null)
         {
-            // TODO merge this into the packer?
+            // merge this into the packer?
             var constructed : Sprite = new Sprite();
             var collapsedBounds : Rectangle = new Rectangle();
             _atlasTextures.forEach(function (atlasTexture : AtlasTexture, ...rest) : void
@@ -59,18 +59,18 @@ public class Atlas
         return _image;
     }
 
-    public function getXML() : String
+    public function getXML() : XML
     {
-        var xml : XML = <TextureAtlas imagePath={ZipFileNames.getAtlasName(_name)}></TextureAtlas>;
+        var xml : XML = <TextureAtlas imagePath={SDEConstants.getAtlasName(_name)}></TextureAtlas>;
         for (var i : int = 0; i < _atlasTextures.length; i++)
         {
             var atlasTexture : AtlasTexture = _atlasTextures[i];
-            var nodeXML : XML = <SubTexture name={SimLoader.SUBTEXTURE_PREFIX + atlasTexture.emitterId + "_image_" + i}
+            var nodeXML : XML = <SubTexture name={SDEConstants.getSubTexturePrefix(atlasTexture.emitterId) + i}
                                             x={atlasTexture.positionNoPadding.x} y={atlasTexture.positionNoPadding.y}
                                             width={atlasTexture.positionNoPadding.width} height={atlasTexture.positionNoPadding.height}/>;
             xml.appendChild(nodeXML);
         }
-        return '<?xml version="1.0" encoding="UTF-8"?>\n' + xml.toString();
+        return xml;
     }
 }
 }

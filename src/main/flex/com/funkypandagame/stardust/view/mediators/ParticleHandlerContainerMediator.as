@@ -29,7 +29,7 @@ public class ParticleHandlerContainerMediator extends Mediator
 
     private function setParticleHandler( event : SetParticleHandlerEvent ) : void
     {
-        view.handler = event.handler;
+        view.setHandler(event.handler, projectModel.emitterImages[projectModel.emitterInFocus.id]);
     }
 
     private function redispatchEvent( event : Event ) : void

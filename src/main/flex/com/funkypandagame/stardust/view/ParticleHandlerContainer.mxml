@@ -16,26 +16,29 @@
         import mx.collections.ArrayCollection;
 
         [Bindable]
-        public var blendModesAC:ArrayCollection = Globals.blendModesDisplayList;
+        public var blendModesAC : ArrayCollection = Globals.blendModesDisplayList;
 
         [Bindable]
-        public var sourceBD:BitmapData;
+        public var sourceBD : BitmapData;
 
         [Bindable]
         public var isSpriteSheet : Boolean;
 
-        private var _handler:ISpriteSheetHandler;
+        private var _handler : ISpriteSheetHandler;
 
-        public function set handler(handler:ISpriteSheetHandler):void {
+        public function setHandler(handler : ISpriteSheetHandler, handlerImages : Vector.<BitmapData>) : void
+        {
             _handler = handler;
 
-            sourceBD = _handler.bitmapData;
+            sourceBD = handlerImages[0]; // TODO display all images
             useSmoothingCheckBox.selected = _handler.smoothing;
-            if (handler is StarlingHandler) {
+            if (handler is StarlingHandler)
+            {
                 premultiplyAlphaCheckBox.selected = StarlingHandler(handler).premultiplyAlpha;
                 premultiplyAlphaCheckBox.enabled = true;
             }
-            else {
+            else
+            {
                 premultiplyAlphaCheckBox.enabled = false;
             }
 
@@ -44,13 +47,17 @@
 
             isSpriteSheet = _handler.isSpriteSheet;
 
-            if (_handler is StarlingHandler) {
-                if (blendModesAC != Globals.blendModesStarling) {
+            if (_handler is StarlingHandler)
+            {
+                if (blendModesAC != Globals.blendModesStarling)
+                {
                     blendModesAC = Globals.blendModesStarling;
                 }
             }
-            else if (_handler is DisplayObjectSpriteSheetHandler) {
-                if (blendModesAC != Globals.blendModesDisplayList) {
+            else if (_handler is DisplayObjectSpriteSheetHandler)
+            {
+                if (blendModesAC != Globals.blendModesDisplayList)
+                {
                     blendModesAC = Globals.blendModesDisplayList;
                 }
             }
@@ -58,32 +65,38 @@
             blendModeList.selectedItem = _handler.blendMode;
         }
 
-        private function loadImageFromFile():void {
+        private function loadImageFromFile() : void
+        {
             dispatchEvent(new LoadEmitterImageFromFileEvent());
         }
 
         // If the dimensions change the animation frames are recalculated and there might be particles on
         // the screen which are now at a non-existent frame number, thus we must restart
-        private function changePropsAndRestartSim():void {
-            if (isSpriteSheet) {
+        private function changePropsAndRestartSim() : void
+        {
+            if (isSpriteSheet)
+            {
                 // If the particle is a sprite sheet every time its dimensions/image changes it gets stored in a static array.
                 // Lots of such changes can potentially lead to out of memory errors, this command will clear the cache.
                 // In a real project this should be called when the sim is not needed anymore.
                 DisplayObjectSpriteSheetHandler.clearCache();
             }
-            if (parseInt(speedTextInput.text) < 0) {
+            if (parseInt(speedTextInput.text) < 0)
+            {
                 speedTextInput.text = "0";
             }
             onImagePropsChange();
             dispatchEvent(new StartSimEvent());
         }
 
-        private function onImagePropsChange():void {
+        private function onImagePropsChange() : void
+        {
             _handler.smoothing = useSmoothingCheckBox.selected;
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
             _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
-            if (_handler is StarlingHandler) {
+            if (_handler is StarlingHandler)
+            {
                 StarlingHandler(_handler).premultiplyAlpha = premultiplyAlphaCheckBox.selected;
             }
             validateNow();

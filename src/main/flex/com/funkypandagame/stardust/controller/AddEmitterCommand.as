@@ -2,6 +2,7 @@ package com.funkypandagame.stardust.controller
 {
 
 import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
+import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.model.ProjectModel;
@@ -18,14 +19,12 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 import starling.display.BlendMode;
-import starling.textures.SubTexture;
-import starling.textures.Texture;
 
 public class AddEmitterCommand implements ICommand
 {
 
     [Inject]
-    public var projectSettings : ProjectModel;
+    public var projectModel : ProjectModel;
 
     [Inject]
     public var dispatcher : IEventDispatcher;
@@ -75,35 +74,28 @@ public class AddEmitterCommand implements ICommand
     public function execute() : void
     {
         var uniqueID : uint = 0;
-        while ( projectSettings.stadustSim.emitters[uniqueID] )
+        while ( projectModel.stadustSim.emitters[uniqueID] )
         {
             uniqueID++;
         }
         const emitterData : EmitterValueObject = new EmitterValueObject( uniqueID, EmitterBuilder.buildEmitter(DEFAULT_EMITTER));
-        if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
+        projectModel.stadustSim.emitters[emitterData.id] = emitterData;
+        if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
-            const sh : StarlingHandler = new StarlingHandler();
-            sh.blendMode = BlendMode.NORMAL;
-            sh.spriteSheetAnimationSpeed = 1;
-            sh.container = Globals.starlingCanvas;
-            emitterData.emitter.particleHandler = sh;
-            var subTextures : Vector.<SubTexture> = new Vector.<SubTexture>();
+            var starlingHandler : StarlingHandler = new StarlingHandler();
+            starlingHandler.blendMode = BlendMode.NORMAL;
+            starlingHandler.spriteSheetAnimationSpeed = 1;
+            starlingHandler.container = Globals.starlingCanvas;
             var bd : BitmapData = new BitmapData( 10, 10, false, Math.random()*16777215 );
-            var tempTex : Texture = Texture.fromBitmapData(bd);
-            subTextures.push(new SubTexture(tempTex));
-            sh.setTextures(subTextures);
-            projectSettings.emitterImages[emitterData.id] = new <BitmapData>[bd];
+            projectModel.emitterImages[emitterData.id] = new <BitmapData>[bd];
+            emitterData.emitter.particleHandler = starlingHandler;
+
+            dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
         }
         else
         {
             DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
         }
-
-        if (projectSettings.stadustSim.emitters[emitterData.id])
-        {
-            throw new Error("Emitter with ID" + emitterData.id + "already exists!");
-        }
-        projectSettings.stadustSim.emitters[emitterData.id] = emitterData;
 
         // display data for the new emitter
         dispatcher.dispatchEvent( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, emitterData ) );
