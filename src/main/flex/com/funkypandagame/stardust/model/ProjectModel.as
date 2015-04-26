@@ -7,6 +7,7 @@ import com.funkypandagame.stardustplayer.project.ProjectValueObject;
 import flash.display.DisplayObject;
 
 import flash.utils.ByteArray;
+import flash.utils.Dictionary;
 
 public class ProjectModel
 {
@@ -24,6 +25,8 @@ public class ProjectModel
     public var backgroundRawData : ByteArray;
 
     public var fps : Number;
+
+    public var emitterImages : Dictionary;
 
 }
 }

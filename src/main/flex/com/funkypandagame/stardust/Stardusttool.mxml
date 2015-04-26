@@ -50,6 +50,7 @@
             starlingInstance.antiAliasing = 1;
             starlingInstance.start();
             starlingInstance.stage.addChild(Globals.starlingCanvas);
+            starlingInstance.showStats = true;
         }
 
         private function onStarlingReady(event:starling.events.Event):void {

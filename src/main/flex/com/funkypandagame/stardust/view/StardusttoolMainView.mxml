@@ -10,7 +10,6 @@
         import com.funkypandagame.stardust.controller.events.LoadSimEvent;
         import com.funkypandagame.stardust.controller.events.StartSimEvent;
         import com.funkypandagame.stardust.helpers.Globals;
-        import com.funkypandagame.stardust.helpers.Stats;
         import com.funkypandagame.stardust.view.events.MainViewLoadSimEvent;
         import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
 
@@ -28,11 +27,9 @@
         private const _actionAC:ArrayCollection = new ArrayCollection();
         private var examplesPopup : ExamplesPopup;
 
-        private function initializeCanvasesForEmitters():void {
+        private function initializeCanvasesForEmitters():void
+        {
             previewGroup.mx_internal::$addChild(Globals.canvas);
-            var stats:Stats = new Stats();
-            stats.x = 71;
-            statsHolder.mx_internal::$addChild(stats);
         }
 
         public function resizeStarlingViewPort():void {
@@ -141,7 +138,7 @@
         <mx:UIComponent id="statsHolder" height="125" />
     </s:VGroup>
 
-    <s:Label id="infoLabel" bottom="5" right="5" backgroundColor="0x11183D"
+    <s:Label id="infoLabel" bottom="5" right="50" backgroundColor="0x11183D"
              paddingBottom="3" paddingLeft="3" paddingRight="3" paddingTop="3"/>
 
 </s:Group>

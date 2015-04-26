@@ -38,7 +38,6 @@ public class RemoveEmitterCommand implements ICommand
             if (projectSettings.emitterInFocus.emitter.particleHandler is StarlingHandler)
             {
                 const sh : StarlingHandler = StarlingHandler(projectSettings.emitterInFocus.emitter.particleHandler);
-                sh.texture.dispose();
                 Globals.starlingCanvas.removeChild(sh.renderer);
             }
             delete projectObj.emitters[projectSettings.emitterInFocus.id];

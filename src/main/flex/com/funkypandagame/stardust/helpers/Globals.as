@@ -130,7 +130,7 @@ public class Globals
         initalizerDict[ Scale ] = new DropdownListVO( "Scale", Scale, ScaleInitializer );
         initalizerDict[ Omega ] = new DropdownListVO( "Rotation speed", Omega, OmegaInitializer );
         initalizerDict[ Mass ] = new DropdownListVO( "Mass", Mass, MassInitializer );
-        initalizerDict[ Color ] = new DropdownListVO( "Color", Color, ColorInitializer );
+        initalizerDict[ Color ] = new DropdownListVO( "Color(Deprecated)", Color, ColorInitializer );
         //initalizerDict[ CollisionRadius ] = new DropdownListVO( "Collision radius", CollisionRadius, CollisionRadiusInitializer );
         //initalizerDict[ Mask ] = new DropdownListVO("Mask", Mask, MaskInitializer);
 
@@ -204,11 +204,6 @@ public class Globals
         starlingCanvas.touchable = false;
     }
 
-    public static function toNiceString(num:Number, precision:int = 2):String
-    {
-        var decimalPlaces:Number = Math.pow(10, precision);
-        return (Math.round(decimalPlaces * num) / decimalPlaces).toString();
-    }
 
 }
 }

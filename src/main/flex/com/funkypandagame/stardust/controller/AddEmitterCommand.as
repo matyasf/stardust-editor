@@ -18,6 +18,8 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 import starling.display.BlendMode;
+import starling.textures.SubTexture;
+import starling.textures.Texture;
 
 public class AddEmitterCommand implements ICommand
 {
@@ -29,7 +31,7 @@ public class AddEmitterCommand implements ICommand
     public var dispatcher : IEventDispatcher;
 
     private static const DEFAULT_EMITTER : XML =
-    <StardustParticleSystem version="2">
+    <StardustParticleSystem version="2.1">
         <actions>
             <Age name="Age_0" active="true" mask="1" multiplier="1"/>
             <DeathLife name="DeathLife_0" active="true" mask="1"/>
@@ -83,16 +85,17 @@ public class AddEmitterCommand implements ICommand
             const sh : StarlingHandler = new StarlingHandler();
             sh.blendMode = BlendMode.NORMAL;
             sh.spriteSheetAnimationSpeed = 1;
-            sh.spriteSheetSliceHeight = 10;
-            sh.spriteSheetSliceWidth = 10;
             sh.container = Globals.starlingCanvas;
             emitterData.emitter.particleHandler = sh;
+            var subTextures : Vector.<SubTexture> = new Vector.<SubTexture>();
+            var tempTex : Texture = Texture.fromBitmapData(new BitmapData( 10, 10, false, Math.random()*16777215 ));
+            subTextures.push(new SubTexture(tempTex));
+            sh.setTextures(subTextures);
         }
         else
         {
             DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
         }
-        emitterData.image = new BitmapData( 10, 10, false, Math.random()*16777215 );
 
         if (projectSettings.stadustSim.emitters[emitterData.id])
         {

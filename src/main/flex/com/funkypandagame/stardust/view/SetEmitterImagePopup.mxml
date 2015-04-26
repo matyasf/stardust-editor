@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.funkypandagame.stardust.view.components.*"
+        >
+
+
+  <fx:Script><![CDATA[
+    import mx.managers.PopUpManager;
+
+    private var onClose : Function;
+
+    public function setImageSlices(onClose : Function) : void
+    {
+      this.onClose = onClose;
+    }
+
+    private function onCloseClick() : void
+    {
+        onClose(parseInt(widthTextInput.text), parseInt(heightTextInput.text));
+        PopUpManager.removePopUp(this);
+    }
+
+    ]]></fx:Script>
+
+  <s:layout>
+    <s:VerticalLayout/>
+  </s:layout>
+  <s:Label text="Single image width"/>
+  <components:CustomNumericStepper id="widthTextInput" restrict="0-9" minimum="1" maximum="2044" width="50" />
+
+  <s:Label text="height"/>
+  <components:CustomNumericStepper id="heightTextInput" restrict="0-9" minimum="1" maximum="2044" width="50" />
+
+  <s:Button label="Done" click="onCloseClick()" />
+</s:Panel>

@@ -12,6 +12,8 @@ import idv.cjcat.stardustextended.twoD.starling.StardustStarlingRenderer;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
+import starling.core.Starling;
+
 // TODO this needs to be a service, since calcTime needs to be preserved between runs
 public class MainEnterFrameLoopCommand implements ICommand
 {
@@ -40,7 +42,7 @@ public class MainEnterFrameLoopCommand implements ICommand
         simPlayer.stepSimulation();
 
         calcTime = (getTimer() - startTime);
-        view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime + "ms";
+        view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime;
         if (project.stadustSim.numberOfParticles > StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES)
         {
             view.infoLabel.text += " Particles over " + StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES + " will not be rendered.";

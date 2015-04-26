@@ -6,6 +6,7 @@
 
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.Globals;
+        import com.funkypandagame.stardust.helpers.Utils;
 
         import idv.cjcat.stardustextended.common.math.UniformRandom;
 
@@ -30,7 +31,7 @@
             }
             else {
                 toolTip = "The value is randomly between " +
-                Globals.toNiceString(Number(avgTextInput.text) - Number(varTextInput.text)) + " and " + Globals.toNiceString(Number(avgTextInput.text) + Number(varTextInput.text));
+                Utils.toNiceString(Number(avgTextInput.text) - Number(varTextInput.text)) + " and " + Utils.toNiceString(Number(avgTextInput.text) + Number(varTextInput.text));
             }
         }
         ]]></fx:Script>
