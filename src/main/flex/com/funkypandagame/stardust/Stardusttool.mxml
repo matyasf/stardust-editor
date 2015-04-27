@@ -119,5 +119,9 @@
             skinClass: ClassReference("com.funkypandagame.stardust.view.skins.TitleWindowSkin");
         }
 
+        s|Panel {
+            backgroundColor: #2F3B3F;
+            skinClass: ClassReference("com.funkypandagame.stardust.view.skins.PanelSkin");
+        }
     </fx:Style>
 </s:Application>

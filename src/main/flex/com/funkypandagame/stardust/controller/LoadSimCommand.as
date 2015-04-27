@@ -3,6 +3,7 @@ package com.funkypandagame.stardust.controller
 
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
 import com.funkypandagame.stardust.controller.events.RefreshFPSTextEvent;
+import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.model.ProjectModel;
@@ -66,6 +67,7 @@ public class LoadSimCommand implements ICommand
     public var simPlayer : SimPlayer;
 
     private var numLoaded : uint;
+    private var isLegacyProject : Boolean;
 
     private var sequenceLoader : SequenceLoader;
     private var loadedZip : Zip;
@@ -123,13 +125,13 @@ public class LoadSimCommand implements ICommand
         projectModel.stadustSim = simLoader.createProjectInstance();
         projectModel.emitterImages = new Dictionary();
         // Reads BDs from the raw atlases image. Store it in a model.
-        var hasAtlas : Boolean = false;
+        isLegacyProject = true;
         for (var i : int = 0; i < loadedZip.getFileCount(); i++)
         {
             var loadedFileName : String = loadedZip.getFileAt(i).filename;
             if (SDEConstants.isAtlasImageName(loadedFileName))
             {
-                hasAtlas = true;
+                isLegacyProject = false;
                 const loadAtlasJob : LoadByteArrayJob = new LoadByteArrayJob(
                         loadedFileName,
                         loadedFileName,
@@ -141,7 +143,7 @@ public class LoadSimCommand implements ICommand
                 break;
             }
         }
-        if (!hasAtlas)
+        if (isLegacyProject)
         {
             Alert.show("The simulation was created with an old version of the editor. " +
                        "Save the simulation to convert to the new format and batch textures, " +
@@ -160,14 +162,14 @@ public class LoadSimCommand implements ICommand
                     sequenceLoader.addJob( loadImageJob );
                 }
             }
-            sequenceLoader.addEventListener( Event.COMPLETE, onProjectImagesLoaded );
+            sequenceLoader.addEventListener( Event.COMPLETE, onLegacyProjectImagesLoaded );
             sequenceLoader.loadSequence();
         }
     }
 
-    private function onProjectImagesLoaded( event : Event ) : void
+    private function onLegacyProjectImagesLoaded( event : Event ) : void
     {
-        sequenceLoader.removeEventListener( Event.COMPLETE, onProjectImagesLoaded );
+        sequenceLoader.removeEventListener( Event.COMPLETE, onLegacyProjectImagesLoaded );
         for (var i:int = 0; i < loadedZip.getFileCount(); i++)
         {
             var loadedFileName : String = loadedZip.getFileAt(i).filename;
@@ -273,6 +275,10 @@ public class LoadSimCommand implements ICommand
         DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate = projectModel.fps;
         dispatcher.dispatchEvent( new RefreshFPSTextEvent() );
 
+        if (isLegacyProject)
+        {
+            dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
+        }
         dispatcher.dispatchEvent( new StartSimEvent() );
     }
 

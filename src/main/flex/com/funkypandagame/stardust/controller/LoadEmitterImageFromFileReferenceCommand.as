@@ -71,9 +71,13 @@ public class LoadEmitterImageFromFileReferenceCommand implements ICommand
     {
         sequenceLoader.removeEventListener( Event.COMPLETE, onEmitterImageLoaded );
 
+        const loadJob : LoadByteArrayJob = sequenceLoader.getCompletedJobs()[0];
+        var rawData : BitmapData = Bitmap(loadJob.content).bitmapData;
+
         var imageProps : SetEmitterImagePopup = new SetEmitterImagePopup();
         PopUpManager.addPopUp(imageProps, FlexGlobals.topLevelApplication as DisplayObject, true);
-        imageProps.setImageSlices(onImagePropsClosed);
+        PopUpManager.centerPopUp(imageProps);
+        imageProps.setImageSlices(rawData, onImagePropsClosed);
     }
 
     private function onImagePropsClosed(spWidth : Number, spHeight : Number) : void
