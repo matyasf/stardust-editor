@@ -50,7 +50,7 @@ public class SaveSimCommand implements ICommand
     {
         const zip : Zip = new Zip();
         const descObj : Object = {};
-        descObj.version = 2.1;
+        descObj.version = "2.1";
         descObj.fps = DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate;
 
         createEmitterAtlas( zip );
@@ -70,9 +70,9 @@ public class SaveSimCommand implements ICommand
         for (var emitterId : * in projectModel.emitterImages)
         {
             var images : Vector.<BitmapData> = projectModel.emitterImages[emitterId];
-            for each (var data : BitmapData in images)
+            for (var i : int = 0; i < images.length; i++)
             {
-                textures.push(new AtlasTexture(data, uint(emitterId)));
+                textures.push(new AtlasTexture(images[i], uint(emitterId), i));
             }
         }
         var atlas : Atlas = packer.createAtlas(textures);

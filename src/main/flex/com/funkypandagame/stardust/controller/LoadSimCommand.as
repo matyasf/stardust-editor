@@ -136,9 +136,11 @@ public class LoadSimCommand implements ICommand
                 break;
             }
         }
-        // LEGACY LOADER: Read the old style individual images. Store it in a model.
         if (!hasAtlas)
         {
+            Alert.show("The simulation was created with an old version of the editor. " +
+                       "It has been upgraded to the latest format(which batches textures). " +
+                       "Save the simulation to apply this latest change, old simulations will not be supported for long");
             sequenceLoader = new SequenceLoader();
             for (var j:int = 0; j < loadedZip.getFileCount(); j++)
             {
@@ -157,7 +159,6 @@ public class LoadSimCommand implements ICommand
             sequenceLoader.loadSequence();
         }
     }
-
 
     private function onProjectImagesLoaded( event : Event ) : void
     {

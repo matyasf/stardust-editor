@@ -62,10 +62,12 @@ public class Atlas
     public function getXML() : XML
     {
         var xml : XML = <TextureAtlas imagePath={SDEConstants.getAtlasName(_name)}></TextureAtlas>;
-        for (var i : int = 0; i < _atlasTextures.length; i++)
+        var len : uint = _atlasTextures.length;
+        for (var i : int = 0; i < len; i++)
         {
             var atlasTexture : AtlasTexture = _atlasTextures[i];
-            var nodeXML : XML = <SubTexture name={SDEConstants.getSubTexturePrefix(atlasTexture.emitterId) + i}
+            var name : String = SDEConstants.getSubTexturePrefix(atlasTexture.emitterId) + SDEConstants.intToSortableStr(atlasTexture.imagePosition, len);
+            var nodeXML : XML = <SubTexture name={name}
                                             x={atlasTexture.positionNoPadding.x} y={atlasTexture.positionNoPadding.y}
                                             width={atlasTexture.positionNoPadding.width} height={atlasTexture.positionNoPadding.height}/>;
             xml.appendChild(nodeXML);

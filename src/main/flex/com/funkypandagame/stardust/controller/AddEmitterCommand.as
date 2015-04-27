@@ -54,8 +54,8 @@ public class AddEmitterCommand implements ICommand
             </Emitter2D>
         </emitters>
         <handlers>
-            <DisplayObjectSpriteSheetHandler name="DisplayObjectHandler_2" addChildMode="0" forceParentChange="false"
-                    blendMode="normal" imgWidth="10" imgHeight="10" animSpeed="1" startAtRandomFrame="false" smoothing="false"/>
+            <StarlingHandler name="DisplayObjectHandler_2" premultiplyAlpha="true" blendMode="normal"
+                     spriteSheetAnimationSpeed="1" spriteSheetStartAtRandomFrame="false" smoothing="false"/>
         </handlers>
         <initializers>
             <Life name="Life_0" active="true" random="UniformRandom_1"/>

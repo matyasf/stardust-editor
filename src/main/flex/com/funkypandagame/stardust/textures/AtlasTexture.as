@@ -14,11 +14,14 @@ public class AtlasTexture
     private var _positionWithPadding : Rectangle;
     // the image position without any padding
     private var _positionNoPadding : Rectangle;
+    // position in an animation
+    private var _imagePosition : uint;
 
-    public function AtlasTexture(bData : BitmapData, id : uint)
+    public function AtlasTexture(bData : BitmapData, emitterId : uint, imagePosition : uint)
     {
         _image = bData;
-        _emitterId = id;
+        _emitterId = emitterId;
+        _imagePosition = imagePosition;
         var offsets : uint =  TexturePacker.padding * 2 + TexturePacker.borderSize * 2;
         _positionWithPadding = new Rectangle(0, 0, _image.width + offsets, _image.height + offsets);
         _positionNoPadding = new Rectangle(0, 0, _image.width, _image.height);
@@ -51,6 +54,11 @@ public class AtlasTexture
 
         _positionNoPadding.x = xc + TexturePacker.padding + TexturePacker.borderSize;
         _positionNoPadding.y = yc + TexturePacker.padding + TexturePacker.borderSize;
+    }
+
+    public function get imagePosition() : uint
+    {
+        return _imagePosition;
     }
 
     public function get areaWithPadding() : uint
