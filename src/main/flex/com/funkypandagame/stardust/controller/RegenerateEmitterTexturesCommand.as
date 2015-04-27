@@ -49,7 +49,7 @@ public class RegenerateEmitterTexturesCommand
             var texs2 : Vector.<SubTexture> = new Vector.<SubTexture>();
             for (var k : int = 0; k < texs.length; k++)
             {
-                texs2.push(texs[i]);
+                texs2.push(texs[k]);
             }
             StarlingHandler(emitterVO.emitter.particleHandler).setTextures(texs2);
         }
