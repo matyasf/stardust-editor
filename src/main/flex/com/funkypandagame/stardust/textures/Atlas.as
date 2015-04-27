@@ -1,7 +1,6 @@
 package com.funkypandagame.stardust.textures
 {
 import com.funkypandagame.stardust.helpers.Utils;
-import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.SDEConstants;
 
 import flash.display.Bitmap;
@@ -66,7 +65,7 @@ public class Atlas
         for (var i : int = 0; i < len; i++)
         {
             var atlasTexture : AtlasTexture = _atlasTextures[i];
-            var name : String = SDEConstants.getSubTexturePrefix(atlasTexture.emitterId) + SDEConstants.intToSortableStr(atlasTexture.imagePosition, len);
+            var name : String = SDEConstants.getSubTextureName(atlasTexture.emitterId, atlasTexture.imagePosition, len);
             var nodeXML : XML = <SubTexture name={name}
                                             x={atlasTexture.positionNoPadding.x} y={atlasTexture.positionNoPadding.y}
                                             width={atlasTexture.positionNoPadding.width} height={atlasTexture.positionNoPadding.height}/>;

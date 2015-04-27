@@ -26,7 +26,6 @@ import flash.events.Event;
 
 import flash.events.IEventDispatcher;
 import flash.geom.Point;
-import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
@@ -42,6 +41,12 @@ import org.as3commons.zip.Zip;
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
 import spark.components.Alert;
+
+import starling.textures.SubTexture;
+
+import starling.textures.Texture;
+
+import starling.textures.TextureAtlas;
 
 public class LoadSimCommand implements ICommand
 {
@@ -139,8 +144,8 @@ public class LoadSimCommand implements ICommand
         if (!hasAtlas)
         {
             Alert.show("The simulation was created with an old version of the editor. " +
-                       "It has been upgraded to the latest format(which batches textures). " +
-                       "Save the simulation to apply this latest change, old simulations will not be supported for long");
+                       "Save the simulation to convert to the new format and batch textures, " +
+                       "old simulations will not be supported for long", "Warning");
             sequenceLoader = new SequenceLoader();
             for (var j:int = 0; j < loadedZip.getFileCount(); j++)
             {
@@ -208,24 +213,26 @@ public class LoadSimCommand implements ICommand
         var atlasXMLBA : ByteArray = loadedZip.getFileByName(atlasXMLName).content;
         var atlasXml : XML = new XML(atlasXMLBA.readUTFBytes(atlasXMLBA.length));
         var atlasBD : BitmapData = Bitmap(job.content).bitmapData;
-        // store images in the atlas in a model
-        var scale : Number = 1;
-        for each (var subTexture : XML in atlasXml.SubTexture)
+        var tmpAtlas : TextureAtlas = new TextureAtlas(Texture.empty(1, 1, false, false), atlasXml);
+
+        for each (var emitterValueObject : EmitterValueObject in projectModel.stadustSim.emitters)
         {
-            var name:String        = subTexture.@name.toString();
-            var x:Number           = parseFloat(subTexture.@x) / scale;
-            var y:Number           = parseFloat(subTexture.@y) / scale;
-            var width:Number       = parseFloat(subTexture.@width)  / scale;
-            var height:Number      = parseFloat(subTexture.@height) / scale;
-            var singleSprite : BitmapData = new BitmapData( width, height );
-            singleSprite.copyPixels( atlasBD, new Rectangle( x, y, width, height ), new Point( 0, 0 ) );
-            var emitterId : uint = name.split("_")[1];
+            var emitterId : uint = emitterValueObject.id;
             if (projectModel.emitterImages[emitterId] == null)
             {
                 projectModel.emitterImages[emitterId] = new Vector.<BitmapData>();
             }
-            projectModel.emitterImages[emitterId].push(singleSprite);
+            var textures : Vector.<Texture> = tmpAtlas.getTextures(SDEConstants.getSubTexturePrefix(emitterValueObject.id));
+            var len : uint = textures.length;
+            for ( var k : int = 0; k < len; k++ )
+            {
+                var tex : SubTexture = textures[k] as SubTexture;
+                var singleSprite : BitmapData = new BitmapData( tex.width, tex.height );
+                singleSprite.copyPixels( atlasBD, tex.region, new Point( 0, 0 ) );
+                projectModel.emitterImages[emitterId].push(singleSprite);
+            }
         }
+        tmpAtlas.dispose();
         checkIfAllLoaded();
     }
 
@@ -241,6 +248,7 @@ public class LoadSimCommand implements ICommand
     private function onAllLoaded() : void
     {
         simLoader.dispose();
+        sequenceLoader.clearAllJobs();
 
         for each (var emitterVO : EmitterValueObject in projectModel.stadustSim.emitters)
         {
