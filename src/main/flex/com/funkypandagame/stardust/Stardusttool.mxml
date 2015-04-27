@@ -29,6 +29,8 @@
         import robotlegs.bender.framework.api.IContext;
         import robotlegs.bender.framework.impl.Context;
 
+        import spark.components.Alert;
+
         import starling.core.Starling;
 
         import starling.display.Sprite;
@@ -84,6 +86,7 @@
     <fx:Style>
         @namespace mx "library://ns.adobe.com/flex/mx";
         @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace ns "http://flex.apache.org/experimental/ns";
 
         mx|ToolTip {
             fontSize: 14px;
@@ -122,6 +125,11 @@
         s|Panel {
             backgroundColor: #2F3B3F;
             skinClass: ClassReference("com.funkypandagame.stardust.view.skins.PanelSkin");
+        }
+
+        ns|Alert {
+            backgroundColor: #2F3B3F;
+            skinClass: ClassReference("com.funkypandagame.stardust.view.skins.AlertSkin");
         }
     </fx:Style>
 </s:Application>
