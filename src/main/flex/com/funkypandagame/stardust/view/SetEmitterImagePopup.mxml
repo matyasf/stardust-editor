@@ -27,6 +27,7 @@
         timer.reset();
         timer.addEventListener(TimerEvent.TIMER, onTimer);
         timer.start();
+        infoLabel.text = "The emitter will have 1 image";
     }
 
     private function onTimer(evt : TimerEvent = null) : void
@@ -49,17 +50,34 @@
 
     private function onImageDimensionsChange() : void
     {
-        if (parseInt(widthTextInput.text) > originalBD.width)
+        if (int(widthTextInput.text) < 1)
+        {
+            widthTextInput.text = "1";
+        }
+        if (int(heightTextInput.text) < 1)
+        {
+            heightTextInput.text = "1";
+        }
+        if (int(widthTextInput.text) > originalBD.width)
         {
             widthTextInput.text = originalBD.width.toString();
         }
-        if (parseInt(heightTextInput.text) > originalBD.height)
+        if (int(heightTextInput.text) > originalBD.height)
         {
             heightTextInput.text = originalBD.height.toString();
         }
         var slices : SpriteSheetBitmapSlicedCache = new SpriteSheetBitmapSlicedCache(originalBD,
-                parseInt(widthTextInput.text), parseInt(heightTextInput.text));
+                int(widthTextInput.text), int(heightTextInput.text));
         previews = slices.bds;
+        cnt = 0;
+        if (previews.length == 1)
+        {
+            infoLabel.text = "The emitter will have 1 image";
+        }
+        else
+        {
+            infoLabel.text = "The emitter will be an animation with " + previews.length + " images";
+        }
     }
 
     ]]>
@@ -80,6 +98,8 @@
     </s:HGroup>
 
     <s:BitmapImage width="400" height="300" id="previewImage" scaleMode="letterbox" smooth="false" />
+
+    <s:Label id="infoLabel" width="100%" />
 
     <s:VGroup width="100%" horizontalAlign="center">
         <s:Button label="Done" click="onCloseClick()" />
