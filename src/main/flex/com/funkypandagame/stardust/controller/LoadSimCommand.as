@@ -77,6 +77,7 @@ public class LoadSimCommand implements ICommand
         if ( projectModel.stadustSim )
         {
             projectModel.stadustSim.destroy();
+            simLoader.dispose();
         }
 
         numLoaded = 0;
