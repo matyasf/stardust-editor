@@ -9,7 +9,6 @@ public class ParticleHandlerCopyHelper {
 
     public static function copyHandlerProperties(from : ISpriteSheetHandler, toHandler : ISpriteSheetHandler) : void
     {
-        toHandler.bitmapData = from.bitmapData;
         if (toHandler is StarlingHandler)
         {
             toHandler.blendMode = getStarlingSafeBlendMode(from.blendMode);

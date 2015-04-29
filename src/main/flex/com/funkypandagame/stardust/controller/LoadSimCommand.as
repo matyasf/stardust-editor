@@ -249,7 +249,6 @@ public class LoadSimCommand implements ICommand
 
     private function onAllLoaded() : void
     {
-        simLoader.dispose();
         sequenceLoader.clearAllJobs();
 
         for each (var emitterVO : EmitterValueObject in projectModel.stadustSim.emitters)
