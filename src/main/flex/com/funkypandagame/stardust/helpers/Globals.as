@@ -130,6 +130,7 @@ public class Globals
         initalizerDict[ Scale ] = new DropdownListVO( "Scale", Scale, ScaleInitializer );
         initalizerDict[ Omega ] = new DropdownListVO( "Rotation speed", Omega, OmegaInitializer );
         initalizerDict[ Mass ] = new DropdownListVO( "Mass", Mass, MassInitializer );
+
         initalizerDict[ Color ] = new DropdownListVO( "Color(Deprecated)", Color, ColorInitializer );
         //initalizerDict[ CollisionRadius ] = new DropdownListVO( "Collision radius", CollisionRadius, CollisionRadiusInitializer );
         //initalizerDict[ Mask ] = new DropdownListVO("Mask", Mask, MaskInitializer);
@@ -140,10 +141,8 @@ public class Globals
         actionDict[ Oriented ] = new DropdownListVO( "Orient to velocity", Oriented, OrientedAction );
         actionDict[ Age ] = new DropdownListVO( "Change age", Age, AgeAction );
         actionDict[ DeathLife ] = new DropdownListVO( "Death on life end", DeathLife, DeathLifeAction );
-        actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
         actionDict[ ScaleCurve ] = new DropdownListVO( "Change scale", ScaleCurve, ScaleCurveAction );
         actionDict[ Accelerate ] = new DropdownListVO( "Accelerate", Accelerate, AccelerateAction );
-        actionDict[ Damping ] = new DropdownListVO( "Damping", Damping, DampingAction );
         actionDict[ SpeedLimit ] = new DropdownListVO( "Speed limit", SpeedLimit, SpeedLimitAction );
         actionDict[ Spin ] = new DropdownListVO( "Rotate", Spin, SpinAction );
         actionDict[ FollowWaypoints ] = new DropdownListVO( "Follow waypoints", FollowWaypoints, FollowWaypointsAction );
@@ -151,9 +150,12 @@ public class Globals
         actionDict[ Gravity ] = new DropdownListVO( "Gravity (acceleration) field", Gravity, GravityAction );
         actionDict[ VelocityField ] = new DropdownListVO( "Velocity field", VelocityField, VelocityFieldAction );
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
-        actionDict[ ColorCurve ] = new DropdownListVO( "Change color(deprecated)", ColorCurve, ColorCurveAction );
         actionDict[ AccelerationZone ] = new DropdownListVO( "Acceleration zone", AccelerationZone, AccelerationZoneAction );
         actionDict[ ColorGradient ] = new DropdownListVO( "Color/Alpha curve", ColorGradient, ColorCurveAdvancedAction );
+
+        actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
+        actionDict[ ColorCurve ] = new DropdownListVO( "Change color(deprecated)", ColorCurve, ColorCurveAction );
+        actionDict[ Damping ] = new DropdownListVO( "Damping(Deprecated)", Damping, DampingAction );
         //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
@@ -170,7 +172,10 @@ public class Globals
 
         for each ( var ddlVO2 : DropdownListVO in initalizerDict )
         {
-            initializerDDLAC.addItem( ddlVO2 );
+            if (ddlVO2.stardustClass != Color)
+            {
+                initializerDDLAC.addItem( ddlVO2 );
+            }
         }
         var sort : Sort = new Sort();
         sort.fields = [new SortField( "name", true )];
@@ -179,7 +184,7 @@ public class Globals
 
         for each ( var ddlVO : DropdownListVO in actionDict )
         {
-            if (ddlVO.stardustClass != Damping )
+            if (ddlVO.stardustClass != Damping && ddlVO.stardustClass != ColorCurve)
             {
                 actionsDDLAC.addItem( ddlVO );
             }
@@ -187,9 +192,9 @@ public class Globals
         actionsDDLAC.sort = sort;
         actionsDDLAC.refresh();
 
-        for each ( var ddlVO3 : DropdownListVO in zonesDict )
+        for each ( var ddlVO4 : DropdownListVO in zonesDict )
         {
-            zonesDDLAC.addItem( ddlVO3 );
+            zonesDDLAC.addItem( ddlVO4 );
         }
         zonesDDLAC.sort = sort;
         zonesDDLAC.refresh();
