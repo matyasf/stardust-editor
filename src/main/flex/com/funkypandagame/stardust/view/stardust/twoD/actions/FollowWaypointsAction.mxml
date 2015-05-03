@@ -44,7 +44,7 @@
         private function updateData(e : Event) : void
         {
             var dat : FollowWaypoints = data as FollowWaypoints;
-            // dat.loop = loopCheckBox.selected;
+            dat.loop = loopCheckBox.selected;
             dat.massless = masslessCheckBox.selected;
         }
 
@@ -72,16 +72,15 @@
         <s:VerticalLayout/>
     </twod:layout>
 
-    <!-- TODO fix in Stardust
-    <s:CheckBox id="loopCheckBox" label="Loop" change="updateData(event)"
-                toolTip="Whether the particles head for the first waypoint after passing through the last waypoint."/>
-    -->
-
     <s:HGroup verticalAlign="middle">
         <s:Button label="Add waypoint" click="ac.addItem(new Waypoint())"/>
 
         <s:CheckBox id="masslessCheckBox" label="Massless" change="updateData(event)"
                     toolTip="Whether the particle's mass is taken into account. If unchecked, the acceleration applied to a particle is divided by the particle's mass."/>
+
+
+        <s:CheckBox id="loopCheckBox" label="Loop" change="updateData(event)"
+                    toolTip="Should the particles head for the first waypoint after passing through the last one."/>
     </s:HGroup>
 
     <s:DataGroup width="100%" itemRenderer="com.funkypandagame.stardust.view.stardust.twoD.actions.waypoint.WaypointRenderer"
