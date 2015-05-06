@@ -18,9 +18,12 @@ import com.funkypandagame.stardust.view.stardust.twoD.actions.NormalDriftAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.OrientedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.RandomDriftAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ScaleCurveAction;
+import com.funkypandagame.stardust.view.stardust.twoD.actions.SpawnAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpeedLimitAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpinAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.VelocityFieldAction;
+import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.DeathTriggerRenderer;
+import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.LifeTriggerRenderer;
 import com.funkypandagame.stardust.view.stardust.twoD.initializers.AlphaInitializer;
 import com.funkypandagame.stardust.view.stardust.twoD.initializers.ColorInitializer;
 import com.funkypandagame.stardust.view.stardust.twoD.initializers.LifeInitializer;
@@ -46,6 +49,8 @@ import idv.cjcat.stardustextended.common.actions.ColorCurve;
 import idv.cjcat.stardustextended.common.actions.ColorGradient;
 import idv.cjcat.stardustextended.common.actions.DeathLife;
 import idv.cjcat.stardustextended.common.actions.ScaleCurve;
+import idv.cjcat.stardustextended.common.actions.triggers.DeathTrigger;
+import idv.cjcat.stardustextended.common.actions.triggers.LifeTrigger;
 import idv.cjcat.stardustextended.common.initializers.Alpha;
 import idv.cjcat.stardustextended.common.initializers.Color;
 import idv.cjcat.stardustextended.common.initializers.Life;
@@ -62,6 +67,7 @@ import idv.cjcat.stardustextended.twoD.actions.Move;
 import idv.cjcat.stardustextended.twoD.actions.NormalDrift;
 import idv.cjcat.stardustextended.twoD.actions.Oriented;
 import idv.cjcat.stardustextended.twoD.actions.RandomDrift;
+import idv.cjcat.stardustextended.twoD.actions.Spawn;
 import idv.cjcat.stardustextended.twoD.actions.SpeedLimit;
 import idv.cjcat.stardustextended.twoD.actions.Spin;
 import idv.cjcat.stardustextended.twoD.actions.VelocityField;
@@ -89,12 +95,18 @@ public class Globals
     public static const starlingCanvas : starling.display.Sprite = new starling.display.Sprite();
 
     public static const initalizerDict : Dictionary = new Dictionary();
-    public static const actionDict : Dictionary = new Dictionary();
     public static const initializerDDLAC : ArrayCollection = new ArrayCollection();
+
+    public static const actionDict : Dictionary = new Dictionary();
     public static const actionsDDLAC : ArrayCollection = new ArrayCollection();
+
     public static const zonesDict : Dictionary = new Dictionary();
     public static const zonesDDLAC : ArrayCollection = new ArrayCollection();
     public static const noZeroAreaZonesDDLAC : ArrayCollection = new ArrayCollection();
+
+    public static const triggersDict : Dictionary = new Dictionary();
+    public static const triggersDDLAC : ArrayCollection = new ArrayCollection();
+
     public static const blendModesDisplayList : ArrayCollection = new ArrayCollection( [
         flash.display.BlendMode.NORMAL,
         flash.display.BlendMode.LAYER,
@@ -152,11 +164,11 @@ public class Globals
         actionDict[ NormalDrift ] = new DropdownListVO( "Perpendicular acceleration", NormalDrift, NormalDriftAction );
         actionDict[ AccelerationZone ] = new DropdownListVO( "Acceleration zone", AccelerationZone, AccelerationZoneAction );
         actionDict[ ColorGradient ] = new DropdownListVO( "Color/Alpha curve", ColorGradient, ColorCurveAdvancedAction );
+        actionDict[ Spawn ] = new DropdownListVO("Spawn particles", Spawn, SpawnAction);
 
         actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
         actionDict[ ColorCurve ] = new DropdownListVO( "Change color(deprecated)", ColorCurve, ColorCurveAction );
         actionDict[ Damping ] = new DropdownListVO( "Damping(Deprecated)", Damping, DampingAction );
-        //actionDict[ DeathTrigger ] = new DropdownListVO("Spawn particles", DeathTrigger, DeathTriggerAction);
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
         //actionDict[ Collide ] = new DropdownListVO( "Collide (CPU intensive)", Collide, CollideAction );
@@ -169,6 +181,9 @@ public class Globals
         zonesDict[CircleContour] = new DropdownListVO("Circle contour", CircleContour, CircleContourZone);
         zonesDict[Sector] = new DropdownListVO("Circle sector", Sector, SectorZone);
         zonesDict[Composite] = new DropdownListVO("Composite zone", Composite, CompositeZone);
+
+        triggersDict[DeathTrigger] = new DropdownListVO("Death trigger", DeathTrigger, DeathTriggerRenderer);
+        triggersDict[LifeTrigger] = new DropdownListVO("Life trigger", LifeTrigger, LifeTriggerRenderer);
 
         for each ( var ddlVO2 : DropdownListVO in initalizerDict )
         {
@@ -184,7 +199,7 @@ public class Globals
 
         for each ( var ddlVO : DropdownListVO in actionDict )
         {
-            if (ddlVO.stardustClass != Damping && ddlVO.stardustClass != ColorCurve)
+            if (ddlVO.stardustClass != ColorCurve)
             {
                 actionsDDLAC.addItem( ddlVO );
             }
@@ -204,6 +219,13 @@ public class Globals
         noZeroAreaZonesDDLAC.addItem(zonesDict[Sector]);
         noZeroAreaZonesDDLAC.addItem(zonesDict[Composite]);
         noZeroAreaZonesDDLAC.refresh();
+
+        for each ( var ddlVO5 : DropdownListVO in triggersDict )
+        {
+            triggersDDLAC.addItem( ddlVO5 );
+        }
+        triggersDDLAC.sort = sort;
+        triggersDDLAC.refresh();
 
         canvas.mouseChildren = canvas.mouseEnabled = false;
         starlingCanvas.touchable = false;

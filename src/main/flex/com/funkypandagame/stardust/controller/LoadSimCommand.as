@@ -155,7 +155,7 @@ public class LoadSimCommand implements ICommand
                 var loadedFileName2 : String = loadedZip.getFileAt(j).filename;
                 if (SDEConstants.isEmitterXMLName(loadedFileName2))
                 {
-                    var emitterId : uint = SDEConstants.getEmitterID(loadedFileName2);
+                    var emitterId : String = SDEConstants.getEmitterID(loadedFileName2);
                     const loadImageJob : LoadByteArrayJob = new LoadByteArrayJob(
                             emitterId.toString(),
                             SDEConstants.getImageName(emitterId),
@@ -176,7 +176,7 @@ public class LoadSimCommand implements ICommand
             var loadedFileName : String = loadedZip.getFileAt(i).filename;
             if (SDEConstants.isEmitterXMLName(loadedFileName))
             {
-                const emitterId : uint = SDEConstants.getEmitterID(loadedFileName);
+                const emitterId : String = SDEConstants.getEmitterID(loadedFileName);
                 const job : LoadByteArrayJob = sequenceLoader.getJobByName( emitterId.toString() );
 
                 var image : BitmapData = Bitmap(job.content).bitmapData;
@@ -220,7 +220,7 @@ public class LoadSimCommand implements ICommand
 
         for each (var emitterValueObject : EmitterValueObject in projectModel.stadustSim.emitters)
         {
-            var emitterId : uint = emitterValueObject.id;
+            var emitterId : String = emitterValueObject.id;
             if (projectModel.emitterImages[emitterId] == null)
             {
                 projectModel.emitterImages[emitterId] = new Vector.<BitmapData>();

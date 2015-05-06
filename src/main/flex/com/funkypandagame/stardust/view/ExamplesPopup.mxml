@@ -1,31 +1,35 @@
 <?xml version="1.0"?>
 <components:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
-                        xmlns:components="spark.components.*" xmlns:view="com.funkypandagame.stardust.view.*"
-                        title="Examples"
+                        xmlns:components="spark.components.*"
+                        xmlns:view="com.funkypandagame.stardust.view.*"
+                        title="Examples" width="650"
                         close="closeHandler(event)">
 
     <fx:Script><![CDATA[
         import mx.events.CloseEvent;
         import mx.managers.PopUpManager;
 
+        [Embed(source="../../../../../resources/simple_fireworks.sde", mimeType="application/octet-stream")]
+        private static var SimpleFireworkSim : Class;
+
         [Embed(source="../../../../../resources/blazing_fire.sde", mimeType="application/octet-stream")]
-        private static var BlazingFireSim:Class;
+        private static var BlazingFireSim : Class;
 
         [Embed(source="../../../../../resources/dry_ice.sde", mimeType="application/octet-stream")]
-        private static var DryIceSim:Class;
+        private static var DryIceSim : Class;
 
         [Embed(source="../../../../../resources/snowfall.sde", mimeType="application/octet-stream")]
-        private static var SnowfallSim:Class;
+        private static var SnowfallSim : Class;
 
         [Embed(source="../../../../../resources/coins_particles.sde", mimeType="application/octet-stream")]
-        private static var CoinShowerSim:Class;
+        private static var CoinShowerSim : Class;
 
         [Embed(source="../../../../../resources/glitter_burst.sde", mimeType="application/octet-stream")]
-        private static var GlitterBurst:Class;
+        private static var GlitterBurst : Class;
 
         public var callback : Function;
 
-        private function closeHandler(event:CloseEvent) : void
+        private function closeHandler(event : CloseEvent) : void
         {
             PopUpManager.removePopUp(this);
         }
@@ -35,8 +39,7 @@
             PopUpManager.removePopUp(this);
             callback(sdeFile);
         }
-
-    ]]></fx:Script>
+        ]]></fx:Script>
 
     <components:VGroup width="100%" height="100%" gap="2">
 
@@ -44,7 +47,11 @@
                 paddingTop="2" paddingRight="2" paddingLeft="2" paddingBottom="2"/>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BlazingFireSim()}">
-            <view:HTMLdescription><![CDATA[<b>Blazing fire</b><br/>Big fire]]></view:HTMLdescription>
+            <view:HTMLdescription><![CDATA[<b>Blazing fire</b><br/>Shows how to use the Color Curve action to alter a particle's color and alpha over time. The non-premultiplied alpha combined with low alpha values results in highly saturated colors.]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SimpleFireworkSim()}">
+            <view:HTMLdescription><![CDATA[<b>Simple fireworks</b><br/>Simple example of the Spawn action]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new DryIceSim()}">
@@ -56,11 +63,11 @@
         </view:ExampleRenderer>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new CoinShowerSim()}">
-            <view:HTMLdescription><![CDATA[<b>Coin shower</b><br/>Coins flying around]]></view:HTMLdescription>
+            <view:HTMLdescription><![CDATA[<b>Coin shower</b><br/>Shows how animated particles can look and how to use multiple emitters.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new GlitterBurst()}">
-            <view:HTMLdescription><![CDATA[<b>Confetti</b><br/>Confetti/glitter explosion]]></view:HTMLdescription>
+            <view:HTMLdescription><![CDATA[<b>Confetti</b><br/>Confetti/glitter explosion. The animated particles are another way to change colors.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
     </components:VGroup>

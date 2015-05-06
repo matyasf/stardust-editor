@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          verticalAlign="middle"
+          implements="com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.ITriggerRenderer">
+
+    <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.common.actions.triggers.DeathTrigger;
+        import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+
+        private var trigger:DeathTrigger;
+
+        public function setData(d:Trigger):void {
+            trigger = DeathTrigger(d);
+        }
+        ]]></fx:Script>
+
+    <s:Label text="Trigger is activated when a particle dies"/>
+
+</s:HGroup>

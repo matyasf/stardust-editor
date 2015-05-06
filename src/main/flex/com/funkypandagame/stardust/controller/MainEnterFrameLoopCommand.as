@@ -12,8 +12,6 @@ import idv.cjcat.stardustextended.twoD.starling.StardustStarlingRenderer;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 
-import starling.core.Starling;
-
 // TODO this needs to be a service, since calcTime needs to be preserved between runs
 public class MainEnterFrameLoopCommand implements ICommand
 {
@@ -27,7 +25,7 @@ public class MainEnterFrameLoopCommand implements ICommand
     [Inject]
     public var simPlayer : SimPlayer;
 
-    private var calcTime : uint;
+    public static var calcTime : uint;
 
     public function execute() : void
     {

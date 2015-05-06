@@ -3,9 +3,11 @@
           xmlns:s="library://ns.adobe.com/flex/spark">
 
     <fx:Script><![CDATA[
+
         import com.funkypandagame.stardust.helpers.DropdownListVO;
 
         import idv.cjcat.stardustextended.common.StardustElement;
+        import idv.cjcat.stardustextended.twoD.actions.Spawn;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
@@ -50,9 +52,18 @@
             }
         }
 
-        private function dropDownFilterFunction(item:Object):Boolean {
-            for (var i:int = 0; i < _dataProviderAC.length; i++) {
-                if (_dataProviderAC.getItemAt(i) is DropdownListVO(item).stardustClass) {
+        // Filter out items already added to the list
+        private function dropDownFilterFunction(item:Object):Boolean
+        {
+            for (var i:int = 0; i < _dataProviderAC.length; i++)
+            {
+                var ddClass : Class = DropdownListVO(item).stardustClass;
+                if (ddClass == Spawn)
+                {
+                    return true;
+                }
+                else if (_dataProviderAC.getItemAt(i) is ddClass)
+                {
                     return false;
                 }
             }

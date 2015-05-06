@@ -11,6 +11,7 @@
     <view2:StardusttoolMainView/>
 
     <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.model.ProjectModel;
         import com.junkbyte.console.Cc;
 
         import com.funkypandagame.stardust.config.AppConfig;
@@ -42,6 +43,9 @@
         private var context:IContext;
         private var starlingInstance:Starling;
 
+        [Inject]
+        public var model : ProjectModel;
+
         private function initApp():void {
             setupLogging();
 
@@ -60,6 +64,7 @@
             context.install(MVCSBundle).configure(AppConfig).configure(new ContextView(this));
             const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
             dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+            context.injector.injectInto(this);
         }
 
         private static function setupLogging():void {

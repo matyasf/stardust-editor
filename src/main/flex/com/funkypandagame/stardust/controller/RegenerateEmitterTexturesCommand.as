@@ -32,7 +32,7 @@ public class RegenerateEmitterTexturesCommand
             var images : Vector.<BitmapData> = model.emitterImages[emitterId];
             for (var i : int = 0; i < images.length; i++)
             {
-                tmpTextures.push(new AtlasTexture(images[i], uint(emitterId), i));
+                tmpTextures.push(new AtlasTexture(images[i], emitterId, i));
             }
         }
         var atlas : Atlas = packer.createAtlas(tmpTextures);

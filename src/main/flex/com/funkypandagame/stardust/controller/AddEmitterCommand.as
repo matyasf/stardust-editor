@@ -13,6 +13,8 @@ import flash.display.BitmapData;
 
 import flash.events.IEventDispatcher;
 
+import idv.cjcat.stardustextended.common.emitters.Emitter;
+
 import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -40,7 +42,7 @@ public class AddEmitterCommand implements ICommand
             <SteadyClock name="SteadyClock_6" ticksPerCall="1"/>
         </clocks>
         <emitters>
-            <Emitter2D name="Default" active="true" clock="SteadyClock_6" particleHandler="DisplayObjectHandler_2">
+            <Emitter2D name="Emitter" active="true" clock="SteadyClock_6" particleHandler="DisplayObjectHandler_2">
                 <actions>
                     <DeathLife name="DeathLife_0"/>
                     <Age name="Age_0"/>
@@ -78,7 +80,9 @@ public class AddEmitterCommand implements ICommand
         {
             uniqueID++;
         }
-        const emitterData : EmitterValueObject = new EmitterValueObject( uniqueID, EmitterBuilder.buildEmitter(DEFAULT_EMITTER));
+        var emitter : Emitter = EmitterBuilder.buildEmitter(DEFAULT_EMITTER, uniqueID.toString());
+        const emitterData : EmitterValueObject = new EmitterValueObject(emitter);
+        emitter.name = uniqueID.toString();
         projectModel.stadustSim.emitters[emitterData.id] = emitterData;
         if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {

@@ -12,6 +12,11 @@ import com.funkypandagame.stardustplayer.project.ProjectValueObject;
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
+import idv.cjcat.stardustextended.common.actions.Action;
+
+import idv.cjcat.stardustextended.common.emitters.Emitter;
+import idv.cjcat.stardustextended.twoD.actions.Spawn;
+
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import mx.logging.ILogger;
@@ -32,9 +37,25 @@ public class RemoveEmitterCommand implements ICommand
 
     public function execute() : void
     {
+
         const projectObj : ProjectValueObject = projectModel.stadustSim;
         if (projectObj.numberOfEmitters > 1)
         {
+            // Remove from other emitters if this was used as spawner trigger
+            for each (var em : Emitter in projectModel.stadustSim.emittersArr)
+            {
+                for each (var action : Action in em.actions)
+                {
+                    if (action is Spawn)
+                    {
+                        if (Spawn(action).spawnerEmitter == projectModel.emitterInFocus.emitter)
+                        {
+                            Spawn(action).spawnerEmitter = null;
+                        }
+                    }
+                }
+            }
+
             projectModel.emitterInFocus.emitter.clearParticles();
             if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
             {

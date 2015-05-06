@@ -41,14 +41,18 @@
 
         public function setData(_emitter:Emitter):void {
             emitter = _emitter;
-            if (emitter.clock is SteadyClock) {
+            if (emitter.clock is SteadyClock)
+            {
                 ddl.selectedIndex = 0;
             }
-            else if (emitter.clock is ImpulseClock) {
+            else if (emitter.clock is ImpulseClock)
+            {
                 ddl.selectedIndex = 1;
             }
+            activeCheckBox.selected = emitter.active;
             ddl.validateProperties();
             populateData();
+            validateNow();
         }
 
         public function getData():Clock {
@@ -58,11 +62,16 @@
             return null;
         }
 
-        private function populateData():void {
-            LOG.debug("Populate Clock Data");
+        private function populateData():void
+        {
             var it:DropdownListVO = DropdownListVO(ddl.selectedItem);
             content.removeAllElements();
             content.addElement(new it.viewClass());
+        }
+
+        private function onActiveChange():void
+        {
+            emitter.active = activeCheckBox.selected;
         }
         ]]></fx:Script>
 
@@ -70,6 +79,7 @@
         <s:Label text="clock type:"/>
         <s:DropDownList id="ddl" dataProvider="{clocksAC}" change="onSelChange()"
                         labelField="name" requireSelection="true" selectedIndex="0"/>
+        <s:CheckBox id="activeCheckBox" label="Active" change="onActiveChange()"/>
     </s:HGroup>
     <s:Group id="content"/>
 

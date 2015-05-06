@@ -35,7 +35,7 @@ public class PropertyRendererBase extends ItemRenderer
         super.layout = hLayout;
 
         addElement( enabledCB );
-        enabledCB.toolTip = "mute";
+        enabledCB.toolTip = "Enabled";
         enabledCB.addEventListener( Event.CHANGE, onEnabledChangeClick );
 
         addElement( nameLabel );
@@ -60,15 +60,15 @@ public class PropertyRendererBase extends ItemRenderer
         {
             return;
         }
-        enabledCB.selected = ! data.active;
+        enabledCB.selected = data.active;
     }
 
-    private function onEnabledChangeClick( event : Event ) : void
+    protected function onEnabledChangeClick( event : Event ) : void
     {
-        data.active = ! enabledCB.selected;
+        data.active = enabledCB.selected;
     }
 
-    private function onRemoveClick( e : MouseEvent ) : void
+    protected function onRemoveClick( e : MouseEvent ) : void
     {
         List( owner ).dataProvider.removeItemAt( List( owner ).dataProvider.getItemIndex( data ) );
     }

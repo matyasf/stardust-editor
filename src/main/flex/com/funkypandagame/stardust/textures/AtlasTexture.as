@@ -9,7 +9,7 @@ import flash.geom.Rectangle;
 public class AtlasTexture
 {
     private var _image : BitmapData;
-    private var _emitterId : uint;
+    private var _emitterId : String;
     // the position with added padding
     private var _positionWithPadding : Rectangle;
     // the image position without any padding
@@ -17,7 +17,7 @@ public class AtlasTexture
     // position in an animation
     private var _imagePosition : uint;
 
-    public function AtlasTexture(bData : BitmapData, emitterId : uint, imagePosition : uint)
+    public function AtlasTexture(bData : BitmapData, emitterId : String, imagePosition : uint)
     {
         _image = bData;
         _emitterId = emitterId;
@@ -32,7 +32,7 @@ public class AtlasTexture
         return padBitmapBorder(_image);
     }
 
-    public function get emitterId() : uint
+    public function get emitterId() : String
     {
         return _emitterId;
     }

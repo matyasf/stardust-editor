@@ -72,7 +72,7 @@ public class SaveSimCommand implements ICommand
             var images : Vector.<BitmapData> = projectModel.emitterImages[emitterId];
             for (var i : int = 0; i < images.length; i++)
             {
-                textures.push(new AtlasTexture(images[i], uint(emitterId), i));
+                textures.push(new AtlasTexture(images[i], emitterId, i));
             }
         }
         var atlas : Atlas = packer.createAtlas(textures);

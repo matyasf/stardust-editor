@@ -7,12 +7,11 @@
           addedToStage="onAdded()">
 
     <fx:Script><![CDATA[
-        import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
+
         import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
         import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
         import com.funkypandagame.stardust.controller.events.SnapshotEvent;
 
-        import com.funkypandagame.stardust.model.DisplayModes;
         import com.funkypandagame.stardust.view.events.EmitterChangeUIViewEvent;
 
         import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;

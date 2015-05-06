@@ -37,6 +37,7 @@ public class StartSimCommand implements ICommand
 
         projectSettings.stadustSim.resetSimulation();
 
+        MainEnterFrameLoopCommand.calcTime = 0;
         // refresh the initializer/action arrayCollections
         dispatcher.dispatchEvent( new UpdateEmitterFromViewUICollectionsEvent( UpdateEmitterFromViewUICollectionsEvent.UPDATE, projectSettings.emitterInFocus ) );
 

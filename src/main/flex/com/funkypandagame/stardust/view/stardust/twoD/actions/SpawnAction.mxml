@@ -1,88 +1,130 @@
 <?xml version="1.0"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:view="com.funkypandagame.stardust.view.*" width="100%"
-          xmlns:s="library://ns.adobe.com/flex/spark" xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
-          preinitialize="initializerAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onInitializerACChange);">
+<twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                           xmlns:s="library://ns.adobe.com/flex/spark"
+                           xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
+                           nameText="Spawn"
+                           initialize="onInit()">
 
     <fx:Script><![CDATA[
-        import Globals.funkypandagame.stardust.helpers.Globals;
 
+        import com.funkypandagame.stardust.Stardusttool;
+        import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
+        import com.funkypandagame.stardust.model.ProjectModel;
+        import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.ITriggerRenderer;
 
-        import idv.cjcat.stardustextended.common.initializers.Initializer;
-        import idv.cjcat.stardustextended.common.initializers.Mask;
-        import idv.cjcat.stardustextended.common.math.UniformRandom;
+        import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+
+        import idv.cjcat.stardustextended.common.emitters.Emitter;
         import idv.cjcat.stardustextended.twoD.actions.Spawn;
-        import idv.cjcat.stardustextended.flashdisplay.initializers.PooledDisplayObjectClass;
 
         import mx.collections.ArrayCollection;
-        import mx.events.CollectionEvent;
-        import mx.events.CollectionEventKind;
+        import mx.core.FlexGlobals;
 
-        private const initializerAC:ArrayCollection = new ArrayCollection();
-        private var _data:Spawn;
+        private var _data : Spawn;
+        [Bindable]
+        private var emitterDDLAC : ArrayCollection = new ArrayCollection();
 
-        private function updateData():void {
+        private function onInit() : void
+        {
+            var model : ProjectModel = Stardusttool(FlexGlobals.topLevelApplication).model;
+            for each (var emitter : Emitter in model.stadustSim.emittersArr)
+            {
+                if (emitter != model.emitterInFocus.emitter)
+                {
+                    emitterDDLAC.addItem(emitter);
+                }
+            }
+        }
+
+        private function updateData() : void
+        {
             _data.inheritDirection = inheritDirectionCheckBox.selected;
             _data.inheritVelocity = inheritVelocityCheckBox.selected;
         }
 
-        public function set data(d:Spawn):void {
-            _data = d;
-            if (d == null) {
+        override public function set data(d : Object) : void
+        {
+            super.data = d;
+            _data = Spawn(d);
+            if (d == null)
+            {
                 return;
             }
             inheritDirectionCheckBox.selected = _data.inheritDirection;
             inheritVelocityCheckBox.selected = _data.inheritVelocity;
-            if (_data.countRandom is UniformRandom) {
-                numParticles.setData(UniformRandom(_data.countRandom));
-            }
-            else {
-                throw "Only UniformRandom is an implemented random!";
-            }
-            var relatedObjects:Array = _data.getRelatedObjects();
-            relatedObjects.shift();
-            // TODO: handle pixel other display classes, pixel renderer
-            var hasDisplayObjectInitializer:Boolean = false;
-            for each (var initalizer:Initializer in relatedObjects) {
-                if (initalizer is PooledDisplayObjectClass) {
-                    hasDisplayObjectInitializer = true;
-                }
-                initializerAC.source.push(initalizer);
-            }
-            initializerAC.refresh();
-            if (hasDisplayObjectInitializer == false) {
-                initializerAC.addItem(new PooledDisplayObjectClass());
-            }
-            initializerAC.addItem(new Mask(4));
+
+            const TriggerClass : Class = Class(getDefinitionByName(getQualifiedClassName(_data.trigger)));
+            const currentData : DropdownListVO = Globals.triggersDict[TriggerClass];
+            triggersDDL.selectedItem = currentData;
+            triggersDDL.validateProperties();
+
+            emitterDDL.selectedItem = _data.spawnerEmitter;
+
+            setTriggerRenderer(currentData.viewClass, _data.trigger);
         }
 
-        private function onInitializerACChange(e:CollectionEvent):void {
-            var dat:Spawn = Spawn(_data);
-            if (e.kind == CollectionEventKind.ADD) {
-                dat.addInitializer(Initializer(e.items[0]));
+        private function onTriggerDDLSelChange() : void
+        {
+            const it : DropdownListVO = DropdownListVO(triggersDDL.selectedItem);
+            var _zone : Trigger = new it.stardustClass();
+            _data.trigger = _zone;
+            setTriggerRenderer(it.viewClass, _zone);
+        }
+
+        private function setTriggerRenderer(RendererClass : Class, data : Trigger) : void
+        {
+            content.removeAllElements();
+            var triggerRenderer : ITriggerRenderer = new RendererClass();
+            triggerRenderer.setData(data);
+            content.addElement(triggerRenderer);
+        }
+
+        private function onEmitterDDLSelChange() : void
+        {
+            var em : Emitter = Emitter(emitterDDL.selectedItem);
+            if (_data.spawnerEmitter)
+            {
+                _data.spawnerEmitter.active = true;
             }
-            if (e.kind == CollectionEventKind.REMOVE) {
-                dat.removeInitializer(Initializer(e.items[0]));
+            _data.spawnerEmitter = em;
+            _data.spawnerEmitter.active = false;
+        }
+
+        override protected function onRemoveClick( e : MouseEvent ) : void
+        {
+            if (_data.spawnerEmitter)
+            {
+                _data.spawnerEmitter.active = true;
             }
+            _data.spawnerEmitter = null;
+            super.onRemoveClick(e);
         }
         ]]></fx:Script>
 
-    <s:Label text="Experimental. Wrong mask values can lead to endless loop!"/>
+    <twod:layout>
+        <s:VerticalLayout/>
+    </twod:layout>
 
     <s:HGroup verticalAlign="middle">
         <s:CheckBox label="Inherit velocity" id="inheritVelocityCheckBox" change="updateData()"/>
         <s:CheckBox label="Inherit direction" id="inheritDirectionCheckBox" change="updateData()"/>
     </s:HGroup>
 
-    <s:HGroup verticalAlign="middle">
-        <s:Label text="Particles to spawn"/>
-        <math:UniformRandomMath id="numParticles"/>
+    <s:HGroup width="100%" verticalAlign="middle">
+        <s:Label text="Emitter"/>
+        <s:DropDownList id="emitterDDL" width="160"
+                        dataProvider="{emitterDDLAC}" labelField="name"
+                        change="onEmitterDDLSelChange()"/>
     </s:HGroup>
 
-    <view:StardustElementContainer id="initializersContainer" width="100%"
-                                   label="Initializers"
-                                   dataProviderAC="{initializerAC}"
-                                   dropdownListAC="{Globals.initializerDDLAC}"
-                                   dataproviderDict="{Globals.initalizerDict}"/>
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Trigger type:"/>
+        <s:DropDownList id="triggersDDL" dataProvider="{Globals.triggersDDLAC}"
+                        change="onTriggerDDLSelChange()"
+                        labelField="name" requireSelection="true" selectedIndex="0"/>
+    </s:HGroup>
 
-</s:VGroup>
+    <s:Group id="content"/>
+
+</twod:PropertyRendererBase>
