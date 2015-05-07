@@ -46,7 +46,7 @@ dependencies {
     merged 'com.junkbyte:flash-console:2.6'
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
 
-    merged 'com.funkypandagame:stardust-sim-loader:3.18'
+    merged 'com.funkypandagame:stardust-sim-loader:3.19'
 }
 
 additionalCompilerOptions = [
