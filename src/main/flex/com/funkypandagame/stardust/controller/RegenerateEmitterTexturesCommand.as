@@ -24,7 +24,6 @@ public class RegenerateEmitterTexturesCommand
 
     public function execute() : void
     {
-        var oldTexture : Texture = StarlingHandler(model.emitterInFocus.emitter.particleHandler).textures[0].root;
         var packer : TexturePacker = new TexturePacker();
         var tmpTextures : Vector.<AtlasTexture> = new Vector.<AtlasTexture>();
         for (var emitterId : * in model.emitterImages)
@@ -53,7 +52,10 @@ public class RegenerateEmitterTexturesCommand
             }
             StarlingHandler(emitterVO.emitter.particleHandler).setTextures(texs2);
         }
-        oldTexture.dispose();
+        if (StarlingHandler(model.emitterInFocus.emitter.particleHandler).textures)
+        {
+            StarlingHandler(model.emitterInFocus.emitter.particleHandler).textures[0].root;
+        }
     }
 }
 }

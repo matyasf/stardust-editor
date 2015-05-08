@@ -1,6 +1,7 @@
 package com.funkypandagame.stardust.view.mediators
 {
 import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
+import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
 import com.funkypandagame.stardust.controller.events.EmitterChangeEvent;
 import com.funkypandagame.stardust.controller.events.RefreshFPSTextEvent;
 import com.funkypandagame.stardust.controller.events.SetParticleHandlerEvent;
@@ -26,6 +27,7 @@ public class EmittersUIViewMediator extends Mediator
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( ChangeEmitterInFocusEvent.CHANGE, redispatchEvent, ChangeEmitterInFocusEvent );
         addViewListener( SnapshotEvent.TYPE, redispatchEvent, SnapshotEvent );
+        addViewListener( CloneEmitterEvent.TYPE, redispatchEvent, CloneEmitterEvent );
 
         addContextListener( SetResultsForEmitterDropDownListEvent.UPDATE, handleSetResultsDropDownListEvent, SetResultsForEmitterDropDownListEvent );
         addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );

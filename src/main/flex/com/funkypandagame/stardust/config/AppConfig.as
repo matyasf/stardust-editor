@@ -3,6 +3,7 @@ package com.funkypandagame.stardust.config
 
 import com.funkypandagame.stardust.controller.AddEmitterCommand;
 import com.funkypandagame.stardust.controller.ChangeEmitterInFocusCommand;
+import com.funkypandagame.stardust.controller.CloneEmitterCommand;
 import com.funkypandagame.stardust.controller.FileLoadCommand;
 import com.funkypandagame.stardust.controller.ImpulseClockRendererUpdateEmitterInfoCommand;
 import com.funkypandagame.stardust.controller.InitializeZoneDrawerFromEmitterCommand;
@@ -29,6 +30,7 @@ import com.funkypandagame.stardust.controller.UpdateEmitterDropDownListCommand;
 import com.funkypandagame.stardust.controller.UpdateEmitterInfoTicksPerCallCommand;
 import com.funkypandagame.stardust.controller.events.BackgroundChangeEvent;
 import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
+import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
 import com.funkypandagame.stardust.controller.events.EmitterChangeEvent;
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
@@ -125,6 +127,7 @@ public class AppConfig implements IConfig
         eventCommandMap.map( MainEnterFrameLoopEvent.ENTER_FRAME, MainEnterFrameLoopEvent ).toCommand( MainEnterFrameLoopCommand );
         eventCommandMap.map( SnapshotEvent.TYPE, SnapshotEvent ).toCommand( StoreParticleSnapshotCommand );
         eventCommandMap.map( RegenerateEmitterTexturesEvent.TYPE, RegenerateEmitterTexturesEvent ).toCommand( RegenerateEmitterTexturesCommand );
+        eventCommandMap.map( CloneEmitterEvent.TYPE, CloneEmitterEvent ).toCommand( CloneEmitterCommand );
 
         injector.map( ProjectModel ).asSingleton();
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );

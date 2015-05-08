@@ -7,7 +7,7 @@
           addedToStage="onAdded()">
 
     <fx:Script><![CDATA[
-
+        import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
         import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
         import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
         import com.funkypandagame.stardust.controller.events.SnapshotEvent;
@@ -41,14 +41,17 @@
 
         private function onClickAdd(event:MouseEvent):void {
             LOG.debug("Add Emitter");
-
             dispatchEvent(new EmitterChangeUIViewEvent(EmitterChangeUIViewEvent.ADD));
         }
 
         private function onClickRemove(event:MouseEvent):void {
             LOG.debug("Remove Emitter");
-
             dispatchEvent(new EmitterChangeUIViewEvent(EmitterChangeUIViewEvent.REMOVE));
+        }
+
+        private function onClickClone(event:MouseEvent):void {
+            LOG.debug("Clone Emitter");
+            dispatchEvent(new CloneEmitterEvent());
         }
 
         private function onDropDownChange(event:IndexChangeEvent):void {
@@ -126,6 +129,7 @@
                         change="onDropDownChange(event)"/>
         <s:Button label="Add" click="onClickAdd(event)"/>
         <s:Button label="Remove" click="onClickRemove(event)"/>
+        <s:Button label="Clone" click="onClickClone(event)"/>
     </s:HGroup>
 
     <s:BorderContainer width="100%" height="100%" backgroundColor="#2F3B3F">
