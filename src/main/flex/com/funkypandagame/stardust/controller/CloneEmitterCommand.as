@@ -14,10 +14,13 @@ import flash.display.BitmapData;
 import flash.events.IEventDispatcher;
 import flash.utils.ByteArray;
 
+import idv.cjcat.stardustextended.common.actions.Action;
+
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.common.xml.XMLBuilder;
 
 import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.actions.Spawn;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
@@ -42,7 +45,24 @@ public class CloneEmitterCommand implements ICommand
         var emitter : Emitter = EmitterBuilder.buildEmitter(emitterXml, emitterXml);
         var emitterData : EmitterValueObject = new EmitterValueObject(emitter);
         emitter.name = uniqueID.toString();
+
+        for each (var action : Action in emitter.actions)
+        {
+            if (action is Spawn && Spawn(action).spawnerEmitterId)
+            {
+                var spawnAction : Spawn = Spawn(action);
+                for each (var emVO : EmitterValueObject in projectModel.stadustSim.emitters)
+                {
+                    if (spawnAction.spawnerEmitterId == emVO.id)
+                    {
+                        spawnAction.spawnerEmitter = emVO.emitter;
+                    }
+                }
+            }
+        }
+
         projectModel.stadustSim.emitters[emitterData.id] = emitterData;
+
         // TODO reuse the original one
         var images : Vector.<BitmapData> = Vector.<BitmapData>(projectModel.emitterImages[originalEmitter.id]);
         var cloneImages : Vector.<BitmapData> = new Vector.<BitmapData>();
