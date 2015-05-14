@@ -9,14 +9,12 @@
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.view.events.LoadEmitterImageFromFileEvent;
 
-        import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
-        import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
         import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
 
         [Bindable]
-        public var blendModesAC : ArrayCollection = Globals.blendModesDisplayList;
+        public var blendModesAC : ArrayCollection = Globals.blendModesStarling;
 
         [Bindable]
         public var sourceBD : BitmapData;
@@ -24,43 +22,23 @@
         [Bindable]
         public var isSpriteSheet : Boolean;
 
-        private var _handler : ISpriteSheetHandler;
+        private var _handler : StarlingHandler;
 
-        public function setHandler(handler : ISpriteSheetHandler, handlerImages : Vector.<BitmapData>) : void
+        public function setHandler(handler : StarlingHandler, handlerImages : Vector.<BitmapData>) : void
         {
             _handler = handler;
 
             sourceBD = handlerImages[0]; // TODO display all images
             useSmoothingCheckBox.selected = _handler.smoothing;
-            if (handler is StarlingHandler)
-            {
-                premultiplyAlphaCheckBox.selected = StarlingHandler(handler).premultiplyAlpha;
-                premultiplyAlphaCheckBox.enabled = true;
-            }
-            else
-            {
-                premultiplyAlphaCheckBox.enabled = false;
-            }
+
+            premultiplyAlphaCheckBox.selected = handler.premultiplyAlpha;
+            premultiplyAlphaCheckBox.enabled = true;
 
             speedTextInput.text = _handler.spriteSheetAnimationSpeed.toString();
             randomFrameCB.selected = _handler.spriteSheetStartAtRandomFrame;
 
             isSpriteSheet = _handler.isSpriteSheet;
 
-            if (_handler is StarlingHandler)
-            {
-                if (blendModesAC != Globals.blendModesStarling)
-                {
-                    blendModesAC = Globals.blendModesStarling;
-                }
-            }
-            else if (_handler is DisplayObjectSpriteSheetHandler)
-            {
-                if (blendModesAC != Globals.blendModesDisplayList)
-                {
-                    blendModesAC = Globals.blendModesDisplayList;
-                }
-            }
             validateNow();
             blendModeList.selectedItem = _handler.blendMode;
         }
@@ -88,10 +66,7 @@
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);
             _handler.spriteSheetStartAtRandomFrame = randomFrameCB.selected;
-            if (_handler is StarlingHandler)
-            {
-                StarlingHandler(_handler).premultiplyAlpha = premultiplyAlphaCheckBox.selected;
-            }
+            _handler.premultiplyAlpha = premultiplyAlphaCheckBox.selected;
             validateNow();
         }
         ]]></fx:Script>

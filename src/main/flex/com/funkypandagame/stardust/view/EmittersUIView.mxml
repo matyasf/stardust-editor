@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.funkypandagame.stardust.view.components.*"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:components="com.funkypandagame.stardust.view.components.*"
           xmlns:clocks="com.funkypandagame.stardust.view.stardust.common.clocks.*"
           xmlns:view="com.funkypandagame.stardust.view.*"
           width="100%"
@@ -8,18 +9,11 @@
 
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
-        import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
-        import com.funkypandagame.stardust.model.DisplayModes;
         import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
         import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
         import com.funkypandagame.stardust.controller.events.SnapshotEvent;
 
         import com.funkypandagame.stardust.view.events.EmitterChangeUIViewEvent;
-
-        import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
-
-        import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
-        import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
         import mx.logging.ILogger;
@@ -30,16 +24,6 @@
         private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(EmittersUIView).replace("::", "."));
 
         private const _emitterAC:ArrayCollection = new ArrayCollection();
-
-        public function set handler(handler:ISpriteSheetHandler):void {
-            if (handler is StarlingHandler) {
-                starlingRadioButton.selected = true;
-            }
-            else if (handler is DisplayObjectSpriteSheetHandler) {
-                displayObjectRadioButton.selected = true;
-            }
-            validateNow();
-        }
 
         private function onClickAdd(event:MouseEvent):void {
             LOG.debug("Add Emitter");
@@ -71,16 +55,6 @@
             return EmitterValueObject(item).emitter.name;
         }
 
-        private function updateRenderMode():void {
-            validateNow(); // radio buttons suck
-            if (displayObjectRadioButton.selected) {
-                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.DISPLAY_LIST));
-            }
-            else if (starlingRadioButton.selected) {
-                dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
-            }
-        }
-
         private function onAdded():void {
             fpsStepper.text = stage.frameRate.toString();
         }
@@ -109,12 +83,6 @@
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle" paddingLeft="50">
-
-        <s:Label text="Render mode:" fontSize="16" fontWeight="bold"/>
-        <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
-                       selected="true" change="updateRenderMode()"/>
-        <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
-
         <s:Label text="FPS:" />
         <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
                 change="onFPSUserChange()" width="60"/>

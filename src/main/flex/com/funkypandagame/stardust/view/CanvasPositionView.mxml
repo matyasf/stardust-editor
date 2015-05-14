@@ -32,6 +32,5 @@
     <s:Label text="Stage 0,0 position" />
     <s:RadioButton groupName="stagePos" label="Top Left" change="onStagePosChange()" id="topRadioButton"/>
     <s:RadioButton groupName="stagePos" label="Center" change="onStagePosChange()" id="centerRadioButton" selected="true"/>
-    <s:CheckBox label="Recenter Background" change="onStagePosChange()" id="centerBackgroundCheckBox" selected="true"/>
 
 </s:VGroup>

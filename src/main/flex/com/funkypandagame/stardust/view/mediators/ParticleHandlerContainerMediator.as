@@ -27,7 +27,7 @@ public class ParticleHandlerContainerMediator extends Mediator
         addContextListener( SetParticleHandlerEvent.TYPE, setParticleHandler, SetParticleHandlerEvent );
     }
 
-    private function setParticleHandler( event : SetParticleHandlerEvent ) : void
+    private function setParticleHandler( event :SetParticleHandlerEvent ) : void
     {
         view.setHandler(event.handler, projectModel.emitterImages[projectModel.emitterInFocus.id]);
     }

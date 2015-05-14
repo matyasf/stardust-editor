@@ -15,7 +15,6 @@ import flash.events.IEventDispatcher;
 
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 
-import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
@@ -83,22 +82,12 @@ public class AddEmitterCommand implements ICommand
         var bd : BitmapData = new BitmapData( 10, 10, false, Math.random()*16777215 );
         projectModel.emitterImages[emitterData.id] = new <BitmapData>[bd];
 
-        if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
-        {
-            var starlingHandler : StarlingHandler = new StarlingHandler();
-            starlingHandler.blendMode = BlendMode.NORMAL;
-            starlingHandler.spriteSheetAnimationSpeed = 1;
-            starlingHandler.container = Globals.starlingCanvas;
-            emitterData.emitter.particleHandler = starlingHandler;
-        }
-        else
-        {
-            var flashHandler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
-            flashHandler.blendMode = BlendMode.NORMAL;
-            flashHandler.spriteSheetAnimationSpeed = 1;
-            flashHandler.container = Globals.canvas;
-            emitterData.emitter.particleHandler = flashHandler;
-        }
+        var starlingHandler : StarlingHandler = new StarlingHandler();
+        starlingHandler.blendMode = BlendMode.NORMAL;
+        starlingHandler.spriteSheetAnimationSpeed = 1;
+        starlingHandler.container = Globals.starlingCanvas;
+        emitterData.emitter.particleHandler = starlingHandler;
+
         dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
 
         // display data for the new emitter

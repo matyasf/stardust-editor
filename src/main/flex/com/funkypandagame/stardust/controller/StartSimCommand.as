@@ -13,7 +13,7 @@ import flash.display.MovieClip;
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
+import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
@@ -43,17 +43,11 @@ public class StartSimCommand implements ICommand
 
         dispatcher.dispatchEvent( new UpdateClockContainerFromEmitter( UpdateClockContainerFromEmitter.UPDATE, projectSettings.emitterInFocus ) );
 
-        //If the bg is a .swf, restart it so it syncs up with the animated emitter path.
-        if (projectSettings.backgroundImage is MovieClip)
-        {
-            MovieClip(projectSettings.backgroundImage).gotoAndPlay(1);
-        }
-
         //refresh the emitter dropdown list.
         dispatcher.dispatchEvent( new UpdateEmitterDropDownListEvent( UpdateEmitterDropDownListEvent.UPDATE ) );
 
         //refresh the particle handler properties
-        dispatcher.dispatchEvent( new SetParticleHandlerEvent( ISpriteSheetHandler(projectSettings.emitterInFocus.emitter.particleHandler) ) );
+        dispatcher.dispatchEvent( new SetParticleHandlerEvent( StarlingHandler(projectSettings.emitterInFocus.emitter.particleHandler) ) );
 
         dispatcher.dispatchEvent( new InitalizeZoneDrawerEvent( InitalizeZoneDrawerEvent.RESET ) );
 

@@ -40,7 +40,10 @@ public class MainEnterFrameLoopCommand implements ICommand
         simPlayer.stepSimulation();
 
         calcTime = (getTimer() - startTime);
-        view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime;
+        if (simPlayer.getProject().emittersArr[0].currentTime % 4 == 0)
+        {
+            view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime;
+        }
         if (project.stadustSim.numberOfParticles > StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES)
         {
             view.infoLabel.text += " Particles over " + StardustStarlingRenderer.MAX_POSSIBLE_PARTICLES + " will not be rendered.";

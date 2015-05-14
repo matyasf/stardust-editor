@@ -27,10 +27,7 @@
             var clock:ImpulseClock = ImpulseClock(emitterVO.emitter.clock);
             numParticlesTextInput.text = clock.impulseCount.toString();
             numBurstsTextInput.text = clock.repeatCount.toString();
-
-            if (clock.burstInterval >= 20) {
-                burstIntervalTextInput.text = clock.burstInterval.toString();
-            }
+            burstIntervalTextInput.text = clock.burstInterval.toString();
 
             updateData();
         }

@@ -40,7 +40,6 @@ import com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SectorZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SinglePointZone;
 
-import flash.display.BlendMode;
 import flash.utils.Dictionary;
 
 import idv.cjcat.stardustextended.common.actions.Age;
@@ -87,12 +86,11 @@ import mx.collections.Sort;
 import mx.collections.SortField;
 
 import starling.display.BlendMode;
+import starling.display.Sprite;
 
 public class Globals
 {
-
-    public static const canvas : flash.display.Sprite = new flash.display.Sprite();
-    public static const starlingCanvas : starling.display.Sprite = new starling.display.Sprite();
+    public static const starlingCanvas : Sprite = new Sprite();
 
     public static const initalizerDict : Dictionary = new Dictionary();
     public static const initializerDDLAC : ArrayCollection = new ArrayCollection();
@@ -107,30 +105,13 @@ public class Globals
     public static const triggersDict : Dictionary = new Dictionary();
     public static const triggersDDLAC : ArrayCollection = new ArrayCollection();
 
-    public static const blendModesDisplayList : ArrayCollection = new ArrayCollection( [
-        flash.display.BlendMode.NORMAL,
-        flash.display.BlendMode.LAYER,
-        flash.display.BlendMode.MULTIPLY,
-        flash.display.BlendMode.SCREEN,
-        flash.display.BlendMode.LIGHTEN,
-        flash.display.BlendMode.DARKEN,
-        flash.display.BlendMode.ADD,
-        flash.display.BlendMode.SUBTRACT,
-        flash.display.BlendMode.DIFFERENCE,
-        flash.display.BlendMode.INVERT,
-        flash.display.BlendMode.OVERLAY,
-        flash.display.BlendMode.HARDLIGHT,
-        flash.display.BlendMode.ALPHA,
-        flash.display.BlendMode.ERASE
-    ] );
-
     public static const blendModesStarling : ArrayCollection = new ArrayCollection( [
-        starling.display.BlendMode.NORMAL,
-        starling.display.BlendMode.MULTIPLY,
-        starling.display.BlendMode.SCREEN,
-        starling.display.BlendMode.ADD,
-        starling.display.BlendMode.ERASE,
-        starling.display.BlendMode.BELOW
+        BlendMode.NORMAL,
+        BlendMode.MULTIPLY,
+        BlendMode.SCREEN,
+        BlendMode.ADD,
+        BlendMode.ERASE,
+        BlendMode.BELOW
     ] );
 
     public static function init() : void
@@ -227,7 +208,6 @@ public class Globals
         triggersDDLAC.sort = sort;
         triggersDDLAC.refresh();
 
-        canvas.mouseChildren = canvas.mouseEnabled = false;
         starlingCanvas.touchable = false;
     }
 

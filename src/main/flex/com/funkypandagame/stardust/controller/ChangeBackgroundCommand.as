@@ -96,11 +96,6 @@ public class ChangeBackgroundCommand implements ICommand
         projectModel.backgroundRawData = job.byteArray;
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
-
-        if (projectModel.backgroundImage is MovieClip)
-        {
-            dispatcher.dispatchEvent( new StartSimEvent() );
-        }
     }
 }
 }

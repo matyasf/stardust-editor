@@ -2,7 +2,6 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
          xmlns:s="library://ns.adobe.com/flex/spark"
          xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="com.funkypandagame.stardust.view.*"
-         initialize="initializeCanvasesForEmitters()"
          width="100%"
          height="100%">
 
@@ -26,11 +25,6 @@
         private const _initializerAC:ArrayCollection = new ArrayCollection();
         private const _actionAC:ArrayCollection = new ArrayCollection();
         private var examplesPopup : ExamplesPopup;
-
-        private function initializeCanvasesForEmitters():void
-        {
-            previewGroup.mx_internal::$addChild(Globals.canvas);
-        }
 
         public function resizeStarlingViewPort():void {
             var viewPortRectangle:Rectangle = new Rectangle();
@@ -62,27 +56,26 @@
             dispatchEvent(new MainViewSaveSimEvent(MainViewSaveSimEvent.SAVE));
         }
 
-        public function updateStagePosition():void {
+        public function updateStagePosition():void
+        {
             canvasPosition.validateNow();
-            if (canvasPosition.centerRadioButton.selected) {
+            if (canvasPosition.centerRadioButton.selected)
+            {
                 //validate to force correct size for background.
                 validateNow();
-                previewGroup.x = background.width * 0.5;
-                previewGroup.y = stage.stageHeight * 0.5;
-                if (canvasPosition.centerBackgroundCheckBox.selected) {
-                    backgroundProvider.setBgImagePosition(previewGroup.x, previewGroup.y);
-                }
-                else {
-                    backgroundProvider.setBgImagePosition(0, 0);
-                }
+                Globals.starlingCanvas.x = (width - leftColumnWidth) * 0.5 + leftColumnWidth;
+                Globals.starlingCanvas.y = stage.stageHeight * 0.5;
+
             }
-            else {
-                previewGroup.x = 0;
-                previewGroup.y = 0;
-                backgroundProvider.setBgImagePosition(0, 0);
+            else
+            {
+                Globals.starlingCanvas.x = leftColumnWidth;
+                Globals.starlingCanvas.y = 0;
             }
-            Globals.starlingCanvas.x = previewGroup.x + leftColumnWidth;
-            Globals.starlingCanvas.y = previewGroup.y;
+            backgroundProvider.setBgImagePosition(Globals.starlingCanvas.x, Globals.starlingCanvas.y,
+                                                  width - leftColumnWidth, height);
+            previewGroup.x = Globals.starlingCanvas.x;
+            previewGroup.y = Globals.starlingCanvas.y;
         }
 
         private function showExamples() : void
@@ -102,10 +95,7 @@
         }
         ]]></fx:Script>
 
-    <s:Group left="{leftColumnWidth}" right="100" height="100%">
-        <mx:UIComponent id="background" width="100%" height="100%"/>
-        <s:Group id="previewGroup" mouseEnabled="false" mouseChildren="false"/>
-    </s:Group>
+    <s:Group id="previewGroup" mouseEnabled="false" mouseChildren="false" />
 
     <s:VGroup height="100%" width="{leftColumnWidth}" paddingLeft="3" paddingTop="3" paddingBottom="3">
 
@@ -132,13 +122,13 @@
 
         <mx:Spacer height="13"/>
         <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox" toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
-        <view:BackgroundProvider background="{background}" width="100%" id="backgroundProvider"/>
+        <view:BackgroundProvider width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
         <s:Spacer height="100%"/>
         <mx:UIComponent id="statsHolder" height="125" />
     </s:VGroup>
 
-    <s:Label id="infoLabel" bottom="5" right="50" backgroundColor="0x11183D"
+    <s:Label id="infoLabel" bottom="5" right="5" backgroundColor="0x11183D"
              paddingBottom="3" paddingLeft="3" paddingRight="3" paddingTop="3"/>
 
 </s:Group>

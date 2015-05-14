@@ -12,18 +12,15 @@
 
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.model.ProjectModel;
-        import com.junkbyte.console.Cc;
 
         import com.funkypandagame.stardust.config.AppConfig;
 
         import com.funkypandagame.stardust.controller.events.LoadSimEvent;
-        import com.funkypandagame.stardust.debug.FlashConsoleTarget;
         import com.funkypandagame.stardust.helpers.Globals;
-
-        import mx.core.FlexGlobals;
 
         import mx.logging.Log;
         import mx.logging.LogEventLevel;
+        import mx.logging.targets.LineFormattedTarget;
 
         import robotlegs.bender.bundles.mvcs.MVCSBundle;
         import robotlegs.bender.extensions.contextView.ContextView;
@@ -67,22 +64,11 @@
             context.injector.injectInto(this);
         }
 
-        private static function setupLogging():void {
-            const LOG_FILTERS:Array = ["com.funkypandagame.*"];
-            const LOG_LEVELS:int = LogEventLevel.ALL;
-            Cc.startOnStage(FlexGlobals.topLevelApplication as DisplayObjectContainer, "+");
-            Cc.config.commandLineAllowed = true;
-            Cc.commandLine = true;
-            Cc.x = 20;
-            Cc.width = 800;
-            Cc.height = 400;
-
-            var consoleLogTarget:FlashConsoleTarget = new FlashConsoleTarget();
+        private static function setupLogging():void
+        {
+            var consoleLogTarget:LineFormattedTarget = new LineFormattedTarget();
             consoleLogTarget.includeTime = true;
-            consoleLogTarget.includeCategory = true;
-            consoleLogTarget.includeLevel = true;
-            consoleLogTarget.filters = LOG_FILTERS;
-            consoleLogTarget.level = LOG_LEVELS;
+            consoleLogTarget.includeLevel = false;
             Log.addTarget(consoleLogTarget);
         }
         ]]>

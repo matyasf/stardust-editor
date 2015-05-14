@@ -25,7 +25,6 @@ import com.funkypandagame.stardust.controller.StartSimCommand;
 import com.funkypandagame.stardust.controller.StoreParticleSnapshotCommand;
 import com.funkypandagame.stardust.controller.UpdateClockInEmitterGroupCommand;
 import com.funkypandagame.stardust.controller.UpdateClockValuesFromModelCommand;
-import com.funkypandagame.stardust.controller.UpdateDisplayModeCommand;
 import com.funkypandagame.stardust.controller.UpdateEmitterDropDownListCommand;
 import com.funkypandagame.stardust.controller.UpdateEmitterInfoTicksPerCallCommand;
 import com.funkypandagame.stardust.controller.events.BackgroundChangeEvent;
@@ -39,7 +38,6 @@ import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.SnapshotEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.UpdateClockValuesFromModelEvent;
-import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterDropDownListEvent;
 import com.funkypandagame.stardustplayer.ISimLoader;
 import com.funkypandagame.stardustplayer.SimLoader;
@@ -103,7 +101,6 @@ public class AppConfig implements IConfig
 
         eventCommandMap.map( StartSimEvent.START ).toCommand( StartSimCommand );
         eventCommandMap.map( UpdateEmitterInfoTicksPerCallEvent.UPDATE ).toCommand( UpdateEmitterInfoTicksPerCallCommand );
-        eventCommandMap.map( UpdateDisplayModeEvent.UPDATE, UpdateDisplayModeEvent ).toCommand( UpdateDisplayModeCommand );
         eventCommandMap.map( EmitterChangeEvent.ADD ).toCommand( AddEmitterCommand );
         eventCommandMap.map( EmitterChangeEvent.REMOVE ).toCommand( RemoveEmitterCommand );
         eventCommandMap.map( ChangeEmitterInFocusEvent.CHANGE ).toCommand( ChangeEmitterInFocusCommand );

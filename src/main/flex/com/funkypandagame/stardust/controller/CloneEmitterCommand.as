@@ -19,7 +19,6 @@ import idv.cjcat.stardustextended.common.actions.Action;
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.common.xml.XMLBuilder;
 
-import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.actions.Spawn;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -81,15 +80,8 @@ public class CloneEmitterCommand implements ICommand
             emitterData.emitterSnapshot = cloneBA;
         }
 
-        if (emitterData.emitter.particleHandler is StarlingHandler)
-        {
-            StarlingHandler(emitterData.emitter.particleHandler).container = Globals.starlingCanvas;
-            dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
-        }
-        else
-        {
-            DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
-        }
+        StarlingHandler(emitterData.emitter.particleHandler).container = Globals.starlingCanvas;
+        dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
 
         // display data for the new emitter
         dispatcher.dispatchEvent( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, emitterData ) );
