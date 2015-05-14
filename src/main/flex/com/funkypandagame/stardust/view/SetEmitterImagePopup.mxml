@@ -5,82 +5,80 @@
          title="Set source image slices">
 
     <fx:Script><![CDATA[
-    import idv.cjcat.stardustextended.flashdisplay.handlers.SpriteSheetBitmapSlicedCache;
+        import com.funkypandagame.stardust.helpers.SpriteSheetBitmapSlicedCache;
 
-    import mx.managers.PopUpManager;
+        import mx.managers.PopUpManager;
 
-    private var onClose : Function;
-    private var originalBD : BitmapData;
-    private var previews : Vector.<BitmapData>;
-    private var cnt : uint;
-    private var timer : Timer = new Timer(600);
+        private var onClose : Function;
+        private var originalBD : BitmapData;
+        private var previews : Vector.<BitmapData>;
+        private var cnt : uint;
+        private var timer : Timer = new Timer(600);
 
-    public function setImageSlices(bitmapData : BitmapData, onClose : Function) : void
-    {
-        this.onClose = onClose;
-        previews = new <BitmapData>[bitmapData];
-        originalBD = bitmapData;
-        previewImage.source = bitmapData;
-        widthTextInput.text = bitmapData.width.toString();
-        heightTextInput.text = bitmapData.height.toString();
-        cnt = 0;
-        timer.reset();
-        timer.addEventListener(TimerEvent.TIMER, onTimer);
-        timer.start();
-        infoLabel.text = "The emitter will have 1 image";
-    }
-
-    private function onTimer(evt : TimerEvent = null) : void
-    {
-        previewImage.source = previews[cnt];
-        cnt++;
-        if (cnt >= previews.length)
+        public function setImageSlices(bitmapData : BitmapData, onClose : Function) : void
         {
+            this.onClose = onClose;
+            previews = new <BitmapData>[bitmapData];
+            originalBD = bitmapData;
+            previewImage.source = bitmapData;
+            widthTextInput.text = bitmapData.width.toString();
+            heightTextInput.text = bitmapData.height.toString();
             cnt = 0;
-        }
-    }
-
-    private function onCloseClick() : void
-    {
-        onClose(parseInt(widthTextInput.text), parseInt(heightTextInput.text));
-        PopUpManager.removePopUp(this);
-        timer.stop();
-        timer.removeEventListener(TimerEvent.TIMER, onTimer);
-    }
-
-    private function onImageDimensionsChange() : void
-    {
-        if (int(widthTextInput.text) < 1)
-        {
-            widthTextInput.text = "1";
-        }
-        if (int(heightTextInput.text) < 1)
-        {
-            heightTextInput.text = "1";
-        }
-        if (int(widthTextInput.text) > originalBD.width)
-        {
-            widthTextInput.text = originalBD.width.toString();
-        }
-        if (int(heightTextInput.text) > originalBD.height)
-        {
-            heightTextInput.text = originalBD.height.toString();
-        }
-        var slices : SpriteSheetBitmapSlicedCache = new SpriteSheetBitmapSlicedCache(originalBD,
-                int(widthTextInput.text), int(heightTextInput.text));
-        previews = slices.bds;
-        cnt = 0;
-        if (previews.length == 1)
-        {
+            timer.reset();
+            timer.addEventListener(TimerEvent.TIMER, onTimer);
+            timer.start();
             infoLabel.text = "The emitter will have 1 image";
         }
-        else
-        {
-            infoLabel.text = "The emitter will be an animation with " + previews.length + " images";
-        }
-    }
 
-    ]]>
+        private function onTimer(evt : TimerEvent = null) : void
+        {
+            previewImage.source = previews[cnt];
+            cnt++;
+            if (cnt >= previews.length)
+            {
+                cnt = 0;
+            }
+        }
+
+        private function onCloseClick() : void
+        {
+            onClose(parseInt(widthTextInput.text), parseInt(heightTextInput.text));
+            PopUpManager.removePopUp(this);
+            timer.stop();
+            timer.removeEventListener(TimerEvent.TIMER, onTimer);
+        }
+
+        private function onImageDimensionsChange() : void
+        {
+            if (int(widthTextInput.text) < 1)
+            {
+                widthTextInput.text = "1";
+            }
+            if (int(heightTextInput.text) < 1)
+            {
+                heightTextInput.text = "1";
+            }
+            if (int(widthTextInput.text) > originalBD.width)
+            {
+                widthTextInput.text = originalBD.width.toString();
+            }
+            if (int(heightTextInput.text) > originalBD.height)
+            {
+                heightTextInput.text = originalBD.height.toString();
+            }
+            var slices : SpriteSheetBitmapSlicedCache = new SpriteSheetBitmapSlicedCache(originalBD, int(widthTextInput.text), int(heightTextInput.text));
+            previews = slices.bds;
+            cnt = 0;
+            if (previews.length == 1)
+            {
+                infoLabel.text = "The emitter will have 1 image";
+            }
+            else
+            {
+                infoLabel.text = "The emitter will be an animation with " + previews.length + " images";
+            }
+        }
+        ]]>
     </fx:Script>
 
     <s:layout>

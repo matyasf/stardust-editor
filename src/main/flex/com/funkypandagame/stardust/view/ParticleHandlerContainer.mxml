@@ -74,13 +74,6 @@
         // the screen which are now at a non-existent frame number, thus we must restart
         private function changePropsAndRestartSim() : void
         {
-            if (isSpriteSheet)
-            {
-                // If the particle is a sprite sheet every time its dimensions/image changes it gets stored in a static array.
-                // Lots of such changes can potentially lead to out of memory errors, this command will clear the cache.
-                // In a real project this should be called when the sim is not needed anymore.
-                DisplayObjectSpriteSheetHandler.clearCache();
-            }
             if (parseInt(speedTextInput.text) < 0)
             {
                 speedTextInput.text = "0";

@@ -42,7 +42,7 @@ public class AddEmitterCommand implements ICommand
             <SteadyClock name="SteadyClock_6" ticksPerCall="1"/>
         </clocks>
         <emitters>
-            <Emitter2D name="Emitter" active="true" clock="SteadyClock_6" particleHandler="DisplayObjectHandler_2">
+            <Emitter2D name="Emitter" active="true" clock="SteadyClock_6" >
                 <actions>
                     <DeathLife name="DeathLife_0"/>
                     <Age name="Age_0"/>
@@ -55,10 +55,6 @@ public class AddEmitterCommand implements ICommand
                 </initializers>
             </Emitter2D>
         </emitters>
-        <handlers>
-            <StarlingHandler name="DisplayObjectHandler_2" premultiplyAlpha="true" blendMode="normal"
-                     spriteSheetAnimationSpeed="1" spriteSheetStartAtRandomFrame="false" smoothing="false"/>
-        </handlers>
         <initializers>
             <Life name="Life_0" active="true" random="UniformRandom_1"/>
             <PositionAnimated name="PositionAnimated_0" active="true" zone="Line_0" inheritVelocity="false"/>
@@ -84,22 +80,26 @@ public class AddEmitterCommand implements ICommand
         const emitterData : EmitterValueObject = new EmitterValueObject(emitter);
         emitter.name = uniqueID.toString();
         projectModel.stadustSim.emitters[emitterData.id] = emitterData;
+        var bd : BitmapData = new BitmapData( 10, 10, false, Math.random()*16777215 );
+        projectModel.emitterImages[emitterData.id] = new <BitmapData>[bd];
+
         if (projectModel.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
             var starlingHandler : StarlingHandler = new StarlingHandler();
             starlingHandler.blendMode = BlendMode.NORMAL;
             starlingHandler.spriteSheetAnimationSpeed = 1;
             starlingHandler.container = Globals.starlingCanvas;
-            var bd : BitmapData = new BitmapData( 10, 10, false, Math.random()*16777215 );
-            projectModel.emitterImages[emitterData.id] = new <BitmapData>[bd];
             emitterData.emitter.particleHandler = starlingHandler;
-
-            dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
         }
         else
         {
-            DisplayObjectSpriteSheetHandler(emitterData.emitter.particleHandler).container = Globals.canvas;
+            var flashHandler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
+            flashHandler.blendMode = BlendMode.NORMAL;
+            flashHandler.spriteSheetAnimationSpeed = 1;
+            flashHandler.container = Globals.canvas;
+            emitterData.emitter.particleHandler = flashHandler;
         }
+        dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
 
         // display data for the new emitter
         dispatcher.dispatchEvent( new ChangeEmitterInFocusEvent( ChangeEmitterInFocusEvent.CHANGE, emitterData ) );

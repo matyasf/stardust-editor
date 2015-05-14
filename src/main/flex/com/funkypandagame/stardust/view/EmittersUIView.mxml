@@ -8,6 +8,8 @@
 
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
+        import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
+        import com.funkypandagame.stardust.model.DisplayModes;
         import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
         import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
         import com.funkypandagame.stardust.controller.events.SnapshotEvent;
@@ -31,10 +33,10 @@
 
         public function set handler(handler:ISpriteSheetHandler):void {
             if (handler is StarlingHandler) {
-            //    starlingRadioButton.selected = true;
+                starlingRadioButton.selected = true;
             }
             else if (handler is DisplayObjectSpriteSheetHandler) {
-            //    displayObjectRadioButton.selected = true;
+                displayObjectRadioButton.selected = true;
             }
             validateNow();
         }
@@ -69,7 +71,6 @@
             return EmitterValueObject(item).emitter.name;
         }
 
-/*
         private function updateRenderMode():void {
             validateNow(); // radio buttons suck
             if (displayObjectRadioButton.selected) {
@@ -79,7 +80,7 @@
                 dispatchEvent(new UpdateDisplayModeEvent(DisplayModes.STARLING));
             }
         }
-*/
+
         private function onAdded():void {
             fpsStepper.text = stage.frameRate.toString();
         }
@@ -108,12 +109,12 @@
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle" paddingLeft="50">
-        <!--
+
         <s:Label text="Render mode:" fontSize="16" fontWeight="bold"/>
         <s:RadioButton groupName="rbg" id="displayObjectRadioButton" label="displayObject"
                        selected="true" change="updateRenderMode()"/>
         <s:RadioButton groupName="rbg" id="starlingRadioButton" label="Starling" change="updateRenderMode()"/>
-        -->
+
         <s:Label text="FPS:" />
         <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
                 change="onFPSUserChange()" width="60"/>

@@ -31,7 +31,7 @@ import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
 import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
-import idv.cjcat.stardustextended.flashdisplay.handlers.SpriteSheetBitmapSlicedCache;
+import com.funkypandagame.stardust.helpers.SpriteSheetBitmapSlicedCache;
 import idv.cjcat.stardustextended.twoD.handlers.ISpriteSheetHandler;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -257,6 +257,8 @@ public class LoadSimCommand implements ICommand
             projectModel.emitterInFocus = emitterVO;
             break;
         }
+
+        simPlayer.setRenderTarget(null); // set to null, so previous settings dont cause exception
 
         simPlayer.setProject( projectModel.stadustSim);
 

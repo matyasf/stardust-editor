@@ -9,6 +9,8 @@ import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.BitmapData;
 
+import idv.cjcat.stardustextended.flashdisplay.handlers.DisplayObjectSpriteSheetHandler;
+
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import spark.components.Alert;
@@ -24,37 +26,43 @@ public class RegenerateEmitterTexturesCommand
 
     public function execute() : void
     {
-        var packer : TexturePacker = new TexturePacker();
-        var tmpTextures : Vector.<AtlasTexture> = new Vector.<AtlasTexture>();
-        for (var emitterId : * in model.emitterImages)
+        if (model.emitterInFocus.emitter.particleHandler is StarlingHandler)
         {
-            var images : Vector.<BitmapData> = model.emitterImages[emitterId];
-            for (var i : int = 0; i < images.length; i++)
+            var packer : TexturePacker = new TexturePacker();
+            var tmpTextures : Vector.<AtlasTexture> = new Vector.<AtlasTexture>();
+            for (var emitterId : * in model.emitterImages)
             {
-                tmpTextures.push(new AtlasTexture(images[i], emitterId, i));
+                var images : Vector.<BitmapData> = model.emitterImages[emitterId];
+                for (var i : int = 0; i < images.length; i++)
+                {
+                    tmpTextures.push(new AtlasTexture(images[i], emitterId, i));
+                }
+            }
+            var atlas : Atlas = packer.createAtlas(tmpTextures);
+            if (!atlas)
+            {
+                Alert.show("Failed to add images. Could not fit all images into a 2048x2048 texture atlas.");
+            }
+            var atlasTex : Texture = Texture.fromBitmapData(atlas.toBitmap());
+            var tmpAtlas : TextureAtlas = new TextureAtlas(atlasTex, atlas.getXML());
+            // set the new texture on all handlers
+            for each (var emitterVO : EmitterValueObject in model.stadustSim.emitters)
+            {
+                var texs : Vector.<Texture> = tmpAtlas.getTextures(SDEConstants.getSubTexturePrefix(emitterVO.id));
+                var texs2 : Vector.<SubTexture> = new Vector.<SubTexture>();
+                for (var k : int = 0; k < texs.length; k++)
+                {
+                    texs2.push(texs[k]);
+                }
+                StarlingHandler(emitterVO.emitter.particleHandler).setTextures(texs2);
             }
         }
-        var atlas : Atlas = packer.createAtlas(tmpTextures);
-        if (!atlas)
+        else
         {
-            Alert.show("Failed to add images. Could not fit all images into a 2048x2048 texture atlas.");
-        }
-        var atlasTex : Texture = Texture.fromBitmapData(atlas.toBitmap());
-        var tmpAtlas : TextureAtlas = new TextureAtlas(atlasTex, atlas.getXML());
-        // set the new texture on all handlers
-        for each (var emitterVO : EmitterValueObject in model.stadustSim.emitters)
-        {
-            var texs : Vector.<Texture> = tmpAtlas.getTextures(SDEConstants.getSubTexturePrefix(emitterVO.id));
-            var texs2 : Vector.<SubTexture> = new Vector.<SubTexture>();
-            for (var k : int = 0; k < texs.length; k++)
+            for each (var emitterValueObject : EmitterValueObject in model.stadustSim.emitters)
             {
-                texs2.push(texs[k]);
+                DisplayObjectSpriteSheetHandler(emitterValueObject.emitter.particleHandler).setImages(model.emitterImages[emitterValueObject.id]);
             }
-            StarlingHandler(emitterVO.emitter.particleHandler).setTextures(texs2);
-        }
-        if (StarlingHandler(model.emitterInFocus.emitter.particleHandler).textures)
-        {
-            StarlingHandler(model.emitterInFocus.emitter.particleHandler).textures[0].root;
         }
     }
 }

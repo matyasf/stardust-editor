@@ -1,6 +1,7 @@
 package com.funkypandagame.stardust.controller
 {
 
+import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.UpdateDisplayModeEvent;
 import com.funkypandagame.stardust.helpers.Globals;
@@ -8,6 +9,8 @@ import com.funkypandagame.stardust.helpers.ParticleHandlerCopyHelper;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardust.model.DisplayModes;
+import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
+
 import flash.events.IEventDispatcher;
 
 import idv.cjcat.stardustextended.common.emitters.Emitter;
@@ -43,20 +46,23 @@ public class UpdateDisplayModeCommand implements ICommand
                 setDisplayModeStarling();
             break;
         }
+
+        dispatcher.dispatchEvent(new RegenerateEmitterTexturesEvent());
+
         dispatcher.dispatchEvent( new StartSimEvent());
     }
 
     private function setDisplayModeDisplayList() : void
     {
-        for each( var emitter : Emitter in projectSettings.stadustSim.emittersArr )
+        for each( var emVO : EmitterValueObject in projectSettings.stadustSim.emitters )
         {
-            if (emitter.particleHandler is StarlingHandler)
+            if (emVO.emitter.particleHandler is StarlingHandler)
             {
-                StarlingHandler(emitter.particleHandler).textures[0].root.dispose();
+                StarlingHandler(emVO.emitter.particleHandler).textures[0].root.dispose();
             }
             var handler : DisplayObjectSpriteSheetHandler = new DisplayObjectSpriteSheetHandler();
-            ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emitter.particleHandler), handler);
-            emitter.particleHandler = handler;
+            ParticleHandlerCopyHelper.copyHandlerProperties(ISpriteSheetHandler(emVO.emitter.particleHandler), handler);
+            emVO.emitter.particleHandler = handler;
         }
         simPlayer.setRenderTarget(Globals.canvas);
     }

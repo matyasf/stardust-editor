@@ -19,7 +19,7 @@ import flash.events.IEventDispatcher;
 import flash.net.FileFilter;
 import flash.net.FileReference;
 
-import idv.cjcat.stardustextended.flashdisplay.handlers.SpriteSheetBitmapSlicedCache;
+import com.funkypandagame.stardust.helpers.SpriteSheetBitmapSlicedCache;
 
 import mx.core.FlexGlobals;
 
