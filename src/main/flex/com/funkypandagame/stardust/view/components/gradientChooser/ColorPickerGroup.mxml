@@ -40,7 +40,7 @@
 
         public function setColor(color : uint, alpha : Number) : void
         {
-            if (currentColor == color)
+            if (currentColor == color && parseFloat(alphaInput.text) == alpha)
             {
                 return;
             }
@@ -65,8 +65,7 @@
 
     <s:HGroup verticalAlign="middle" y="310" x="5">
         <s:Label text="Color:" />
-        <s:TextInput id="colorInput" change="changeColor()"
-                     width="65" restrict="0123456789abcdef" maxChars="6" />
+        <s:TextInput id="colorInput" change="changeColor()" width="65" restrict="0123456789abcdef" maxChars="6" />
         <s:Label text="Alpha:" />
         <components:CustomNumericStepper id="alphaInput" change="changeAlpha()" stepValue="0.1"
                      width="65" restrict="0123456789." maxChars="4" />

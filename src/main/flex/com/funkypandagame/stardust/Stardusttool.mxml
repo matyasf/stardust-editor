@@ -3,9 +3,8 @@
         xmlns:fx="http://ns.adobe.com/mxml/2009"
         xmlns:s="library://ns.adobe.com/flex/spark"
         xmlns:view2="com.funkypandagame.stardust.view.*"
-        backgroundColor="0x353D3F"
+        backgroundColor="0x353535"
         backgroundAlpha="0"
-        frameRate="30"
         applicationComplete="initApp()">
 
     <view2:StardusttoolMainView/>
@@ -19,15 +18,12 @@
         import com.funkypandagame.stardust.helpers.Globals;
 
         import mx.logging.Log;
-        import mx.logging.LogEventLevel;
         import mx.logging.targets.LineFormattedTarget;
 
         import robotlegs.bender.bundles.mvcs.MVCSBundle;
         import robotlegs.bender.extensions.contextView.ContextView;
         import robotlegs.bender.framework.api.IContext;
         import robotlegs.bender.framework.impl.Context;
-
-        import spark.components.Alert;
 
         import starling.core.Starling;
 

@@ -48,7 +48,7 @@ public class ZoneDrawer
 
     public static function drawZones() : void
     {
-        if ( emitter == null || graphics == null )
+        if ( emitter == null || graphics == null)
         {
             return;
         }
@@ -108,7 +108,7 @@ public class ZoneDrawer
             {
                 var ld : LineDeflector = LineDeflector( def );
                 g.moveTo( ld.x, ld.y );
-                g.lineTo( ld.x + ld.normal.y * 100, ld.y - ld.normal.x * 100 );
+                g.lineTo( ld.x + ld.normal.y * 500, ld.y - ld.normal.x * 500 );
             }
         }
         g.endFill();
