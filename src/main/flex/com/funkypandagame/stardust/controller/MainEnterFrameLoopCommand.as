@@ -26,6 +26,7 @@ public class MainEnterFrameLoopCommand implements ICommand
     public var simPlayer : SimPlayer;
 
     public static var calcTime : uint;
+    private static var count : uint;
 
     public function execute() : void
     {
@@ -40,7 +41,7 @@ public class MainEnterFrameLoopCommand implements ICommand
         simPlayer.stepSimulation();
 
         calcTime = (getTimer() - startTime);
-        if (simPlayer.getProject().emittersArr[0].currentTime % 4 == 0)
+        if (count % 4 == 0)
         {
             view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime;
         }
@@ -56,6 +57,7 @@ public class MainEnterFrameLoopCommand implements ICommand
         {
             view.previewGroup.graphics.clear();
         }
+        count++;
     }
 }
 }
