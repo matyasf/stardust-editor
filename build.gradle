@@ -68,7 +68,7 @@ sdkAutoInstall {
 task wrapper(type: Wrapper) {
     group = 'Buildmaster'
     description = 'Generates gradlew and gradlew.bat bootstrap scripts.'
-    gradleVersion = '2.1'
+    gradleVersion = '2.4'
     // place jar file and properties into a subdirectory to avoid root dir clutter
     jarFile = 'gradle/wrapper/gradle.jar'
 }
