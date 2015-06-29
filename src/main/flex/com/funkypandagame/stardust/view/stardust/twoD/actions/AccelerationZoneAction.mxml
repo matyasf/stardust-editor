@@ -4,7 +4,7 @@
                            xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
                            xmlns:components="com.funkypandagame.stardust.view.components.*"
-                           nameText="Acceleration zone"
+                           nameText="Accel.{'\n'}zone"
                            toolTip="Causes particles to be accelerated/decelerated when they are inside a zone.">
 
     <fx:Script><![CDATA[

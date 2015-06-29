@@ -4,6 +4,7 @@
           removedFromStage="onRemovedFromStage()"
           initialize="init()">
     <fx:Script><![CDATA[
+
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
 
@@ -38,8 +39,11 @@
 
         private function onRemovedFromStage() : void
         {
-            removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
-            setZoneRendererOffset(0, 0);
+            if (followMouseCheckBox.selected)
+            {
+                removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
+                setZoneRendererOffset(0, 0);
+            }
         }
 
         public function setData(_itemWithZone : IZoneContainer) : void
@@ -58,13 +62,13 @@
         {
             if (followMouseCheckBox.selected)
             {
-                addEventListener(Event.ENTER_FRAME, handleFollowMouse);
                 storedCoordinates = new Vector.<Point>();
                 for (var j : int = 0; j < zonesAC.length; j++)
                 {
                     var zone : Zone = zonesAC[j];
                     storedCoordinates.push(zone.getPosition());
                 }
+                addEventListener(Event.ENTER_FRAME, handleFollowMouse);
             }
             else
             {
@@ -80,19 +84,16 @@
 
         private function setZoneRendererOffset(xc : Number, yc : Number) : void
         {
-            if (followMouseCheckBox.selected)
+            var tmpZones : ArrayCollection = new ArrayCollection();
+            for (var j : int = 0; j < zonesAC.length; j++)
             {
-                var tmpZones : ArrayCollection = new ArrayCollection();
-                for (var j : int = 0; j < zonesAC.length; j++)
-                {
-                    var zone : Zone = zonesAC[j];
-                    zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
-                    tmpZones.addItem(zone);
-                }
-                //readd items to update fields
-                zonesAC.removeAll();
-                zonesAC.addAll(tmpZones);
+                var zone : Zone = zonesAC[j];
+                zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
+                tmpZones.addItem(zone);
             }
+            //readd items to update fields
+            zonesAC.removeAll();
+            zonesAC.addAll(tmpZones);
         }
 
         public function set followMouseVisible(val : Boolean) : void
@@ -115,9 +116,11 @@
         {
             return new ClassFactory(DropdownListVO(Globals.zonesDict[item.constructor]).viewClass);
         }
+
         ]]></fx:Script>
 
     <s:HGroup width="100%" verticalAlign="middle">
+        <s:Label text="Add new zone:" />
         <s:DropDownList id="zonesDropdownList"
                         width="160"
                         requireSelection="true"
@@ -130,7 +133,7 @@
 
     <s:DataGroup width="100%" dataProvider="{zonesAC}" itemRendererFunction="zoneIRFunction">
         <s:layout>
-            <s:VerticalLayout gap="2"/>
+            <s:VerticalLayout gap="3"/>
         </s:layout>
     </s:DataGroup>
 

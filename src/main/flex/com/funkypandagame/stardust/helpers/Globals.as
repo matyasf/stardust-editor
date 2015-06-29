@@ -74,7 +74,6 @@ import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
 import idv.cjcat.stardustextended.twoD.initializers.Velocity;
 import idv.cjcat.stardustextended.twoD.zones.CircleContour;
 import idv.cjcat.stardustextended.twoD.zones.CircleZone;
-import idv.cjcat.stardustextended.twoD.zones.Composite;
 import idv.cjcat.stardustextended.twoD.zones.Line;
 import idv.cjcat.stardustextended.twoD.zones.RectContour;
 import idv.cjcat.stardustextended.twoD.zones.Sector;
@@ -196,7 +195,6 @@ public class Globals
         noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.RectZone]);
         noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.CircleZone]);
         noZeroAreaZonesDDLAC.addItem(zonesDict[Sector]);
-        noZeroAreaZonesDDLAC.addItem(zonesDict[Composite]);
         noZeroAreaZonesDDLAC.refresh();
 
         for each ( var ddlVO5 : DropdownListVO in triggersDict )

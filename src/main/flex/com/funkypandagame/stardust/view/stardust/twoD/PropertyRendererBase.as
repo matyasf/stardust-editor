@@ -38,6 +38,7 @@ public class PropertyRendererBase extends ItemRenderer
         enabledCB.toolTip = "Enabled";
         enabledCB.addEventListener( Event.CHANGE, onEnabledChangeClick );
 
+        nameLabel.maxDisplayedLines = 2;
         addElement( nameLabel );
 
         contentContainer.percentWidth = 100;
