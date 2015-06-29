@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
-          removedFromStage="removeEventListener(Event.ENTER_FRAME, handleFollowMouse)">
+          removedFromStage="onRemovedFromStage()"
+          initialize="init()">
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
@@ -10,130 +11,127 @@
 
         import idv.cjcat.stardustextended.twoD.zones.Zone;
 
-        import spark.components.TextInput;
-
-        import spark.events.TextOperationEvent;
+        import mx.collections.ArrayCollection;
+        import mx.events.CollectionEvent;
+        import mx.events.CollectionEventKind;
 
         [Bindable]
         public var zeroAreaZonesVisible : Boolean = true;
 
-        private var itemWithZone:IZoneContainer;
-        private var storedX:int = 0;
-        private var storedY:int = 0;
-        private var zoneRenderer:IZoneRenderer;
+        private var itemWithZone : IZoneContainer;
+        private var storedCoordinates : Vector.<Point> = new Vector.<Point>();
+        private const zonesAC : ArrayCollection = new ArrayCollection();
 
-        private function onSelChange():void {
-            const it:DropdownListVO = DropdownListVO(ddl.selectedItem);
-            var _zone:Zone = new it.stardustClass();
-            itemWithZone.zone = _zone;
-            setRenderer(it.viewClass, _zone);
+        private function init() : void
+        {
+            zonesDropdownList.selectedIndex = 0;
+            zonesAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onZonesACChange);
         }
 
-        public function setData(_itemWithZone:IZoneContainer):void {
+        private function onZonesACChange(e : CollectionEvent) : void
+        {
+            if (e.kind != CollectionEventKind.UPDATE)
+            {
+                itemWithZone.zones = Vector.<Zone>(zonesAC.toArray());
+            }
+        }
+
+        private function onRemovedFromStage() : void
+        {
+            removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
+            setZoneRendererOffset(0, 0);
+        }
+
+        public function setData(_itemWithZone : IZoneContainer) : void
+        {
             itemWithZone = _itemWithZone;
-            var _zone:Zone = itemWithZone.zone;
-            const ZoneClass:Class = Class(getDefinitionByName(getQualifiedClassName(_zone)));
-            const currentData:DropdownListVO = Globals.zonesDict[ZoneClass];
-            ddl.selectedItem = currentData;
-            ddl.validateProperties();
-
-            setRenderer(currentData.viewClass, _zone);
+            const result : Array = [];
+            for (var i : int = 0; i < _itemWithZone.zones.length; i++)
+            {
+                result[result.length] = _itemWithZone.zones[i];
+            }
+            zonesAC.removeAll();
+            zonesAC.source = result;
         }
 
-        private function setRenderer(RendererClass:Class, data:Zone):void {
-            content.removeAllElements();
-            zoneRenderer = new RendererClass();
-            if (zoneRenderer is CompositeZone) {
-                removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
-                followMouseCheckBox.selected = false;
-                followMouseCheckBox.enabled = false;
-                CompositeZone(zoneRenderer).zeroAreaZonesVisible = zeroAreaZonesVisible;
-            }
-            else {
-                followMouseCheckBox.enabled = true;
-            }
-            content.addElement(zoneRenderer);
-            zoneRenderer.setData(data);
-        }
-
-        private function followMouseChangeHandler(event:Event):void {
-            if (followMouseCheckBox.selected) {
+        private function followMouseChangeHandler(event : Event) : void
+        {
+            if (followMouseCheckBox.selected)
+            {
                 addEventListener(Event.ENTER_FRAME, handleFollowMouse);
-                if (zoneRenderer is SinglePointZone) // TODO store others too
+                storedCoordinates = new Vector.<Point>();
+                for (var j : int = 0; j < zonesAC.length; j++)
                 {
-                    var content:SinglePointZone = zoneRenderer as SinglePointZone;
-                    storedX = parseInt(content.xTextInput.text);
-                    storedY = parseInt(content.yTextInput.text);
+                    var zone : Zone = zonesAC[j];
+                    storedCoordinates.push(zone.getPosition());
                 }
             }
-            else {
+            else
+            {
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
-                setZoneRendererCoords(storedX, storedY);
+                setZoneRendererOffset(0, 0);
             }
         }
 
-        private function handleFollowMouse(event:Event):void {
-            setZoneRendererCoords(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
+        private function handleFollowMouse(event : Event) : void
+        {
+            setZoneRendererOffset(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
         }
 
-        private function setZoneRendererCoords(xc:Number, yc:Number):void {
-            var xInput:TextInput;
-            var yInput:TextInput;
-            if (zoneRenderer is SinglePointZone) {
-                var sz:SinglePointZone = zoneRenderer as SinglePointZone;
-                xInput = sz.xTextInput;
-                yInput = sz.yTextInput;
+        private function setZoneRendererOffset(xc : Number, yc : Number) : void
+        {
+            if (followMouseCheckBox.selected)
+            {
+                var tmpZones : ArrayCollection = new ArrayCollection();
+                for (var j : int = 0; j < zonesAC.length; j++)
+                {
+                    var zone : Zone = zonesAC[j];
+                    zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
+                    tmpZones.addItem(zone);
+                }
+                //readd items to update fields
+                zonesAC.removeAll();
+                zonesAC.addAll(tmpZones);
             }
-            else if (zoneRenderer is CircleZone) {
-                var cz:CircleZone = zoneRenderer as CircleZone;
-                xInput = cz.xTextInput;
-                yInput = cz.yTextInput;
-            }
-            else if (zoneRenderer is CircleContourZone) {
-                var ccz:CircleContourZone = zoneRenderer as CircleContourZone;
-                xInput = ccz.xTextInput;
-                yInput = ccz.yTextInput;
-            }
-            else if (zoneRenderer is RectZone) {
-                var rz:RectZone = zoneRenderer as RectZone;
-                xInput = rz.xTextInput;
-                yInput = rz.yTextInput;
-            }
-            else if (zoneRenderer is RectContourZone) {
-                var rcz:RectContourZone = zoneRenderer as RectContourZone;
-                xInput = rcz.xTextInput;
-                yInput = rcz.yTextInput;
-            }
-            else if (zoneRenderer is SectorZone) {
-                var secZ:SectorZone = zoneRenderer as SectorZone;
-                xInput = secZ.xTextInput;
-                yInput = secZ.yTextInput;
-            }
-            else {
-                var lz:LineZone = zoneRenderer as LineZone;
-                xInput = lz.x1;
-                yInput = lz.y1;
-                lz.x2.text = (xc + parseInt(lz.x2.text) - parseInt(lz.x1.text)).toString();
-                lz.y2.text = (yc + parseInt(lz.y2.text) - parseInt(lz.y1.text)).toString();
-            }
-            xInput.text = xc.toString();
-            yInput.text = yc.toString();
-            xInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE));
         }
 
-        public function set followMouseVisible(val:Boolean):void {
+        public function set followMouseVisible(val : Boolean) : void
+        {
             followMouseCheckBox.visible = followMouseCheckBox.includeInLayout = val;
         }
 
+        private function addZone() : void
+        {
+            var cl : Class = DropdownListVO(zonesDropdownList.selectedItem).stardustClass;
+            zonesAC.addItem(new cl());
+        }
+
+        private static function ddlLabelFunc(item : Object) : String
+        {
+            return DropdownListVO(item).name;
+        }
+
+        private static function zoneIRFunction(item : Object) : IFactory
+        {
+            return new ClassFactory(DropdownListVO(Globals.zonesDict[item.constructor]).viewClass);
+        }
         ]]></fx:Script>
 
-    <s:HGroup verticalAlign="middle">
-        <s:Label text="Zone type:"/>
-        <s:DropDownList id="ddl" dataProvider="{zeroAreaZonesVisible ? Globals.zonesDDLAC : Globals.noZeroAreaZonesDDLAC}" change="onSelChange()"
-                        labelField="name" requireSelection="true" selectedIndex="0"/>
+    <s:HGroup width="100%" verticalAlign="middle">
+        <s:DropDownList id="zonesDropdownList"
+                        width="160"
+                        requireSelection="true"
+                        dataProvider="{zeroAreaZonesVisible ? Globals.zonesDDLAC : Globals.noZeroAreaZonesDDLAC}"
+                        labelFunction="ddlLabelFunc"/>
+        <s:Button label="Add zone" click="addZone()"/>
         <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
-                    toolTip="This is for testing in the editor, it will not be saved with the simulation!"/>
+                    toolTip="This is just for testing in the editor, it will not be saved with the simulation!"/>
     </s:HGroup>
-    <s:Group id="content"/>
+
+    <s:DataGroup width="100%" dataProvider="{zonesAC}" itemRendererFunction="zoneIRFunction">
+        <s:layout>
+            <s:VerticalLayout gap="2"/>
+        </s:layout>
+    </s:DataGroup>
 
 </s:VGroup>

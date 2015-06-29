@@ -33,7 +33,6 @@ import com.funkypandagame.stardust.view.stardust.twoD.initializers.PositionIniti
 import com.funkypandagame.stardust.view.stardust.twoD.initializers.ScaleInitializer;
 import com.funkypandagame.stardust.view.stardust.twoD.initializers.VelocityInitializer;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.CircleContourZone;
-import com.funkypandagame.stardust.view.stardust.twoD.zones.CompositeZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.LineZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.RectContourZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone;
@@ -161,7 +160,6 @@ public class Globals
         zonesDict[idv.cjcat.stardustextended.twoD.zones.CircleZone] = new DropdownListVO("Circle", idv.cjcat.stardustextended.twoD.zones.CircleZone, com.funkypandagame.stardust.view.stardust.twoD.zones.CircleZone);
         zonesDict[CircleContour] = new DropdownListVO("Circle contour", CircleContour, CircleContourZone);
         zonesDict[Sector] = new DropdownListVO("Circle sector", Sector, SectorZone);
-        zonesDict[Composite] = new DropdownListVO("Composite zone", Composite, CompositeZone);
 
         triggersDict[DeathTrigger] = new DropdownListVO("Death trigger", DeathTrigger, DeathTriggerRenderer);
         triggersDict[LifeTrigger] = new DropdownListVO("Life trigger", LifeTrigger, LifeTriggerRenderer);

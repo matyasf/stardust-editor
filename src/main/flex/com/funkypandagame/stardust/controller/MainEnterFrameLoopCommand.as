@@ -51,7 +51,7 @@ public class MainEnterFrameLoopCommand implements ICommand
         }
         if ( view.zonesVisibleCheckBox.selected )
         {
-            ZoneDrawer.drawZones();
+            ZoneDrawer.drawEmitterZones();
         }
         else
         {

@@ -46,7 +46,7 @@ public class ZoneDrawer
         graphics = g;
     }
 
-    public static function drawZones() : void
+    public static function drawEmitterZones() : void
     {
         if ( emitter == null || graphics == null)
         {
@@ -57,14 +57,14 @@ public class ZoneDrawer
         {
             if ( init is PositionAnimated )
             {
-                drawZone( graphics, PositionAnimated( init ).zone, 0x75FF56, PositionAnimated( init ).currentPosition );
+                drawZones( graphics, PositionAnimated( init ).zones, 0x75FF56, PositionAnimated( init ).currentPosition );
             }
         }
         for each ( var act : Action in emitter.actions )
         {
             if ( act is IZoneContainer )
             {
-                drawZone( graphics, IZoneContainer( act ).zone, 0xE03535, null );
+                drawZones( graphics, IZoneContainer( act ).zones, 0xE03535, null );
             }
             else if ( act is Deflect )
             {
@@ -114,7 +114,7 @@ public class ZoneDrawer
         g.endFill();
     }
 
-    private static function drawZone( g : Graphics, z : Zone, color : uint, offset : Point ) : void
+    private static function drawZones( g : Graphics, zones : Vector.<Zone>, color : uint, offset : Point ) : void
     {
         if ( offset == null )
         {
@@ -122,54 +122,55 @@ public class ZoneDrawer
         }
         g.beginFill( color, 0.7 );
         g.lineStyle( 2, darkenColor( color, 50 ) );
-        if ( z is SinglePoint )
+        for each (var z : Zone in zones)
         {
-            var sp : SinglePoint = SinglePoint( z );
-            g.drawCircle( sp.x - 1 + offset.x, sp.y - 1 + offset.y, 2 );
-        }
-        else if ( z is Line )
-        {
-            var li : Line = Line( z );
-            g.moveTo( li.x1 + offset.x, li.y1 + offset.y );
-            g.lineTo( li.x2 + offset.x, li.y2 + offset.y );
-        }
-        else if ( z is RectZone )
-        {
-            var re : RectZone = RectZone( z );
-            g.drawRect( re.x + offset.x, re.y + offset.y, re.width, re.height );
-        }
-        else if ( z is RectContour )
-        {
-            var rc : RectContour = RectContour( z );
-            g.endFill();
-            g.drawRect( rc.x + offset.x, rc.y + offset.y, rc.width, rc.height );
-        }
-        else if ( z is CircleZone )
-        {
-            var cz : CircleZone = CircleZone( z );
-            g.drawCircle( cz.x + offset.x, cz.y + offset.y, cz.radius );
-        }
-        else if ( z is CircleContour )
-        {
-            var cc : CircleContour = CircleContour( z );
-            g.endFill();
-            g.drawCircle( cc.x + offset.x, cc.y + offset.y, cc.radius );
-        }
-        else if ( z is Sector )
-        {
-            var se : Sector = Sector( z );
-            drawSector(g, se.x + offset.x, se.y + offset.y, se.minRadius, se.maxRadius, se.minAngle, se.maxAngle);
-        }
-        else if ( z is Composite )
-        {
-            var co : Composite = Composite( z );
-            for (var i:int = 0; i < co.zones.length; i++) {
-                drawZone(g, co.zones[i], color, offset);
+            if ( z is SinglePoint )
+            {
+                var sp : SinglePoint = SinglePoint( z );
+                g.drawCircle( sp.x - 1 + offset.x, sp.y - 1 + offset.y, 2 );
             }
-        }
-        else
-        {
-            LOG.error( "ZoneDrawer: unknown zone " + z );
+            else if ( z is Line )
+            {
+                var li : Line = Line( z );
+                g.moveTo( li.x1 + offset.x, li.y1 + offset.y );
+                g.lineTo( li.x2 + offset.x, li.y2 + offset.y );
+            }
+            else if ( z is RectZone )
+            {
+                var re : RectZone = RectZone( z );
+                g.drawRect( re.x + offset.x, re.y + offset.y, re.width, re.height );
+            }
+            else if ( z is RectContour )
+            {
+                var rc : RectContour = RectContour( z );
+                g.endFill();
+                g.drawRect( rc.x + offset.x, rc.y + offset.y, rc.width, rc.height );
+            }
+            else if ( z is CircleZone )
+            {
+                var cz : CircleZone = CircleZone( z );
+                g.drawCircle( cz.x + offset.x, cz.y + offset.y, cz.radius );
+            }
+            else if ( z is CircleContour )
+            {
+                var cc : CircleContour = CircleContour( z );
+                g.endFill();
+                g.drawCircle( cc.x + offset.x, cc.y + offset.y, cc.radius );
+            }
+            else if ( z is Sector )
+            {
+                var se : Sector = Sector( z );
+                drawSector(g, se.x + offset.x, se.y + offset.y, se.minRadius, se.maxRadius, se.minAngle, se.maxAngle);
+            }
+            else if ( z is Composite )
+            {
+                var co : Composite = Composite( z );
+                drawZones(g, co.zones, color, offset);
+            }
+            else
+            {
+                LOG.error( "ZoneDrawer: unknown zone " + z );
+            }
         }
         g.endFill();
     }
