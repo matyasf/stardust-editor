@@ -16,11 +16,11 @@
             var fieldsArr : Vector.<Field> = fieldContainer.getData();
             if (fieldsArr.length > 0)
             {
-                dat.field = fieldsArr[0];
+                dat.fields = fieldsArr;
             }
             else
             {
-                dat.field = null;
+                dat.fields = null;
             }
         }
 
@@ -32,11 +32,9 @@
                 return;
             }
             var dat : VelocityField = d as VelocityField;
-            if (dat.field != null)
+            if (dat.fields != null)
             {
-                var field:Vector.<Field> = new Vector.<Field>();
-                field.push(dat.field);
-                fieldContainer.setData(field);
+                fieldContainer.setData(dat.fields);
             }
         }
         ]]></fx:Script>
