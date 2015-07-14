@@ -3,7 +3,7 @@
                            xmlns:s="library://ns.adobe.com/flex/spark"
                            xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                           nameText="Death zone"
+                           nameText="Death{'\n'}zone"
                            toolTip="Causes particles to be deleted when they are inside a zone.">
 
     <fx:Script><![CDATA[

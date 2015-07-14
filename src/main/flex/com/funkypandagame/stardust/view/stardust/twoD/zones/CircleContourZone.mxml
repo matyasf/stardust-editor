@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
-<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark"
-          xmlns:components="com.funkypandagame.stardust.view.components.*"
-                opaqueBackground="0x565656" autoDrawBackground="false"
-          width="100%" >
+<zones:ZoneRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                        xmlns:s="library://ns.adobe.com/flex/spark"
+                        xmlns:components="com.funkypandagame.stardust.view.components.*"
+                        xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
+                        nameText="Circle contour   x">
 
     <fx:Script><![CDATA[
 
         import idv.cjcat.stardustextended.twoD.zones.CircleContour;
-
-        import spark.components.DataGroup;
 
         override public function set data(d:Object):void
         {
@@ -32,11 +30,10 @@
         }
         ]]></fx:Script>
 
-    <s:layout>
+    <zones:layout>
         <s:HorizontalLayout verticalAlign="middle" />
-    </s:layout>
+    </zones:layout>
 
-    <s:Label text="Circle contour   x"/>
     <components:CustomNumericStepper id="xTextInput" width="45" change="updateData()"/>
 
     <s:Label text="y"/>
@@ -45,8 +42,4 @@
     <s:Label text="radius"/>
     <components:CustomNumericStepper id="radius" width="45" change="updateData()"/>
 
-    <s:Spacer width="100%"/>
-    <s:Button label="remove"
-              click="DataGroup(owner).dataProvider.removeItemAt( DataGroup(owner).dataProvider.getItemIndex(data) )"/>
-
-</s:ItemRenderer>
+</zones:ZoneRendererBase>

@@ -1,76 +1,62 @@
-package com.funkypandagame.stardust.view.stardust.twoD
+package com.funkypandagame.stardust.view.stardust.twoD.zones
 {
 
-import flash.events.Event;
+import flash.display.DisplayObjectContainer;
 import flash.events.MouseEvent;
 
 import flashx.textLayout.formats.VerticalAlign;
 
+import mx.binding.utils.BindingUtils;
+
 import mx.core.IVisualElement;
 
 import spark.components.Button;
-import spark.components.CheckBox;
+import spark.components.DataGroup;
 import spark.components.Group;
 import spark.components.Label;
-import spark.components.List;
 import spark.components.supportClasses.ItemRenderer;
 import spark.layouts.HorizontalLayout;
 import spark.layouts.supportClasses.LayoutBase;
 
 [DefaultProperty("mxmlChildren")]
-public class PropertyRendererBase extends ItemRenderer
+public class ZoneRendererBase extends ItemRenderer
 {
-    private const nameLabel : Label = new Label();
+    private var nameLabel : Label;
     private var removeButton : Button;
     private const contentContainer : Group = new Group();
-    private const enabledCB : CheckBox = new CheckBox();
-    private var _showRemoveButton : Boolean = true;
+
+    override public function set owner(val : DisplayObjectContainer) :void
+    {
+        super.owner = val;
+        BindingUtils.bindSetter( function(len : int) : void
+        {
+            removeButton.enabled = len > 1;
+        }, owner, ["dataProvider", "length"], false, true);
+    }
 
     override protected function createChildren() : void
     {
+        opaqueBackground = 0x565656;
+        autoDrawBackground = false;
+        percentWidth = 100;
         super.createChildren();
         const hLayout : HorizontalLayout = new HorizontalLayout();
         hLayout.verticalAlign = VerticalAlign.MIDDLE;
         super.layout = hLayout;
 
-        addElement( enabledCB );
-        enabledCB.toolTip = "Enabled";
-        enabledCB.addEventListener( Event.CHANGE, onEnabledChangeClick );
-
-        nameLabel.maxDisplayedLines = 2;
-        addElement( nameLabel );
-
         contentContainer.percentWidth = 100;
         addElement( contentContainer );
 
-        if ( _showRemoveButton )
-        {
-            removeButton = new Button();
-            removeButton.label = "Remove";
-            removeButton.percentHeight = 100;
-            removeButton.addEventListener( MouseEvent.CLICK, onRemoveClick );
-            addElement( removeButton );
-        }
-    }
-
-    override public function set data( d : Object ) : void
-    {
-        super.data = d;
-        if ( d == null )
-        {
-            return;
-        }
-        enabledCB.selected = data.active;
-    }
-
-    protected function onEnabledChangeClick( event : Event ) : void
-    {
-        data.active = enabledCB.selected;
+        removeButton = new Button();
+        removeButton.label = "Remove";
+        removeButton.percentHeight = 100;
+        removeButton.addEventListener( MouseEvent.CLICK, onRemoveClick );
+        addElement( removeButton );
     }
 
     protected function onRemoveClick( e : MouseEvent ) : void
     {
-        List( owner ).dataProvider.removeItemAt( List( owner ).dataProvider.getItemIndex( data ) );
+        DataGroup(owner).dataProvider.removeItemAt( DataGroup(owner).dataProvider.getItemIndex(data) );
     }
 
     public function set mxmlChildren( value : Array ) : void
@@ -94,12 +80,13 @@ public class PropertyRendererBase extends ItemRenderer
 
     public function set nameText( val : String ) : void
     {
+        if (nameLabel == null)
+        {
+            nameLabel = new Label();
+            nameLabel.maxDisplayedLines = 2;
+            addElementAt(nameLabel, 0);
+        }
         nameLabel.text = val;
-    }
-
-    public function set showRemoveButton( val : Boolean ) : void
-    {
-        _showRemoveButton = val;
     }
 
 }
