@@ -39,6 +39,8 @@
         [Inject]
         public var model : ProjectModel;
 
+        private var externalSimToLoad : ByteArray;
+
         private function initApp():void {
             setupLogging();
 
@@ -52,12 +54,31 @@
             starlingInstance.showStats = true;
         }
 
+        // invoked from the AIR wrapper. Called after the applicationComplete event.
+        public function loadExternalSim(sim : ByteArray) : void
+        {
+            externalSimToLoad = sim;
+            if (context)
+            {
+                const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
+                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+            }
+        }
+
         private function onStarlingReady(event:starling.events.Event):void {
             context = new Context();
             context.install(MVCSBundle).configure(AppConfig).configure(new ContextView(this));
-            const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
-            dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
             context.injector.injectInto(this);
+
+            const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
+            if (externalSimToLoad)
+            {
+                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+            }
+            else
+            {
+                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad));
+            }
         }
 
         private static function setupLogging():void
