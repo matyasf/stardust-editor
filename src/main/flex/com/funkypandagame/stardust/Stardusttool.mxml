@@ -73,11 +73,11 @@
             const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
             if (externalSimToLoad)
             {
-                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad));
             }
             else
             {
-                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad));
+                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
             }
         }
 

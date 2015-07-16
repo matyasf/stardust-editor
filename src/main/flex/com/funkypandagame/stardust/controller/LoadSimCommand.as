@@ -101,7 +101,7 @@ public class LoadSimCommand implements ICommand
         }
         catch (err: Error)
         {
-            Alert.show("Unable to load simulation. " + err.toString() + err.getStackTrace(), "ERROR");
+            Alert.show("Unable to load simulation." + err.toString() + "\n" + err.getStackTrace(), "ERROR");
         }
     }
 

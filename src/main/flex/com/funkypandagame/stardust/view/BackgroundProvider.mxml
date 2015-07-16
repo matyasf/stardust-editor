@@ -43,8 +43,8 @@
         {
             bgX = xc;
             bgY = yc;
-            bgWidth = wi;
-            bgHeight = he;
+            bgWidth = wi + 1; // make it > 0 in case the app starts at a small size
+            bgHeight = he + 1;
             positionBg();
         }
 
