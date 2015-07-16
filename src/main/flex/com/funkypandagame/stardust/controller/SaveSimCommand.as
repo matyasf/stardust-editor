@@ -1,6 +1,7 @@
 package com.funkypandagame.stardust.controller
 {
 
+import com.funkypandagame.stardust.helpers.Globals;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.textures.Atlas;
 import com.funkypandagame.stardust.textures.AtlasTexture;
@@ -38,7 +39,7 @@ public class SaveSimCommand implements ICommand
     {
         const saveFile : FileReference = new FileReference();
         saveFile.addEventListener( IOErrorEvent.IO_ERROR, IOErrorHandler );
-        saveFile.save( constructProjectFileByteArray(), "stardustProject.sde" );
+        saveFile.save( constructProjectFileByteArray(), Globals.currentFileName + ".sde" );
     }
 
     private static function IOErrorHandler( e : IOErrorEvent ) : void

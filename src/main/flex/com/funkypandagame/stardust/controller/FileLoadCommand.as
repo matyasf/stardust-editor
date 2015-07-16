@@ -35,7 +35,11 @@ public class FileLoadCommand implements ICommand
     private function loadCompleteHandler( event : Event ) : void
     {
         _loadFile.removeEventListener( Event.COMPLETE, loadCompleteHandler );
-        dispatcher.dispatchEvent( new LoadSimEvent(_loadFile.data, _loadFile.name) );
+
+        var fileName : String = _loadFile.name;
+        var fileNameNoExtension : String = fileName.substr(0, fileName.lastIndexOf(".")  );
+
+        dispatcher.dispatchEvent( new LoadSimEvent(_loadFile.data, fileNameNoExtension) );
     }
 
 }

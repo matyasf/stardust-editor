@@ -10,7 +10,7 @@
     <view2:StardusttoolMainView/>
 
     <fx:Script><![CDATA[
-        import com.funkypandagame.stardust.helpers.Globals;
+
         import com.funkypandagame.stardust.model.ProjectModel;
 
         import com.funkypandagame.stardust.config.AppConfig;

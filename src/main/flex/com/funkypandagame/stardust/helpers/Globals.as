@@ -108,6 +108,7 @@ public class Globals
 
     public static const EXTERNAL_SET_SIM_NAME_EVENT : String = "setSimName";
     public static var externalEventDispatcher : IEventDispatcher; // dispatches events to the external AIR app
+    public static var currentFileName : String;
 
     public static const blendModesStarling : ArrayCollection = new ArrayCollection( [
         BlendMode.NORMAL,
@@ -215,6 +216,7 @@ public class Globals
 
     public static function dispatchExternalTitleChangeEvent(newTitle : String) : void
     {
+        currentFileName = newTitle;
         externalEventDispatcher.dispatchEvent(new TextEvent(EXTERNAL_SET_SIM_NAME_EVENT, true, false, newTitle));
     }
 }
