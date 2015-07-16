@@ -39,6 +39,9 @@ import com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SectorZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SinglePointZone;
 
+import flash.events.IEventDispatcher;
+import flash.events.TextEvent;
+
 import flash.utils.Dictionary;
 
 import idv.cjcat.stardustextended.common.actions.Age;
@@ -102,6 +105,9 @@ public class Globals
 
     public static const triggersDict : Dictionary = new Dictionary();
     public static const triggersDDLAC : ArrayCollection = new ArrayCollection();
+
+    public static const EXTERNAL_SET_SIM_NAME_EVENT : String = "setSimName";
+    public static var externalEventDispatcher : IEventDispatcher; // dispatches events to the external AIR app
 
     public static const blendModesStarling : ArrayCollection = new ArrayCollection( [
         BlendMode.NORMAL,
@@ -207,6 +213,9 @@ public class Globals
         starlingCanvas.touchable = false;
     }
 
-
+    public static function dispatchExternalTitleChangeEvent(newTitle : String) : void
+    {
+        externalEventDispatcher.dispatchEvent(new TextEvent(EXTERNAL_SET_SIM_NAME_EVENT, true, false, newTitle));
+    }
 }
 }

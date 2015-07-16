@@ -198,6 +198,8 @@ public class LoadSimCommand implements ICommand
         DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate = projectModel.fps;
         dispatcher.dispatchEvent( new RefreshFPSTextEvent() );
 
+        Globals.dispatchExternalTitleChangeEvent(event.nameToDisplay);
+
         dispatcher.dispatchEvent( new StartSimEvent() );
     }
 

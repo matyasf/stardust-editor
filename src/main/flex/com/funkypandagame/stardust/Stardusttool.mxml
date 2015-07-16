@@ -10,6 +10,7 @@
     <view2:StardusttoolMainView/>
 
     <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.model.ProjectModel;
 
         import com.funkypandagame.stardust.config.AppConfig;
@@ -35,13 +36,14 @@
 
         private var context:IContext;
         private var starlingInstance:Starling;
+        private var externalSimToLoad : ByteArray;
+        private var externalSimDisplayName : String;
 
         [Inject]
         public var model : ProjectModel;
 
-        private var externalSimToLoad : ByteArray;
-
         private function initApp():void {
+            Globals.externalEventDispatcher = this;
             setupLogging();
 
             Globals.init();
@@ -55,13 +57,14 @@
         }
 
         // invoked from the AIR wrapper. Called after the applicationComplete event.
-        public function loadExternalSim(sim : ByteArray) : void
+        public function loadExternalSim(sim : ByteArray, nameToDisplay : String) : void
         {
             externalSimToLoad = sim;
+            externalSimDisplayName = nameToDisplay;
             if (context)
             {
                 const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
-                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad, externalSimDisplayName));
             }
         }
 
@@ -73,11 +76,11 @@
             const dispatcher:IEventDispatcher = context.injector.getInstance(IEventDispatcher);
             if (externalSimToLoad)
             {
-                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad));
+                dispatcher.dispatchEvent(new LoadSimEvent(externalSimToLoad, externalSimDisplayName));
             }
             else
             {
-                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim()));
+                dispatcher.dispatchEvent(new LoadSimEvent(new ExampleSim(), "Untitled"));
             }
         }
 

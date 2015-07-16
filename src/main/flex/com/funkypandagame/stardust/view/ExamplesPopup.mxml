@@ -37,10 +37,10 @@
             PopUpManager.removePopUp(this);
         }
 
-        private function loadSim(sdeFile : ByteArray) : void
+        private function loadSim(sdeFile : ByteArray, name : String) : void
         {
             PopUpManager.removePopUp(this);
-            callback(sdeFile);
+            callback(sdeFile, name);
         }
         ]]></fx:Script>
 
@@ -49,31 +49,31 @@
         <components:Label text="WARNING: If you load a new simulation you will lose all your unsaved changes!"
                 paddingTop="2" paddingRight="2" paddingLeft="2" paddingBottom="2"/>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BlazingFireSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BlazingFireSim()}" nameToDisplay="blazingFire">
             <view:HTMLdescription><![CDATA[<b>Blazing fire</b><br/>Shows how to use the Color Curve action to alter a particle's color and alpha over time. The non-premultiplied alpha combined with low alpha values results in highly saturated colors.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SimpleFireworkSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SimpleFireworkSim()}" nameToDisplay="fireworks">
             <view:HTMLdescription><![CDATA[<b>Simple fireworks</b><br/>Example of the Spawn action. New particles are spawned upon another particle's death.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new RocketSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new RocketSim()}" nameToDisplay="rocket">
             <view:HTMLdescription><![CDATA[<b>Rocket + smoke trail</b><br/>Example of the Spawn action. New particles are spawned while another is alive.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new DryIceSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new DryIceSim()}" nameToDisplay="dryIce">
             <view:HTMLdescription><![CDATA[<b>Dry ice</b><br/>It is a quite heavy simulation because it renders a lot of big particles.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SnowfallSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SnowfallSim()}" nameToDisplay="snowfall">
         <view:HTMLdescription><![CDATA[<b>Snowfall</b><br/>Simple snowfall + obstacles in the way of the snow.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new CoinShowerSim()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new CoinShowerSim()}" nameToDisplay="coinShower">
             <view:HTMLdescription><![CDATA[<b>Coin shower</b><br/>Shows how animated particles can look and how to use multiple emitters.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new GlitterBurst()}">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new GlitterBurst()}" nameToDisplay="glitterBurst">
             <view:HTMLdescription><![CDATA[<b>Confetti</b><br/>Confetti/glitter explosion. The animated particles are another way to change colors.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 

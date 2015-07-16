@@ -89,9 +89,9 @@
             PopUpManager.centerPopUp(examplesPopup);
         }
 
-        private function loadExample(sdeFile : ByteArray) : void
+        private function loadExample(sdeFile : ByteArray, nameToDisplay : String) : void
         {
-            dispatchEvent(new LoadSimEvent(sdeFile));
+            dispatchEvent(new LoadSimEvent(sdeFile, nameToDisplay));
         }
         ]]></fx:Script>
 
