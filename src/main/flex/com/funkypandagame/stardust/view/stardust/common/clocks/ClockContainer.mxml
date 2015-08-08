@@ -4,42 +4,33 @@
           paddingBottom="4" paddingTop="4" paddingLeft="4" paddingRight="4">
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.DropdownListVO;
-        import com.funkypandagame.stardust.view.events.ClockTypeChangeEvent;
 
         import idv.cjcat.stardustextended.common.clocks.Clock;
         import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
+        import idv.cjcat.stardustextended.common.clocks.RandomBurstClock;
         import idv.cjcat.stardustextended.common.clocks.SteadyClock;
         import idv.cjcat.stardustextended.common.emitters.Emitter;
 
         import mx.collections.ArrayCollection;
-        import mx.logging.ILogger;
-        import mx.logging.Log;
-
-        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(ClockContainer).replace("::", "."));
+        import mx.core.IVisualElement;
 
         private const clocksAC:ArrayCollection = new ArrayCollection([
             new DropdownListVO("constant", SteadyClock, SteadyClockRenderer),
-            new DropdownListVO("impulse", ImpulseClock, ImpulseClockRenderer)
+            new DropdownListVO("impulse", ImpulseClock, ImpulseClockRenderer),
+            new DropdownListVO("random bursts", RandomBurstClock, RandomBurstClockRenderer)
         ]);
 
         private var emitter:Emitter;
 
-        private function onSelChange():void {
-            LOG.debug("onSelChange() Change Clock: " + ddl.selectedItem);
-
-            var it:DropdownListVO = DropdownListVO(ddl.selectedItem);
+        private function onSelChange():void
+        {
+            var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
             emitter.clock = Clock(new it.stardustClass());
             populateData();
-
-            if (ddl.selectedIndex == 0) {
-                dispatchEvent(new ClockTypeChangeEvent(ClockTypeChangeEvent.STEADY_CLOCK));
-            }
-            else if (ddl.selectedIndex == 1) {
-                dispatchEvent(new ClockTypeChangeEvent(ClockTypeChangeEvent.IMPULSE_CLOCK));
-            }
         }
 
-        public function setData(_emitter:Emitter):void {
+        public function setData(_emitter : Emitter) : void
+        {
             emitter = _emitter;
             if (emitter.clock is SteadyClock)
             {
@@ -49,24 +40,23 @@
             {
                 ddl.selectedIndex = 1;
             }
+            else if (emitter.clock is RandomBurstClock)
+            {
+                ddl.selectedIndex = 2;
+            }
             activeCheckBox.selected = emitter.active;
             ddl.validateProperties();
             populateData();
             validateNow();
         }
 
-        public function getData():Clock {
-            if (emitter) {
-                return emitter.clock;
-            }
-            return null;
-        }
-
         private function populateData():void
         {
-            var it:DropdownListVO = DropdownListVO(ddl.selectedItem);
+            var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
             content.removeAllElements();
-            content.addElement(new it.viewClass());
+            var viewClass:IVisualElement = new it.viewClass();
+            IClockRenderer(viewClass).setData(emitter.clock);
+            content.addElement(viewClass);
         }
 
         private function onActiveChange():void
@@ -79,7 +69,8 @@
         <s:Label text="clock type:"/>
         <s:DropDownList id="ddl" dataProvider="{clocksAC}" change="onSelChange()"
                         labelField="name" requireSelection="true" selectedIndex="0"/>
-        <s:CheckBox id="activeCheckBox" label="Active" change="onActiveChange()"/>
+        <s:CheckBox id="activeCheckBox" label="Active" change="onActiveChange()"
+                toolTip="Enables/disables this emitter. If the emitter's particles are spawned from another emitter it will emit particles even if its disabled."/>
     </s:HGroup>
     <s:Group id="content"/>
 

@@ -2,8 +2,8 @@ package com.funkypandagame.stardust.controller
 {
 import com.funkypandagame.stardust.controller.events.InitCompleteEvent;
 import com.funkypandagame.stardust.controller.events.InitalizeZoneDrawerEvent;
+import com.funkypandagame.stardust.controller.events.SetClockEvent;
 import com.funkypandagame.stardust.controller.events.SetParticleHandlerEvent;
-import com.funkypandagame.stardust.controller.events.UpdateClockContainerFromEmitter;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterDropDownListEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
 import com.funkypandagame.stardust.model.ProjectModel;
@@ -41,7 +41,7 @@ public class StartSimCommand implements ICommand
         // refresh the initializer/action arrayCollections
         dispatcher.dispatchEvent( new UpdateEmitterFromViewUICollectionsEvent( UpdateEmitterFromViewUICollectionsEvent.UPDATE, projectSettings.emitterInFocus ) );
 
-        dispatcher.dispatchEvent( new UpdateClockContainerFromEmitter( UpdateClockContainerFromEmitter.UPDATE, projectSettings.emitterInFocus ) );
+        dispatcher.dispatchEvent( new SetClockEvent() );
 
         //refresh the emitter dropdown list.
         dispatcher.dispatchEvent( new UpdateEmitterDropDownListEvent( UpdateEmitterDropDownListEvent.UPDATE ) );

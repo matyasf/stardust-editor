@@ -5,7 +5,7 @@
           verticalAlign="middle" >
 
     <fx:Script><![CDATA[
-        import com.funkypandagame.stardust.helpers.Globals;
+
         import com.funkypandagame.stardust.helpers.Utils;
 
         import idv.cjcat.stardustextended.common.math.UniformRandom;
@@ -27,7 +27,7 @@
 
         private function setTooltip():void {
             if (varTextInput.text == "0") {
-                toolTip = "The final value is " + avgTextInput.text;
+                toolTip = "The value is " + avgTextInput.text;
             }
             else {
                 toolTip = "The value is randomly between " +
@@ -36,10 +36,10 @@
         }
         ]]></fx:Script>
 
-    <s:Label text="average value"/>
-    <components:CustomNumericStepper id="avgTextInput" restrict="0-9.\-" width="50" change="updateData()" stepValue="0.1"/>
+    <s:Label text="average"/>
+    <components:CustomNumericStepper id="avgTextInput" restrict="0-9.\-" width="45" change="updateData()" stepValue="0.1"/>
 
     <s:Label text="variation"/>
-    <components:CustomNumericStepper id="varTextInput" restrict="0-9.\-" width="50" change="updateData()" stepValue="0.1"/>
+    <components:CustomNumericStepper id="varTextInput" restrict="0-9.\-" width="45" change="updateData()" stepValue="0.1"/>
 
 </s:HGroup>

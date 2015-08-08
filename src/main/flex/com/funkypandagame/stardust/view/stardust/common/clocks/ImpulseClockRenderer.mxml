@@ -1,52 +1,30 @@
 <?xml version="1.0"?>
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-          xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="com.funkypandagame.stardust.view.components.*"
-          verticalAlign="middle">
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:components="com.funkypandagame.stardust.view.components.*"
+          verticalAlign="middle"
+          implements="com.funkypandagame.stardust.view.stardust.common.clocks.IClockRenderer">
 
     <fx:Script><![CDATA[
-        import com.funkypandagame.stardust.view.events.UpdateClockInEmitterGroupEvent;
-        import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
-        import com.funkypandagame.stardust.view.events.ImpulseClockRendererSetDataEvent;
-        import com.funkypandagame.stardust.view.events.ImpulseClockRendererUpdateEmitterInfoEvent;
+
+        import idv.cjcat.stardustextended.common.clocks.Clock;
 
         import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
 
-        import mx.logging.ILogger;
-        import mx.logging.Log;
+        private var clock : ImpulseClock;
 
-        private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(ImpulseClockRenderer).replace("::", "."));
-
-        private var clock:ImpulseClock;
-
-        public function setData(d:ImpulseClock):void {
-            clock = d;
-            dispatchEvent(new ImpulseClockRendererSetDataEvent(ImpulseClockRendererSetDataEvent.SET));
-        }
-
-        public function updateTextFieldsFromEmitterVO(emitterVO:EmitterValueObject):void {
-            var clock:ImpulseClock = ImpulseClock(emitterVO.emitter.clock);
+        public function setData(d : Clock):void
+        {
+            clock = ImpulseClock(d);
             numParticlesTextInput.text = clock.impulseCount.toString();
             numBurstsTextInput.text = clock.repeatCount.toString();
             burstIntervalTextInput.text = clock.burstInterval.toString();
-
-            updateData();
         }
 
         private function updateData():void {
-            LOG.debug("Update Impulse Clock");
             clock.impulseCount = int(numParticlesTextInput.text);
             clock.repeatCount = int(numBurstsTextInput.text);
-            updateEmitterInfo();
-
-            dispatchEvent(new UpdateClockInEmitterGroupEvent(UpdateClockInEmitterGroupEvent.UPDATE, clock));
-        }
-
-        private function updateEmitterInfo():void {
-            var burstInterval:int = parseInt(burstIntervalTextInput.text);
-            var numParticles:int = parseInt(numParticlesTextInput.text);
-            var numBursts:int = parseInt(numBurstsTextInput.text);
-
-            dispatchEvent(new ImpulseClockRendererUpdateEmitterInfoEvent(burstInterval, numParticles, numBursts));
+            clock.burstInterval = int(burstIntervalTextInput.text);
         }
         ]]></fx:Script>
 
@@ -59,6 +37,6 @@
                                      maximum="1000" maxChars="4"/>
 
     <s:Label text="burst interval (steps)"/>
-    <components:CustomNumericStepper id="burstIntervalTextInput" restrict="0-9" change="updateEmitterInfo()" width="50"
+    <components:CustomNumericStepper id="burstIntervalTextInput" restrict="0-9" change="updateData()" width="50"
                                      minimum="20" text="1000"/>
 </s:HGroup>
