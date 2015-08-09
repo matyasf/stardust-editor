@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
-          xmlns:components="com.funkypandagame.stardust.view.components.*"
           xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
+          xmlns:components="com.funkypandagame.stardust.view.components.*"
           verticalAlign="middle"
           implements="com.funkypandagame.stardust.view.stardust.common.clocks.IClockRenderer">
 
@@ -17,23 +17,21 @@
         public function setData(d : Clock) : void
         {
             clock = ImpulseClock(d);
-            numParticlesTextInput.text = clock.ticksPerCall.toString();
-            impulseLengthInput.text = clock.impulseLength.toString();
-            impulseIntervalTextInput.text = clock.impulseInterval.toString();
             initDelayMath.setData(clock.initialDelay as UniformRandom);
+            impulseIntervalMath.setData(clock.impulseInterval as UniformRandom);
+            impulseLengthMath.setData(clock.impulseLength as UniformRandom);
+            tickPerCallInput.text = clock.ticksPerCall.toString();
         }
 
-        private function updateData() : void
+        public function updateData() : void
         {
-            clock.ticksPerCall = parseFloat(numParticlesTextInput.text);
-            clock.impulseLength = int(impulseLengthInput.text);
-            clock.impulseInterval = int(impulseIntervalTextInput.text);
+            clock.ticksPerCall = parseFloat(tickPerCallInput.text);
         }
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
         <s:Label text="new particles/frame"/>
-        <components:CustomNumericStepper id="numParticlesTextInput" restrict="0-9." change="updateData()"
+        <components:CustomNumericStepper id="tickPerCallInput" restrict="0-9." change="updateData()"
                                          maximum="1000" minimum="0"/>
 
         <s:Label text="initial delay"/>
@@ -42,12 +40,9 @@
 
     <s:HGroup verticalAlign="middle">
         <s:Label text="impulse length"/>
-        <components:CustomNumericStepper id="impulseLengthInput" restrict="0-9" change="updateData()" width="50" minimum="0"
-                                         maxChars="6"/>
+        <math:UniformRandomMath id="impulseLengthMath"/>
 
         <s:Label text="impulse interval"/>
-        <components:CustomNumericStepper id="impulseIntervalTextInput" restrict="0-9" change="updateData()" width="50"
-                                         minimum="0" maxChars="6"/>
+        <math:UniformRandomMath id="impulseIntervalMath"/>
     </s:HGroup>
-
 </s:VGroup>

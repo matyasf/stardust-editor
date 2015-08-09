@@ -7,14 +7,17 @@
 
         import idv.cjcat.stardustextended.common.clocks.Clock;
         import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
-        import idv.cjcat.stardustextended.common.clocks.ImpulseClockAdvanced;
+        import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
         import idv.cjcat.stardustextended.common.clocks.SteadyClock;
         import idv.cjcat.stardustextended.common.emitters.Emitter;
 
         import mx.collections.ArrayCollection;
         import mx.core.IVisualElement;
 
-        private const clocksAC : ArrayCollection = new ArrayCollection([new DropdownListVO("Constant", SteadyClock, SteadyClockRenderer), new DropdownListVO("Impulses", ImpulseClock, ImpulseClockRenderer), new DropdownListVO("Impulses (advanced)", ImpulseClockAdvanced, ImpulseClockAdvancedRenderer)]);
+        private const clocksAC : ArrayCollection = new ArrayCollection([
+            new DropdownListVO("Constant", SteadyClock, SteadyClockRenderer),
+            new DropdownListVO("Impulses", ImpulseClock, ImpulseClockRenderer)
+        ]);
 
         private var emitter : Emitter;
 
@@ -35,10 +38,6 @@
             else if (emitter.clock is ImpulseClock)
             {
                 ddl.selectedIndex = 1;
-            }
-            else if (emitter.clock is ImpulseClockAdvanced)
-            {
-                ddl.selectedIndex = 2;
             }
             activeCheckBox.selected = emitter.active;
             ddl.validateProperties();
