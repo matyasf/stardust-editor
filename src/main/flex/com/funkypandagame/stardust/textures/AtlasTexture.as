@@ -22,7 +22,7 @@ public class AtlasTexture
         _image = bData;
         _emitterId = emitterId;
         _imagePosition = imagePosition;
-        var offsets : uint =  TexturePacker.padding * 2 + TexturePacker.borderSize * 2;
+        var offsets : uint =  TexturePacker.PADDING * 2 + TexturePacker.BORDER_SIZE * 2;
         _positionWithPadding = new Rectangle(0, 0, _image.width + offsets, _image.height + offsets);
         _positionNoPadding = new Rectangle(0, 0, _image.width, _image.height);
     }
@@ -52,8 +52,8 @@ public class AtlasTexture
         _positionWithPadding.x = xc;
         _positionWithPadding.y = yc;
 
-        _positionNoPadding.x = xc + TexturePacker.padding + TexturePacker.borderSize;
-        _positionNoPadding.y = yc + TexturePacker.padding + TexturePacker.borderSize;
+        _positionNoPadding.x = xc + TexturePacker.PADDING + TexturePacker.BORDER_SIZE;
+        _positionNoPadding.y = yc + TexturePacker.PADDING + TexturePacker.BORDER_SIZE;
     }
 
     public function get imagePosition() : uint
@@ -71,9 +71,9 @@ public class AtlasTexture
      * (We do this to textures in an atlas in order to prevent artifacts that come from
      * the GPU sampling just beyond a texture's bounds.)
      */
-    public static function padBitmapBorder(src : BitmapData) : BitmapData
+    private static function padBitmapBorder(src : BitmapData) : BitmapData
     {
-        var paddingSize : uint = TexturePacker.padding;
+        var paddingSize : uint = TexturePacker.PADDING;
         var srcBounds : Rectangle = new Rectangle(0, 0, src.width, src.height);
         var w : int = Math.ceil(srcBounds.width);
         var h : int = Math.ceil(srcBounds.height);

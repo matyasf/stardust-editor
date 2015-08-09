@@ -1,14 +1,15 @@
 package com.funkypandagame.stardust.textures
 {
-import com.funkypandagame.stardust.helpers.Utils;
 
 import flash.geom.Rectangle;
 
+// TODO make new atlas based if the first one gets full. It should group textures based on emitters
 public class TexturePacker
 {
-    public static const borderSize : int = 1; // empty space
-    public static const padding : int = 1;// extend the image by this many pixels
-    protected var _maxAtlasSize : int = 2048;
+    public static const BORDER_SIZE : int = 1; // empty space
+    public static const PADDING : int = 1;// extend the image by this many pixels
+    private static const MAX_ATLAS_SIZE : int = 2048; // TODO make this a parameter
+    private static const ATLAS_GROW_FACTOR : Number = 1.1; // around 21%
 
     protected var _atlas : Atlas;
     protected var _unpacked : Vector.<AtlasTexture>;
@@ -17,41 +18,45 @@ public class TexturePacker
     {
         _unpacked = unpacked;
         _unpacked = _unpacked.sort(compareBitmapDatas);
-        validateTextureSize(_unpacked, _maxAtlasSize);
 
-        var minAtlasSize : uint = calculateMinimumSize(0);
-        packIntoAtlas(minAtlasSize, 0);
+        var minAtlasSize : uint = calculateMinimumSize();
+        if (minAtlasSize > MAX_ATLAS_SIZE)
+        {
+            trace("ERROR minimum possible size is " + minAtlasSize + "x" + minAtlasSize +
+                  " which is greater than the allowed maximum");
+            return null;
+        }
+        trace("Minimum possible atlas size: " +minAtlasSize + "x" + minAtlasSize);
+        packIntoAtlas(minAtlasSize);
 
         return _atlas;
     }
 
-    private function packIntoAtlas(atlasSize : uint, currentPos : uint) : void
+    private function packIntoAtlas(minAtlasSize : uint) : void
     {
-        _atlas = new Atlas(0);
+        _atlas = new Atlas(minAtlasSize);
         // try to pack it into the given (minimum possible) size
-        var packer : MaxRectPacker = new MaxRectPacker(atlasSize, atlasSize);
-        for (var i : int = currentPos; i < _unpacked.length; i++)
+        var packer : MaxRectPacker = new MaxRectPacker(minAtlasSize, minAtlasSize);
+        for (var i : int = 0; i < _unpacked.length; i++)
         {
             var rect : Rectangle = packer.quickInsert(_unpacked[i].positionWithPadding.width, _unpacked[i].positionWithPadding.height);
             if (rect == null)
             {
-                if (Utils.nextPowerOfTwo(atlasSize + 1) <= _maxAtlasSize)
+                if (minAtlasSize == MAX_ATLAS_SIZE)
                 {
-                    // everything does not fit, try with a 2x big one.
-                    trace("Element with size " + _unpacked[i].positionWithPadding.width + "x" +
-                          _unpacked[i].positionWithPadding.height +
-                          " does not fit, trying with a " + Utils.nextPowerOfTwo(atlasSize + 1) + " texture");
-                    packIntoAtlas(Utils.nextPowerOfTwo(atlasSize + 1), currentPos);
-                    return;
-                }
-                else
-                {
-                    // The texture size cannot grow.
-                    // TODO make new atlas based if the first one gets full. It should group textures based on emitters
-                    trace("Texture size " + atlasSize + " cannot grow because max size is " +_maxAtlasSize + ". Aborting");
+                    trace("ERROR Unable to save texture atlas because it does not fit into " + MAX_ATLAS_SIZE + "x" + MAX_ATLAS_SIZE);
                     _atlas = null;
                     return;
                 }
+                var nextSize : uint = Math.ceil(minAtlasSize * ATLAS_GROW_FACTOR);
+                if (nextSize > MAX_ATLAS_SIZE)
+                {
+                    minAtlasSize = MAX_ATLAS_SIZE;
+                }
+                // everything does not fit, try with a bigger one.
+                trace("Elements do not fit, trying with a " + nextSize + "x" + nextSize + " texture");
+                packIntoAtlas(nextSize);
+                return;
             }
             else
             {
@@ -62,28 +67,17 @@ public class TexturePacker
     }
 
     // Calculates the minimum possible size to speed up calculation.
-    private function calculateMinimumSize(offset : uint) : uint
+    private function calculateMinimumSize() : uint
     {
         var minSize : uint = 2;
         var area : uint = 0;
-        for (var i : int = offset; i < _unpacked.length; i++)
+        for (var i : int = 0; i < _unpacked.length; i++)
         {
             minSize = Math.max(minSize, _unpacked[i].positionWithPadding.width, _unpacked[i].positionWithPadding.height);
             area += _unpacked[i].areaWithPadding;
         }
-        var minPossibleSize : uint = Utils.nextPowerOfTwo(Math.max(minSize, Math.sqrt(area)));
-        return Math.min(_maxAtlasSize, minPossibleSize);
-    }
-
-    private static function validateTextureSize(_unpacked : Vector.<AtlasTexture>, maxAtlasSize : uint) : void
-    {
-        for each (var unpacked : AtlasTexture in _unpacked)
-        {
-            if (unpacked.positionWithPadding.height > maxAtlasSize || unpacked.positionWithPadding.height > maxAtlasSize)
-            {
-                throw new Error("Too large to fit in an atlas: '" + unpacked + "' (" + unpacked.positionWithPadding + ")");
-            }
-        }
+        var minPossibleSize : uint = Math.max(minSize, Math.sqrt(area));
+        return minPossibleSize;
     }
 
     private static function compareBitmapDatas(bd1 : AtlasTexture, bd2 : AtlasTexture) : Number
@@ -93,7 +87,6 @@ public class TexturePacker
             return -1;
         }
         return 1;
-
     }
 
 }

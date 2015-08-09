@@ -20,15 +20,15 @@ import starling.textures.TextureAtlas;
 public class RegenerateEmitterTexturesCommand
 {
     [Inject]
-    public var model : ProjectModel;
+    public var projectModel : ProjectModel;
 
     public function execute() : void
     {
         var packer : TexturePacker = new TexturePacker();
         var tmpTextures : Vector.<AtlasTexture> = new Vector.<AtlasTexture>();
-        for (var emitterId : * in model.emitterImages)
+        for (var emitterId : * in projectModel.emitterImages)
         {
-            var images : Vector.<BitmapData> = model.emitterImages[emitterId];
+            var images : Vector.<BitmapData> = projectModel.emitterImages[emitterId];
             for (var i : int = 0; i < images.length; i++)
             {
                 tmpTextures.push(new AtlasTexture(images[i], emitterId, i));
@@ -42,7 +42,7 @@ public class RegenerateEmitterTexturesCommand
         var atlasTex : Texture = Texture.fromBitmapData(atlas.toBitmap());
         var tmpAtlas : TextureAtlas = new TextureAtlas(atlasTex, atlas.getXML());
         // set the new texture on all handlers
-        for each (var emitterVO : EmitterValueObject in model.stadustSim.emitters)
+        for each (var emitterVO : EmitterValueObject in projectModel.stadustSim.emitters)
         {
             var texs : Vector.<Texture> = tmpAtlas.getTextures(SDEConstants.getSubTexturePrefix(emitterVO.id));
             var texs2 : Vector.<SubTexture> = new Vector.<SubTexture>();

@@ -1,42 +1,53 @@
 <?xml version="1.0"?>
-<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:components="com.funkypandagame.stardust.view.components.*"
+          xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
           verticalAlign="middle"
           implements="com.funkypandagame.stardust.view.stardust.common.clocks.IClockRenderer">
 
     <fx:Script><![CDATA[
-
         import idv.cjcat.stardustextended.common.clocks.Clock;
 
         import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
+        import idv.cjcat.stardustextended.common.math.UniformRandom;
 
         private var clock : ImpulseClock;
 
-        public function setData(d : Clock):void
+        public function setData(d : Clock) : void
         {
             clock = ImpulseClock(d);
-            numParticlesTextInput.text = clock.impulseCount.toString();
-            numBurstsTextInput.text = clock.repeatCount.toString();
-            burstIntervalTextInput.text = clock.burstInterval.toString();
+            numParticlesTextInput.text = clock.ticksPerCall.toString();
+            impulseLengthInput.text = clock.impulseLength.toString();
+            impulseIntervalTextInput.text = clock.impulseInterval.toString();
+            initDelayMath.setData(clock.initialDelay as UniformRandom);
         }
 
-        private function updateData():void {
-            clock.impulseCount = int(numParticlesTextInput.text);
-            clock.repeatCount = int(numBurstsTextInput.text);
-            clock.burstInterval = int(burstIntervalTextInput.text);
+        private function updateData() : void
+        {
+            clock.ticksPerCall = parseFloat(numParticlesTextInput.text);
+            clock.impulseLength = int(impulseLengthInput.text);
+            clock.impulseInterval = int(impulseIntervalTextInput.text);
         }
         ]]></fx:Script>
 
-    <s:Label text="bursts/impulse"/>
-    <components:CustomNumericStepper id="numBurstsTextInput" restrict="0-9" change="updateData()" width="50" minimum="1"
-                                     text="1" maxChars="2"/>
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="new particles/frame"/>
+        <components:CustomNumericStepper id="numParticlesTextInput" restrict="0-9." change="updateData()"
+                                         maximum="1000" minimum="0"/>
 
-    <s:Label text="particles/impulse"/>
-    <components:CustomNumericStepper id="numParticlesTextInput" restrict="0-9" change="updateData()" width="50"
-                                     maximum="1000" maxChars="4"/>
+        <s:Label text="initial delay"/>
+        <math:UniformRandomMath id="initDelayMath"/>
+    </s:HGroup>
 
-    <s:Label text="burst interval (steps)"/>
-    <components:CustomNumericStepper id="burstIntervalTextInput" restrict="0-9" change="updateData()" width="50"
-                                     minimum="20" text="1000"/>
-</s:HGroup>
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="impulse length"/>
+        <components:CustomNumericStepper id="impulseLengthInput" restrict="0-9" change="updateData()" width="50" minimum="0"
+                                         maxChars="6"/>
+
+        <s:Label text="impulse interval"/>
+        <components:CustomNumericStepper id="impulseIntervalTextInput" restrict="0-9" change="updateData()" width="50"
+                                         minimum="0" maxChars="6"/>
+    </s:HGroup>
+
+</s:VGroup>

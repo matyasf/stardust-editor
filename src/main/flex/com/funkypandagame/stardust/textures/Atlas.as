@@ -1,6 +1,6 @@
 package com.funkypandagame.stardust.textures
 {
-import com.funkypandagame.stardust.helpers.Utils;
+
 import com.funkypandagame.stardustplayer.SDEConstants;
 
 import flash.display.Bitmap;
@@ -8,23 +8,17 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.display.StageQuality;
 import flash.geom.Matrix;
-import flash.geom.Rectangle;
 
 public class Atlas
 {
-    private var _name : uint;
     private var _image : BitmapData;
     private var _atlasTextures : Vector.<AtlasTexture>;
+    private var _size : uint;
 
-    public function Atlas(name : uint)
+    public function Atlas(size : uint)
     {
+        _size = size;
         _atlasTextures = new Vector.<AtlasTexture>();
-        _name = name;
-    }
-
-    public function get name() : uint
-    {
-        return _name;
     }
 
     public function addWithPadding(src : AtlasTexture, x : uint, y : uint) : void
@@ -37,21 +31,16 @@ public class Atlas
     {
         if (_image == null)
         {
-            // merge this into the packer?
             var constructed : Sprite = new Sprite();
-            var collapsedBounds : Rectangle = new Rectangle();
-            _atlasTextures.forEach(function (atlasTexture : AtlasTexture, ...rest) : void
+            for each (var atlasTexture : AtlasTexture in _atlasTextures)
             {
                 const bm : Bitmap = new Bitmap(atlasTexture.image, "auto", true);
                 constructed.addChild(bm);
-                bm.x = atlasTexture.positionNoPadding.x - TexturePacker.padding;
-                bm.y = atlasTexture.positionNoPadding.y - TexturePacker.padding;
-                collapsedBounds = collapsedBounds.union(atlasTexture.positionWithPadding);
-            });
+                bm.x = atlasTexture.positionNoPadding.x - TexturePacker.PADDING;
+                bm.y = atlasTexture.positionNoPadding.y - TexturePacker.PADDING;
+            }
 
-            _image = new BitmapData(
-                    Utils.nextPowerOfTwo(collapsedBounds.x + collapsedBounds.width),
-                    Utils.nextPowerOfTwo(collapsedBounds.y + collapsedBounds.height), true, 0x00ffffff);
+            _image = new BitmapData(_size, _size, true, 0x00ffffff);
             var m : Matrix = new Matrix();
             _image.drawWithQuality(constructed, m, null, null, null, true, StageQuality.BEST);
         }
@@ -60,7 +49,7 @@ public class Atlas
 
     public function getXML() : XML
     {
-        var xml : XML = <TextureAtlas imagePath={SDEConstants.getAtlasName(_name)}></TextureAtlas>;
+        var xml : XML = <TextureAtlas imagePath={SDEConstants.ATLAS_IMAGE_NAME}></TextureAtlas>;
         var len : uint = _atlasTextures.length;
         for (var i : int = 0; i < len; i++)
         {

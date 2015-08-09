@@ -7,22 +7,18 @@
 
         import idv.cjcat.stardustextended.common.clocks.Clock;
         import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
-        import idv.cjcat.stardustextended.common.clocks.RandomBurstClock;
+        import idv.cjcat.stardustextended.common.clocks.ImpulseClockAdvanced;
         import idv.cjcat.stardustextended.common.clocks.SteadyClock;
         import idv.cjcat.stardustextended.common.emitters.Emitter;
 
         import mx.collections.ArrayCollection;
         import mx.core.IVisualElement;
 
-        private const clocksAC:ArrayCollection = new ArrayCollection([
-            new DropdownListVO("constant", SteadyClock, SteadyClockRenderer),
-            new DropdownListVO("impulse", ImpulseClock, ImpulseClockRenderer),
-            new DropdownListVO("random bursts", RandomBurstClock, RandomBurstClockRenderer)
-        ]);
+        private const clocksAC : ArrayCollection = new ArrayCollection([new DropdownListVO("Constant", SteadyClock, SteadyClockRenderer), new DropdownListVO("Impulses", ImpulseClock, ImpulseClockRenderer), new DropdownListVO("Impulses (advanced)", ImpulseClockAdvanced, ImpulseClockAdvancedRenderer)]);
 
-        private var emitter:Emitter;
+        private var emitter : Emitter;
 
-        private function onSelChange():void
+        private function onSelChange() : void
         {
             var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
             emitter.clock = Clock(new it.stardustClass());
@@ -40,7 +36,7 @@
             {
                 ddl.selectedIndex = 1;
             }
-            else if (emitter.clock is RandomBurstClock)
+            else if (emitter.clock is ImpulseClockAdvanced)
             {
                 ddl.selectedIndex = 2;
             }
@@ -50,27 +46,27 @@
             validateNow();
         }
 
-        private function populateData():void
+        private function populateData() : void
         {
             var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
             content.removeAllElements();
-            var viewClass:IVisualElement = new it.viewClass();
+            var viewClass : IVisualElement = new it.viewClass();
             IClockRenderer(viewClass).setData(emitter.clock);
             content.addElement(viewClass);
         }
 
-        private function onActiveChange():void
+        private function onActiveChange() : void
         {
             emitter.active = activeCheckBox.selected;
         }
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="clock type:"/>
+        <s:Label text="Particle generation pattern:"/>
         <s:DropDownList id="ddl" dataProvider="{clocksAC}" change="onSelChange()"
                         labelField="name" requireSelection="true" selectedIndex="0"/>
         <s:CheckBox id="activeCheckBox" label="Active" change="onActiveChange()"
-                toolTip="Enables/disables this emitter. If the emitter's particles are spawned from another emitter it will emit particles even if its disabled."/>
+                toolTip="Enables/disables this emitter. If the emitter's particles are spawned from another emitter then the spawn action can cause it to emit particles even if its disabled."/>
     </s:HGroup>
     <s:Group id="content"/>
 

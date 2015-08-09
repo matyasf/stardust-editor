@@ -80,8 +80,8 @@ public class SaveSimCommand implements ICommand
         if (atlas)
         {
             var pngEncoder : PNGEncoder = new PNGEncoder();
-            zip.addFile(SDEConstants.getAtlasName(atlas.name), pngEncoder.encode(atlas.toBitmap()));
-            zip.addFileFromString(SDEConstants.getAtlasXMLName(atlas.name), '<?xml version="1.0" encoding="UTF-8"?>\n' + atlas.getXML().toString());
+            zip.addFile(SDEConstants.ATLAS_IMAGE_NAME, pngEncoder.encode(atlas.toBitmap()));
+            zip.addFileFromString(SDEConstants.ATLAS_XML_NAME, '<?xml version="1.0" encoding="UTF-8"?>\n' + atlas.getXML().toString());
         }
         else
         {
