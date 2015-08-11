@@ -9,6 +9,9 @@
         import mx.events.CloseEvent;
         import mx.managers.PopUpManager;
 
+        [Embed(source="../../../../../resources/big_explosion.sde", mimeType="application/octet-stream")]
+        private static var BigExplosionSim : Class;
+
         [Embed(source="../../../../../resources/rocket.sde", mimeType="application/octet-stream")]
         private static var RocketSim : Class;
 
@@ -55,6 +58,10 @@
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new SimpleFireworkSim()}" nameToDisplay="fireworks">
             <view:HTMLdescription><![CDATA[<b>Simple fireworks</b><br/>Example of the Spawn action. New particles are spawned upon another particle's death.]]></view:HTMLdescription>
+        </view:ExampleRenderer>
+
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BigExplosionSim()}" nameToDisplay="fireworks">
+            <view:HTMLdescription><![CDATA[<b>Big explosion</b><br/>To make the explosion bright the premultiplied alpha is turned off for the flames and the flash.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
         <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new RocketSim()}" nameToDisplay="rocket">
