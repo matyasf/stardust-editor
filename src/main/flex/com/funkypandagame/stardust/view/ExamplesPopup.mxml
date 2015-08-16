@@ -60,7 +60,7 @@
             <view:HTMLdescription><![CDATA[<b>Simple fireworks</b><br/>Example of the Spawn action. New particles are spawned upon another particle's death.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 
-        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BigExplosionSim()}" nameToDisplay="fireworks">
+        <view:ExampleRenderer width="100%" callback="loadSim" sdeFile="{new BigExplosionSim()}" nameToDisplay="bigExplosion">
             <view:HTMLdescription><![CDATA[<b>Big explosion</b><br/>To make the explosion bright the premultiplied alpha is turned off for the flames and the flash.]]></view:HTMLdescription>
         </view:ExampleRenderer>
 

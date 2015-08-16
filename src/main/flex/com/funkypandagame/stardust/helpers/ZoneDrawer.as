@@ -79,39 +79,41 @@ public class ZoneDrawer
 
     private static function drawWaypoints( g : Graphics, wps : FollowWaypoints, color : uint ) : void
     {
-        g.beginFill( color, 0.7 );
-        g.lineStyle( 2, darkenColor( color, 50 ) );
         for each ( var wp : Waypoint in wps.waypoints )
         {
+            g.beginFill( color, 0.7 );
+            g.lineStyle( 2, darkenColor( color, 50 ) );
             g.drawCircle( wp.x, wp.y, wp.radius );
+            g.endFill();
         }
-        g.endFill();
     }
 
     private static function drawDeflector( g : Graphics, d : Deflect, color : uint ) : void
     {
-        g.beginFill( color, 0.7 );
         g.lineStyle( 2, darkenColor( color, 50 ) );
         for each ( var def : Deflector in d.deflectors )
         {
             if ( def is CircleDeflector )
             {
+                g.beginFill( color, 0.7 );
                 var cd : CircleDeflector = CircleDeflector( def );
                 g.drawCircle( cd.x, cd.y, cd.radius );
+                g.endFill();
             }
             else if ( def is WrappingBox )
             {
+                g.beginFill( color, 0.7 );
                 var wb : WrappingBox = WrappingBox( def );
-                g.drawRect( wb.x, wb.y, wb.width, wb.height )
+                g.drawRect( wb.x, wb.y, wb.width, wb.height );
+                g.endFill();
             }
             else if ( def is LineDeflector )
             {
                 var ld : LineDeflector = LineDeflector( def );
-                g.moveTo( ld.x, ld.y );
+                g.moveTo( ld.x - ld.normal.y * 500, ld.y + ld.normal.x * 500 );
                 g.lineTo( ld.x + ld.normal.y * 500, ld.y - ld.normal.x * 500 );
             }
         }
-        g.endFill();
     }
 
     private static function drawZones( g : Graphics, zones : Vector.<Zone>, color : uint, offset : Point ) : void
@@ -120,12 +122,13 @@ public class ZoneDrawer
         {
             offset = new Point( 0, 0 );
         }
-        g.beginFill( color, 0.7 );
         g.lineStyle( 2, darkenColor( color, 50 ) );
+
         for each (var z : Zone in zones)
         {
             if ( z is SinglePoint )
             {
+                g.beginFill( color, 0.7 );
                 var sp : SinglePoint = SinglePoint( z );
                 g.drawCircle( sp.x - 1 + offset.x, sp.y - 1 + offset.y, 2 );
             }
@@ -137,28 +140,31 @@ public class ZoneDrawer
             }
             else if ( z is RectZone )
             {
+                g.beginFill( color, 0.7 );
                 var re : RectZone = RectZone( z );
                 g.drawRect( re.x + offset.x, re.y + offset.y, re.width, re.height );
             }
             else if ( z is RectContour )
             {
-                var rc : RectContour = RectContour( z );
                 g.endFill();
+                var rc : RectContour = RectContour( z );
                 g.drawRect( rc.x + offset.x, rc.y + offset.y, rc.width, rc.height );
             }
             else if ( z is CircleZone )
             {
+                g.beginFill( color, 0.7 );
                 var cz : CircleZone = CircleZone( z );
                 g.drawCircle( cz.x + offset.x, cz.y + offset.y, cz.radius );
             }
             else if ( z is CircleContour )
             {
-                var cc : CircleContour = CircleContour( z );
                 g.endFill();
+                var cc : CircleContour = CircleContour( z );
                 g.drawCircle( cc.x + offset.x, cc.y + offset.y, cc.radius );
             }
             else if ( z is Sector )
             {
+                g.beginFill( color, 0.7 );
                 var se : Sector = Sector( z );
                 drawSector(g, se.x + offset.x, se.y + offset.y, se.minRadius, se.maxRadius, se.minAngle, se.maxAngle);
             }
@@ -171,11 +177,12 @@ public class ZoneDrawer
             {
                 LOG.error( "ZoneDrawer: unknown zone " + z );
             }
+            g.endFill();
         }
-        g.endFill();
+
     }
 
-    public static function darkenColor( hexColor : Number, percent : Number ) : Number
+    private static function darkenColor( hexColor : Number, percent : Number ) : Number
     {
         if ( isNaN( percent ) )
             percent = 0;
@@ -194,12 +201,12 @@ public class ZoneDrawer
         return rgbToHex( Math.round( rgb.r ), Math.round( rgb.g ), Math.round( rgb.b ) );
     }
 
-    public static function rgbToHex( r : Number, g : Number, b : Number ) : Number
+    private static function rgbToHex( r : Number, g : Number, b : Number ) : Number
     {
         return(r << 16 | g << 8 | b);
     }
 
-    public static function hexToRgb( hex : Number ) : Object
+    private static function hexToRgb( hex : Number ) : Object
     {
         return {r : (hex & 0xff0000) >> 16, g : (hex & 0x00ff00) >> 8, b : hex & 0x0000ff};
     }
