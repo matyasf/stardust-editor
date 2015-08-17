@@ -96,7 +96,7 @@
                         dataProvider="{_emitterAC}" requireSelection="true"
                         width="220"
                         change="onDropDownChange(event)"/>
-        <s:Button label="Add" click="onClickAdd(event)"/>
+        <s:Button label="Add" click="onClickAdd(event)" width="60"/>
         <s:Button label="Remove" click="onClickRemove(event)"/>
         <s:Button label="Clone" click="onClickClone(event)"/>
     </s:HGroup>

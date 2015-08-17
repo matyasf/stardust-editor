@@ -3,7 +3,7 @@
                         xmlns:s="library://ns.adobe.com/flex/spark"
                         xmlns:components="com.funkypandagame.stardust.view.components.*"
                         xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
-                        nameText="Rectangle  x">
+                        nameText="Rect.  x">
 
     <fx:Script><![CDATA[
         import idv.cjcat.stardustextended.twoD.zones.RectZone;
@@ -18,6 +18,7 @@
                 yTextInput.text = zone.y.toString();
                 wiInput.text = zone.width.toString();
                 heInput.text = zone.height.toString();
+                rotationInput.text = zone.rotation.toString();
             }
         }
 
@@ -28,22 +29,26 @@
             zone.y = Number(yTextInput.text);
             zone.width = Number(wiInput.text);
             zone.height = Number(heInput.text);
+            zone.rotation = Number(rotationInput.text);
         }
         ]]></fx:Script>
 
     <zones:layout>
-        <s:HorizontalLayout verticalAlign="middle" />
+        <s:HorizontalLayout verticalAlign="middle" gap="3"/>
     </zones:layout>
 
     <components:CustomNumericStepper id="xTextInput" width="40" change="updateData()"/>
 
-    <s:Label text="y"/>
+    <s:Label text=" y"/>
     <components:CustomNumericStepper id="yTextInput" width="40" change="updateData()"/>
 
-    <s:Label text="width"/>
+    <s:Label text=" width"/>
     <components:CustomNumericStepper id="wiInput" width="40" change="updateData()"/>
 
-    <s:Label text="height"/>
+    <s:Label text=" height"/>
     <components:CustomNumericStepper id="heInput" width="40" change="updateData()"/>
+
+    <s:Label text=" rotation"/>
+    <components:CustomNumericStepper id="rotationInput" width="31" change="updateData()"/>
 
 </zones:ZoneRendererBase>

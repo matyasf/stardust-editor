@@ -69,7 +69,7 @@
         ]]></fx:Script>
 
     <twod:layout>
-        <s:VerticalLayout/>
+        <s:VerticalLayout paddingLeft="2"/>
     </twod:layout>
 
     <s:HGroup verticalAlign="middle">

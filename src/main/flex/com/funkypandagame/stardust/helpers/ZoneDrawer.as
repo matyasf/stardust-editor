@@ -16,6 +16,8 @@ import idv.cjcat.stardustextended.twoD.deflectors.CircleDeflector;
 import idv.cjcat.stardustextended.twoD.deflectors.Deflector;
 import idv.cjcat.stardustextended.twoD.deflectors.LineDeflector;
 import idv.cjcat.stardustextended.twoD.deflectors.WrappingBox;
+import idv.cjcat.stardustextended.twoD.geom.Vec2D;
+import idv.cjcat.stardustextended.twoD.geom.Vec2DPool;
 import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
 import idv.cjcat.stardustextended.twoD.zones.CircleContour;
 import idv.cjcat.stardustextended.twoD.zones.CircleZone;
@@ -142,13 +144,47 @@ public class ZoneDrawer
             {
                 g.beginFill( color, 0.7 );
                 var re : RectZone = RectZone( z );
-                g.drawRect( re.x + offset.x, re.y + offset.y, re.width, re.height );
+
+                var leftX : Number = re.x + offset.x;
+                var rightX : Number = re.x + offset.x + re.width;
+                var topY : Number = re.x + offset.x;
+                var bottomY : Number = re.x + offset.x + re.height;
+
+                var topRight : Vec2D = Vec2DPool.get(rightX, topY).rotate(re.rotation);
+                var bottomRight : Vec2D = Vec2DPool.get(rightX, bottomY).rotate(re.rotation);
+                var bottomLeft : Vec2D = Vec2DPool.get(leftX, bottomY).rotate(re.rotation);
+
+                g.moveTo( leftX, topY );
+                g.lineTo( topRight.x, topRight.y );
+                g.lineTo( bottomRight.x, bottomRight.y );
+                g.lineTo( bottomLeft.x, bottomLeft.y );
+                g.lineTo( leftX, topY );
+                Vec2DPool.recycle(topRight);
+                Vec2DPool.recycle(bottomRight);
+                Vec2DPool.recycle(bottomLeft);
             }
             else if ( z is RectContour )
             {
                 g.endFill();
                 var rc : RectContour = RectContour( z );
-                g.drawRect( rc.x + offset.x, rc.y + offset.y, rc.width, rc.height );
+
+                var leftX2 : Number = rc.x + offset.x;
+                var rightX2 : Number = rc.x + offset.x + rc.width;
+                var topY2 : Number = rc.x + offset.x;
+                var bottomY2 : Number = rc.x + offset.x + rc.height;
+
+                var topRight2 : Vec2D = Vec2DPool.get(rightX2, topY2).rotate(rc.rotation);
+                var bottomRight2 : Vec2D = Vec2DPool.get(rightX2, bottomY2).rotate(rc.rotation);
+                var bottomLeft2 : Vec2D = Vec2DPool.get(leftX2, bottomY2).rotate(rc.rotation);
+
+                g.moveTo( leftX2, topY2 );
+                g.lineTo( topRight2.x, topRight2.y );
+                g.lineTo( bottomRight2.x, bottomRight2.y );
+                g.lineTo( bottomLeft2.x, bottomLeft2.y );
+                g.lineTo( leftX2, topY2 );
+                Vec2DPool.recycle(topRight2);
+                Vec2DPool.recycle(bottomRight2);
+                Vec2DPool.recycle(bottomLeft2);
             }
             else if ( z is CircleZone )
             {

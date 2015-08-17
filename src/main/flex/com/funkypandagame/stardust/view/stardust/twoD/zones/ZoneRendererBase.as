@@ -42,6 +42,7 @@ public class ZoneRendererBase extends ItemRenderer
         super.createChildren();
         const hLayout : HorizontalLayout = new HorizontalLayout();
         hLayout.verticalAlign = VerticalAlign.MIDDLE;
+        hLayout.gap = 3;
         super.layout = hLayout;
 
         contentContainer.percentWidth = 100;

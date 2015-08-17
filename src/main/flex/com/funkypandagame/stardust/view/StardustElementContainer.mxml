@@ -91,7 +91,7 @@
         <s:DropDownList id="dropdownList" labelField="name"
                         dataProvider="{_dropdownListAC}" requireSelection="true"
                         selectedIndex="0" width="220"/>
-        <s:Button label="Add" click="addItem()" enabled="{dropdownList.selectedItem}"/>
+        <s:Button label="Add" width="60" click="addItem()" enabled="{dropdownList.selectedItem}"/>
     </s:HGroup>
     <s:List height="100%" width="100%" id="list"
             itemRendererFunction="listIRFunction"

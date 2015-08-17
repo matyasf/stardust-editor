@@ -11,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.2.0'
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.3.1'
     }
 }
 
@@ -45,7 +45,7 @@ dependencies {
 
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
 
-    merged 'com.funkypandagame:stardust-sim-loader:3.25'
+    merged 'com.funkypandagame:stardust-sim-loader:3.26'
 }
 
 additionalCompilerOptions = [
@@ -68,7 +68,7 @@ sdkAutoInstall {
 task wrapper(type: Wrapper) {
     group = 'Buildmaster'
     description = 'Generates gradlew and gradlew.bat bootstrap scripts.'
-    gradleVersion = '2.4'
+    gradleVersion = '2.6'
     // place jar file and properties into a subdirectory to avoid root dir clutter
     jarFile = 'gradle/wrapper/gradle.jar'
 }
