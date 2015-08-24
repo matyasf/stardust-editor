@@ -39,7 +39,7 @@ public class RegenerateEmitterTexturesCommand
         {
             Alert.show("Failed to add images. Could not fit all images into a 2048x2048 texture atlas.");
         }
-        var atlasTex : Texture = Texture.fromBitmapData(atlas.toBitmap());
+        var atlasTex : Texture = Texture.fromBitmapData(atlas.toBitmap(), false);
         var tmpAtlas : TextureAtlas = new TextureAtlas(atlasTex, atlas.getXML());
         // set the new texture on all handlers
         for each (var emitterVO : EmitterValueObject in projectModel.stadustSim.emitters)

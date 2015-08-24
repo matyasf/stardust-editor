@@ -18,6 +18,8 @@
         import com.funkypandagame.stardust.controller.events.LoadSimEvent;
         import com.funkypandagame.stardust.helpers.Globals;
 
+        import flash.display3D.Context3DRenderMode;
+
         import mx.logging.Log;
         import mx.logging.targets.LineFormattedTarget;
 
@@ -48,7 +50,7 @@
 
             Globals.init();
             Starling.handleLostContext = true;
-            starlingInstance = new Starling(starling.display.Sprite, stage);
+            starlingInstance = new Starling(starling.display.Sprite, stage, null, null, Context3DRenderMode.AUTO, "auto");
             starlingInstance.addEventListener(starling.events.Event.ROOT_CREATED, onStarlingReady);
             starlingInstance.antiAliasing = 1;
             starlingInstance.start();
