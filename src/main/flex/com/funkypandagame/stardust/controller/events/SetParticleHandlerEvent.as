@@ -3,7 +3,7 @@ package com.funkypandagame.stardust.controller.events
 
 import flash.events.Event;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 public class SetParticleHandlerEvent extends Event
 {

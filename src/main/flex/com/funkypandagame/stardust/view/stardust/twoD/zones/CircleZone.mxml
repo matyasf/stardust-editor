@@ -6,23 +6,20 @@
                         nameText="Circle   x">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.zones.CircleZone;
+        import idv.cjcat.stardustextended.zones.CircleZone;
 
-        override public function set data(d:Object):void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : idv.cjcat.stardustextended.twoD.zones.CircleZone = d as idv.cjcat.stardustextended.twoD.zones.CircleZone;
+            if (d) {
+                var zone:idv.cjcat.stardustextended.zones.CircleZone = d as idv.cjcat.stardustextended.zones.CircleZone;
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
                 radiusInput.text = zone.radius.toString();
             }
         }
 
-        private function updateData():void
-        {
-            var zone : idv.cjcat.stardustextended.twoD.zones.CircleZone = data as idv.cjcat.stardustextended.twoD.zones.CircleZone;
+        private function updateData():void {
+            var zone:idv.cjcat.stardustextended.zones.CircleZone = data as idv.cjcat.stardustextended.zones.CircleZone;
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
             zone.radius = Number(radiusInput.text);

@@ -8,6 +8,7 @@ import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.InitalizeZoneDrawerEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
+import com.funkypandagame.stardust.view.ImportSimPopup;
 import com.funkypandagame.stardust.view.StardusttoolMainView;
 import com.funkypandagame.stardust.view.events.InitializeZoneDrawerFromEmitterGroupEvent;
 import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;
@@ -16,24 +17,33 @@ import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
 import com.funkypandagame.stardust.view.events.OnActionACChangeEvent;
 import com.funkypandagame.stardust.view.events.OnInitializerACChangeEvent;
 
+import flash.display.Sprite;
+
 import flash.events.Event;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.common.actions.Action;
+import idv.cjcat.stardustextended.actions.Action;
 
-import idv.cjcat.stardustextended.common.initializers.Initializer;
+import idv.cjcat.stardustextended.initializers.Initializer;
+
+import mx.core.FlexGlobals;
 
 import mx.events.CollectionEvent;
 import mx.events.CollectionEventKind;
 import mx.logging.ILogger;
 import mx.logging.Log;
+import mx.managers.PopUpManager;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
+import robotlegs.bender.extensions.viewManager.api.IViewManager;
 
 public class StardusttoolMainViewMediator extends Mediator
 {
     [Inject]
     public var view : StardusttoolMainView;
+
+    [Inject]
+    public var viewManager : IViewManager;
 
     private static const LOG : ILogger = Log.getLogger( getQualifiedClassName( StardusttoolMainViewMediator ).replace( "::", "." ) );
 
@@ -41,13 +51,14 @@ public class StardusttoolMainViewMediator extends Mediator
     {
         addViewListener( MainViewLoadSimEvent.LOAD, handleLoadSim, MainViewLoadSimEvent );
         addViewListener( MainViewSaveSimEvent.SAVE, handleSaveSim, MainViewSaveSimEvent );
-        addViewListener( StartSimEvent.START, redispatchEvent, StartSimEvent );
-        addViewListener( LoadSimEvent.LOAD, redispatchEvent, LoadSimEvent );
+        addViewListener( StartSimEvent.START, dispatch, StartSimEvent );
+        addViewListener( LoadSimEvent.LOAD, dispatch, LoadSimEvent );
 
         addContextListener( InitalizeZoneDrawerEvent.RESET, initZoneDrawer, InitalizeZoneDrawerEvent );
         addContextListener( UpdateEmitterFromViewUICollectionsEvent.UPDATE, updateEmitterFromViewUICollections, UpdateEmitterFromViewUICollectionsEvent );
         addContextListener( InitCompleteEvent.TYPE, handleSimInitComplete, InitCompleteEvent );
 
+        view.openImportPopupSignal.add(openImportPopup);
         //Handle standard view events.
         view.actionAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onActionACChange );
         view.initializerAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onInitializerACChange );
@@ -57,9 +68,12 @@ public class StardusttoolMainViewMediator extends Mediator
         view.updateStagePosition();
     }
 
-    private function redispatchEvent(event : Event) : void
+    private function openImportPopup() : void
     {
-        dispatch(event);
+        var popup : ImportSimPopup = new ImportSimPopup();
+        viewManager.addContainer(popup);
+        PopUpManager.addPopUp(popup, FlexGlobals.topLevelApplication as Sprite, true);
+        PopUpManager.centerPopUp(popup);
     }
 
     private function onActionACChange(event : CollectionEvent) : void

@@ -16,8 +16,8 @@ import flash.net.FileFilter;
 
 import flash.net.FileReference;
 
-import idv.cjcat.stardustextended.common.initializers.Initializer;
-import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
+import idv.cjcat.stardustextended.initializers.Initializer;
+import idv.cjcat.stardustextended.initializers.PositionAnimated;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 

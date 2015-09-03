@@ -2,8 +2,6 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:components="com.funkypandagame.stardust.view.components.*"
-          xmlns:clocks="com.funkypandagame.stardust.view.stardust.common.clocks.*"
-          xmlns:view="com.funkypandagame.stardust.view.*"
           width="100%"
           addedToStage="onAdded()">
 
@@ -91,7 +89,7 @@
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle" width="100%">
-        <s:Label id="containerLabel" text="Emitters" fontSize="14" fontWeight="bold"/>
+        <s:Label id="containerLabel" text="Emitters" fontSize="14" fontWeight="bold" paddingLeft="3"/>
         <s:DropDownList id="dropdownList" labelFunction="emitterNameDDL"
                         dataProvider="{_emitterAC}" requireSelection="true"
                         width="220"
@@ -100,15 +98,5 @@
         <s:Button label="Remove" click="onClickRemove(event)"/>
         <s:Button label="Clone" click="onClickClone(event)"/>
     </s:HGroup>
-
-    <s:BorderContainer width="100%" height="100%" backgroundColor="#2F3B3F">
-        <s:layout>
-            <s:VerticalLayout/>
-        </s:layout>
-
-        <clocks:ClockContainer />
-
-        <view:ParticleHandlerContainer />
-    </s:BorderContainer>
 
 </s:VGroup>

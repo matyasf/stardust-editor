@@ -4,90 +4,76 @@
           removedFromStage="onRemovedFromStage()"
           initialize="init()">
     <fx:Script><![CDATA[
-
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
 
-        import idv.cjcat.stardustextended.twoD.actions.IZoneContainer;
+        import idv.cjcat.stardustextended.actions.IZoneContainer;
 
-        import idv.cjcat.stardustextended.twoD.zones.Zone;
+        import idv.cjcat.stardustextended.zones.Zone;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
 
         [Bindable]
-        public var zeroAreaZonesVisible : Boolean = true;
+        public var zeroAreaZonesVisible:Boolean = true;
 
-        private var itemWithZone : IZoneContainer;
-        private var storedCoordinates : Vector.<Point> = new Vector.<Point>();
-        private const zonesAC : ArrayCollection = new ArrayCollection();
+        private var itemWithZone:IZoneContainer;
+        private var storedCoordinates:Vector.<Point> = new Vector.<Point>();
+        private const zonesAC:ArrayCollection = new ArrayCollection();
 
-        private function init() : void
-        {
+        private function init():void {
             zonesDropdownList.selectedIndex = 0;
             zonesAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onZonesACChange);
         }
 
-        private function onZonesACChange(e : CollectionEvent) : void
-        {
-            if (e.kind != CollectionEventKind.UPDATE)
-            {
+        private function onZonesACChange(e:CollectionEvent):void {
+            if (e.kind != CollectionEventKind.UPDATE) {
                 itemWithZone.zones = Vector.<Zone>(zonesAC.toArray());
             }
         }
 
-        private function onRemovedFromStage() : void
-        {
-            if (followMouseCheckBox.selected)
-            {
+        private function onRemovedFromStage():void {
+            if (followMouseCheckBox.selected) {
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
                 setZoneRendererOffset(0, 0);
             }
         }
 
-        public function setData(_itemWithZone : IZoneContainer) : void
-        {
+        public function setData(_itemWithZone:IZoneContainer):void {
             itemWithZone = _itemWithZone;
-            const result : Array = [];
-            for (var i : int = 0; i < _itemWithZone.zones.length; i++)
-            {
-                result[result.length] = _itemWithZone.zones[i];
+            const result:Array = [];
+            for (var i:int = 0; i < _itemWithZone.zones.length; i++) {
+                result.push(_itemWithZone.zones[i]);
             }
             zonesAC.removeAll();
+            dataGroup.validateProperties();  // flex bugfix
             zonesAC.source = result;
         }
 
-        private function followMouseChangeHandler(event : Event) : void
-        {
-            if (followMouseCheckBox.selected)
-            {
+        private function followMouseChangeHandler(event:Event):void {
+            if (followMouseCheckBox.selected) {
                 storedCoordinates = new Vector.<Point>();
-                for (var j : int = 0; j < zonesAC.length; j++)
-                {
-                    var zone : Zone = zonesAC[j];
+                for (var j:int = 0; j < zonesAC.length; j++) {
+                    var zone:Zone = zonesAC[j];
                     storedCoordinates.push(zone.getPosition());
                 }
                 addEventListener(Event.ENTER_FRAME, handleFollowMouse);
             }
-            else
-            {
+            else {
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
                 setZoneRendererOffset(0, 0);
             }
         }
 
-        private function handleFollowMouse(event : Event) : void
-        {
+        private function handleFollowMouse(event:Event):void {
             setZoneRendererOffset(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
         }
 
-        private function setZoneRendererOffset(xc : Number, yc : Number) : void
-        {
-            var tmpZones : ArrayCollection = new ArrayCollection();
-            for (var j : int = 0; j < zonesAC.length; j++)
-            {
-                var zone : Zone = zonesAC[j];
+        private function setZoneRendererOffset(xc:Number, yc:Number):void {
+            var tmpZones:ArrayCollection = new ArrayCollection();
+            for (var j:int = 0; j < zonesAC.length; j++) {
+                var zone:Zone = zonesAC[j];
                 zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
                 tmpZones.addItem(zone);
             }
@@ -96,27 +82,22 @@
             zonesAC.addAll(tmpZones);
         }
 
-        public function set followMouseVisible(val : Boolean) : void
-        {
+        public function set followMouseVisible(val:Boolean):void {
             followMouseCheckBox.visible = followMouseCheckBox.includeInLayout = val;
         }
 
-        private function addZone() : void
-        {
-            var cl : Class = DropdownListVO(zonesDropdownList.selectedItem).stardustClass;
+        private function addZone():void {
+            var cl:Class = DropdownListVO(zonesDropdownList.selectedItem).stardustClass;
             zonesAC.addItem(new cl());
         }
 
-        private static function ddlLabelFunc(item : Object) : String
-        {
+        private static function ddlLabelFunc(item:Object):String {
             return DropdownListVO(item).name;
         }
 
-        private static function zoneIRFunction(item : Object) : IFactory
-        {
+        private static function zoneIRFunction(item:Object):IFactory {
             return new ClassFactory(DropdownListVO(Globals.zonesDict[item.constructor]).viewClass);
         }
-
         ]]></fx:Script>
 
     <s:HGroup width="100%" verticalAlign="middle">
@@ -131,7 +112,7 @@
                     toolTip="This is just for testing in the editor, it will not be saved with the simulation!"/>
     </s:HGroup>
 
-    <s:DataGroup width="100%" dataProvider="{zonesAC}" itemRendererFunction="zoneIRFunction">
+    <s:DataGroup width="100%" dataProvider="{zonesAC}" itemRendererFunction="zoneIRFunction" id="dataGroup">
         <s:layout>
             <s:VerticalLayout gap="3"/>
         </s:layout>

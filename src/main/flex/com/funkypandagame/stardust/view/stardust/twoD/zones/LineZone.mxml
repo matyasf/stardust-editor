@@ -6,15 +6,12 @@
                         nameText="Line   x1">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.zones.Line;
 
-        import idv.cjcat.stardustextended.twoD.zones.Line;
-
-        override public function set data(d:Object):void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : Line = d as Line;
+            if (d) {
+                var zone:Line = d as Line;
                 x1.text = zone.x1.toString();
                 y1.text = zone.y1.toString();
                 x2.text = zone.x2.toString();
@@ -22,9 +19,8 @@
             }
         }
 
-        private function updateData() : void
-        {
-            var zone : Line = data as Line;
+        private function updateData():void {
+            var zone:Line = data as Line;
             zone.x1 = Number(x1.text);
             zone.y1 = Number(y1.text);
             zone.x2 = Number(x2.text);

@@ -1,6 +1,6 @@
 package com.funkypandagame.stardust.view.stardust.common.clocks
 {
-import idv.cjcat.stardustextended.common.clocks.Clock;
+import idv.cjcat.stardustextended.clocks.Clock;
 
 public interface IClockRenderer
 {

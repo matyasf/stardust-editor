@@ -6,24 +6,20 @@
                         nameText="Circle contour   x">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.zones.CircleContour;
 
-        import idv.cjcat.stardustextended.twoD.zones.CircleContour;
-
-        override public function set data(d:Object):void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : CircleContour = d as CircleContour;
+            if (d) {
+                var zone:CircleContour = d as CircleContour;
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
                 radius.text = zone.radius.toString();
             }
         }
 
-        private function updateData() : void
-        {
-            var zone : CircleContour = data as CircleContour;
+        private function updateData():void {
+            var zone:CircleContour = data as CircleContour;
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
             zone.radius = Number(radius.text);

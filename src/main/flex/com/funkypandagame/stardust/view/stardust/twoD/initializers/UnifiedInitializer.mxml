@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
+          xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
+          width="100%" gap="2">
+
+    <fx:Script><![CDATA[
+        import com.funkypandagame.stardust.view.events.PositionInitializerEmitterPathEvent;
+
+        import idv.cjcat.stardustextended.emitters.Emitter;
+        import idv.cjcat.stardustextended.initializers.Alpha;
+        import idv.cjcat.stardustextended.initializers.Initializer;
+        import idv.cjcat.stardustextended.initializers.Life;
+        import idv.cjcat.stardustextended.initializers.Mass;
+        import idv.cjcat.stardustextended.initializers.Scale;
+        import idv.cjcat.stardustextended.math.UniformRandom;
+        import idv.cjcat.stardustextended.initializers.Omega;
+        import idv.cjcat.stardustextended.initializers.PositionAnimated;
+        import idv.cjcat.stardustextended.initializers.Rotation;
+        import idv.cjcat.stardustextended.initializers.Velocity;
+
+        private var position:PositionAnimated;
+
+        public function setData(data:Emitter):void {
+            for each (var init:Initializer in data.initializers) {
+                if (init is PositionAnimated) {
+                    position = PositionAnimated(init);
+                    posZc.setData(position);
+                    if (position.positions) {
+                        posAnimatedCheckBox.selected = true;
+                    }
+                    velocityCheckBox.selected = position.inheritVelocity;
+                }
+                else if (init is Life) {
+                    lifeMath.setData(Life(init).random as UniformRandom);
+                }
+                else if (init is Velocity) {
+                    speedZc.setData(Velocity(init));
+                }
+                else if (init is Alpha) {
+                    alphaMath.setData(Alpha(init).random as UniformRandom);
+                }
+                else if (init is Scale) {
+                    scaleMath.setData(Scale(init).random as UniformRandom);
+                }
+                else if (init is Rotation) {
+                    rotStartMath.setData(Rotation(init).random as UniformRandom);
+                }
+                else if (init is Omega) {
+                    rotSpeedMath.setData(Omega(init).random as UniformRandom);
+                }
+                else if (init is Mass) {
+                    massMath.setData(Mass(init).random as UniformRandom);
+                }
+                else {
+                    trace("WARNING: unrecognized initializer ", init);
+                }
+            }
+        }
+
+        private function animatedCheckBox_changeHandler(event:Event):void {
+            if (!posAnimatedCheckBox.selected) {
+                position.positions = null;
+            }
+        }
+
+        private function velocityCheckBox_changeHandler(event:Event):void {
+            position.inheritVelocity = velocityCheckBox.selected;
+        }
+
+        private function dispatchLoadEmitterPath():void {
+            dispatchEvent(new PositionInitializerEmitterPathEvent(PositionInitializerEmitterPathEvent.LOAD));
+        }
+        ]]></fx:Script>
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Position"/>
+        <s:VGroup width="100%">
+            <zones:ZoneContainer id="posZc" width="100%"/>
+            <s:HGroup>
+                <s:CheckBox label="animated?" id="posAnimatedCheckBox" change="animatedCheckBox_changeHandler(event)"
+                            toolTip="You can animate the emitter position by loading its path from a special .swf file.
+                    This file needs to have a symbol on the stage with the export name 'emitter'.
+                    Then the simulation will use the coordinates of this object to animate the initial position of the particles."/>
+                <s:Button label="Load emitter path from EmitterPath.swf" enabled="{posAnimatedCheckBox.selected}"
+                          click="dispatchLoadEmitterPath()"/>
+                <s:CheckBox label="inherit velocity" id="velocityCheckBox" change="velocityCheckBox_changeHandler(event)"
+                            enabled="{posAnimatedCheckBox.selected}"
+                            toolTip="The particles will inherit the velocity of the emitter position."/>
+            </s:HGroup>
+        </s:VGroup>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Life"/>
+        <math:UniformRandomMath id="lifeMath"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Speed"/>
+        <zones:ZoneContainer id="speedZc" width="100%" followMouseVisible="false"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Alpha"/>
+        <math:UniformRandomMath id="alphaMath"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Scale"/>
+        <math:UniformRandomMath id="scaleMath"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Rotation   starting"/>
+        <math:UniformRandomMath id="rotStartMath"/>
+
+        <s:Label text="speed"/>
+        <math:UniformRandomMath id="rotSpeedMath"/>
+    </s:HGroup>
+
+    <s:HGroup verticalAlign="middle">
+        <s:Label text="Mass"/>
+        <math:UniformRandomMath id="massMath"/>
+    </s:HGroup>
+</s:VGroup>

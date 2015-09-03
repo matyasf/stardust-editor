@@ -3,11 +3,10 @@
           xmlns:s="library://ns.adobe.com/flex/spark">
 
     <fx:Script><![CDATA[
-
         import com.funkypandagame.stardust.helpers.DropdownListVO;
 
-        import idv.cjcat.stardustextended.common.StardustElement;
-        import idv.cjcat.stardustextended.twoD.actions.Spawn;
+        import idv.cjcat.stardustextended.StardustElement;
+        import idv.cjcat.stardustextended.actions.Spawn;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
@@ -53,17 +52,13 @@
         }
 
         // Filter out items already added to the list
-        private function dropDownFilterFunction(item:Object):Boolean
-        {
-            for (var i:int = 0; i < _dataProviderAC.length; i++)
-            {
-                var ddClass : Class = DropdownListVO(item).stardustClass;
-                if (ddClass == Spawn)
-                {
+        private function dropDownFilterFunction(item:Object):Boolean {
+            for (var i:int = 0; i < _dataProviderAC.length; i++) {
+                var ddClass:Class = DropdownListVO(item).stardustClass;
+                if (ddClass == Spawn) {
                     return true;
                 }
-                else if (_dataProviderAC.getItemAt(i) is ddClass)
-                {
+                else if (_dataProviderAC.getItemAt(i) is ddClass) {
                     return false;
                 }
             }
@@ -87,11 +82,12 @@
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle" width="100%">
-        <s:Label id="containerLabel" fontSize="14" fontWeight="bold"/>
+        <s:Label id="containerLabel" fontSize="14" fontWeight="bold" paddingLeft="3" />
         <s:DropDownList id="dropdownList" labelField="name"
                         dataProvider="{_dropdownListAC}" requireSelection="true"
-                        selectedIndex="0" width="220"/>
-        <s:Button label="Add" width="60" click="addItem()" enabled="{dropdownList.selectedItem}"/>
+                        selectedIndex="0" width="220" />
+        <s:Spacer width="22"/>
+        <s:Button label="Add" width="60" click="addItem()" enabled="{dropdownList.selectedItem}" />
     </s:HGroup>
     <s:List height="100%" width="100%" id="list"
             itemRendererFunction="listIRFunction"

@@ -9,11 +9,10 @@ import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUIColl
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
-import flash.display.MovieClip;
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;
@@ -43,7 +42,7 @@ public class StartSimCommand implements ICommand
 
         dispatcher.dispatchEvent( new SetClockEvent() );
 
-        //refresh the emitter dropdown list.
+        //refresh the emitter dropdown lists and the actions/initializer containers.
         dispatcher.dispatchEvent( new UpdateEmitterDropDownListEvent( UpdateEmitterDropDownListEvent.UPDATE ) );
 
         //refresh the particle handler properties

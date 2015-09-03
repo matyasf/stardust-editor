@@ -7,25 +7,22 @@
                            nameText="Change alpha">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.actions.AlphaCurve;
+        import idv.cjcat.stardustextended.actions.AlphaCurve;
 
-        private function updateData() : void
-        {
-            var dat : AlphaCurve = data as AlphaCurve;
+        private function updateData():void {
+            var dat:AlphaCurve = data as AlphaCurve;
             dat.inAlpha = Number(initAlphaTextInput.text);
             dat.inLifespan = Number(inLifeTextInput.text);
             dat.outAlpha = Number(outAlphaTextInput.text);
             dat.outLifespan = Number(outLifeTextInput.text);
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : AlphaCurve = AlphaCurve(data);
+            var dat:AlphaCurve = AlphaCurve(data);
             initAlphaTextInput.text = dat.inAlpha.toString();
             inLifeTextInput.text = dat.inLifespan.toString();
             outAlphaTextInput.text = dat.outAlpha.toString();

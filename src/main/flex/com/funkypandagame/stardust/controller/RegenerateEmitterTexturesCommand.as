@@ -9,7 +9,7 @@ import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.BitmapData;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 import spark.components.Alert;
 

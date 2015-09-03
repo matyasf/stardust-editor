@@ -5,6 +5,7 @@ import com.funkypandagame.stardust.controller.AddEmitterCommand;
 import com.funkypandagame.stardust.controller.ChangeEmitterInFocusCommand;
 import com.funkypandagame.stardust.controller.CloneEmitterCommand;
 import com.funkypandagame.stardust.controller.FileLoadCommand;
+import com.funkypandagame.stardust.controller.ImportEmitterCommand;
 import com.funkypandagame.stardust.controller.InitializeZoneDrawerFromEmitterCommand;
 import com.funkypandagame.stardust.controller.ChangeBackgroundCommand;
 import com.funkypandagame.stardust.controller.LoadEmitterImageFromFileReferenceCommand;
@@ -26,14 +27,19 @@ import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
 import com.funkypandagame.stardust.controller.events.EmitterChangeEvent;
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
+import com.funkypandagame.stardust.controller.events.ImportSimEvent;
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
 import com.funkypandagame.stardust.controller.events.RegenerateEmitterTexturesEvent;
 import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.SnapshotEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterDropDownListEvent;
+import com.funkypandagame.stardust.view.ImportSimPopup;
 import com.funkypandagame.stardust.view.mediators.ClockContainerMediator;
+import com.funkypandagame.stardust.view.mediators.ImportSimPopupMediator;
+import com.funkypandagame.stardust.view.mediators.UnifiedInitializerMediator;
 import com.funkypandagame.stardust.view.stardust.common.clocks.ClockContainer;
+import com.funkypandagame.stardust.view.stardust.twoD.initializers.UnifiedInitializer;
 import com.funkypandagame.stardustplayer.ISimLoader;
 import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardust.view.BackgroundProvider;
@@ -49,9 +55,7 @@ import com.funkypandagame.stardust.view.events.PositionInitializerEmitterPathEve
 import com.funkypandagame.stardust.view.mediators.BackgroundProviderMediator;
 import com.funkypandagame.stardust.view.mediators.EmittersUIViewMediator;
 import com.funkypandagame.stardust.view.mediators.ParticleHandlerContainerMediator;
-import com.funkypandagame.stardust.view.mediators.PositionInitializerMediator;
 import com.funkypandagame.stardust.view.mediators.StardusttoolMainViewMediator;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.PositionInitializer;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import com.funkypandagame.stardustplayer.sequenceLoader.ISequenceLoader;
@@ -79,8 +83,9 @@ public class AppConfig implements IConfig
         mediatorMap.map( BackgroundProvider ).toMediator( BackgroundProviderMediator );
         mediatorMap.map( ParticleHandlerContainer ).toMediator( ParticleHandlerContainerMediator );
         mediatorMap.map( EmittersUIView ).toMediator( EmittersUIViewMediator );
-        mediatorMap.map( PositionInitializer ).toMediator( PositionInitializerMediator );
         mediatorMap.map( ClockContainer ).toMediator( ClockContainerMediator );
+        mediatorMap.map( UnifiedInitializer ).toMediator( UnifiedInitializerMediator );
+        mediatorMap.map( ImportSimPopup ).toMediator( ImportSimPopupMediator );
 
         eventCommandMap.map( StartSimEvent.START ).toCommand( StartSimCommand );
         eventCommandMap.map( EmitterChangeEvent.ADD ).toCommand( AddEmitterCommand );
@@ -102,6 +107,7 @@ public class AppConfig implements IConfig
         eventCommandMap.map( SnapshotEvent.TYPE, SnapshotEvent ).toCommand( StoreParticleSnapshotCommand );
         eventCommandMap.map( RegenerateEmitterTexturesEvent.TYPE, RegenerateEmitterTexturesEvent ).toCommand( RegenerateEmitterTexturesCommand );
         eventCommandMap.map( CloneEmitterEvent.TYPE, CloneEmitterEvent ).toCommand( CloneEmitterCommand );
+        eventCommandMap.map( ImportSimEvent.LOAD, ImportSimEvent ).toCommand( ImportEmitterCommand );
 
         injector.map( ProjectModel ).asSingleton();
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );

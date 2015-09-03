@@ -7,28 +7,24 @@
                            toolTip="Applies acceleration perpendicular to a particle's heading.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.math.UniformRandom;
-        import idv.cjcat.stardustextended.twoD.actions.NormalDrift;
+        import idv.cjcat.stardustextended.math.UniformRandom;
+        import idv.cjcat.stardustextended.actions.NormalDrift;
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : NormalDrift = data as NormalDrift;
+            var dat:NormalDrift = data as NormalDrift;
             maxInput.text = dat.max.toString();
             massCheckBox.selected = dat.massless;
-            if (dat.random is UniformRandom)
-            {
+            if (dat.random is UniformRandom) {
                 randomMath.setData(dat.random as UniformRandom);
             }
         }
 
-        private function updateData(e : Event) : void
-        {
-            var dat : NormalDrift = data as NormalDrift;
+        private function updateData(e:Event):void {
+            var dat:NormalDrift = data as NormalDrift;
             dat.max = Number(maxInput.text);
             dat.massless = massCheckBox.selected;
         }

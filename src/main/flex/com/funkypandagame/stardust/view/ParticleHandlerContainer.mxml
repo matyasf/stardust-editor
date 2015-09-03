@@ -9,23 +9,22 @@
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.view.events.LoadEmitterImageFromFileEvent;
 
-        import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+        import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
         import mx.collections.ArrayCollection;
 
         [Bindable]
-        public var blendModesAC : ArrayCollection = Globals.blendModesStarling;
+        public var blendModesAC:ArrayCollection = Globals.blendModesStarling;
 
         [Bindable]
-        public var sourceBD : BitmapData;
+        public var sourceBD:BitmapData;
 
         [Bindable]
-        public var isSpriteSheet : Boolean;
+        public var isSpriteSheet:Boolean;
 
-        private var _handler : StarlingHandler;
+        private var _handler:StarlingHandler;
 
-        public function setHandler(handler : StarlingHandler, handlerImages : Vector.<BitmapData>) : void
-        {
+        public function setHandler(handler:StarlingHandler, handlerImages:Vector.<BitmapData>):void {
             _handler = handler;
 
             sourceBD = handlerImages[0]; // TODO display all images
@@ -43,25 +42,21 @@
             blendModeList.selectedItem = _handler.blendMode;
         }
 
-        private function loadImageFromFile() : void
-        {
+        private function loadImageFromFile():void {
             dispatchEvent(new LoadEmitterImageFromFileEvent());
         }
 
         // If the dimensions change the animation frames are recalculated and there might be particles on
         // the screen which are now at a non-existent frame number, thus we must restart
-        private function changePropsAndRestartSim() : void
-        {
-            if (parseInt(speedTextInput.text) < 0)
-            {
+        private function changePropsAndRestartSim():void {
+            if (parseInt(speedTextInput.text) < 0) {
                 speedTextInput.text = "0";
             }
             onImagePropsChange();
             dispatchEvent(new StartSimEvent());
         }
 
-        private function onImagePropsChange() : void
-        {
+        private function onImagePropsChange():void {
             _handler.smoothing = useSmoothingCheckBox.selected;
             _handler.blendMode = blendModeList.selectedItem;
             _handler.spriteSheetAnimationSpeed = parseInt(speedTextInput.text);

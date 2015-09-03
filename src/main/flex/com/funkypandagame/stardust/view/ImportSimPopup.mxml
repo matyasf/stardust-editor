@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<components:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+                        xmlns:components="spark.components.*" xmlns:s="library://ns.adobe.com/flex/spark"
+                        title="Import emitter" width="650" close="onClose()">
+
+    <fx:Script><![CDATA[
+        import com.funkypandagame.stardustplayer.project.ProjectValueObject;
+
+        import mx.collections.ArrayCollection;
+
+        import mx.managers.PopUpManager;
+
+        import org.osflash.signals.Signal;
+
+        public const importClicked : Signal = new Signal();
+
+        [Bindable]
+        private var emitterListAC : ArrayCollection;
+
+        public function onEmitterImported(loadedProject : ProjectValueObject, emitterImages : Dictionary) : void
+        {
+            var emitterAC : ArrayCollection = new ArrayCollection();
+            for each (var data : Vector.<BitmapData> in emitterImages)
+            {
+                emitterAC.addItem(data);
+            }
+            emitterListAC = emitterAC;
+        }
+
+        private function onClose() : void
+        {
+            PopUpManager.removePopUp(this)
+        }
+        ]]></fx:Script>
+
+    <components:layout>
+        <s:VerticalLayout />
+    </components:layout>
+
+    <components:HGroup width="100%" height="100%" gap="2">
+
+        <components:Label text="Select an .sde file to load emitter from"
+                paddingTop="2" paddingRight="2" paddingLeft="2" paddingBottom="2"/>
+        <components:Button label="Open file" click="importClicked.dispatch()"/>
+    </components:HGroup>
+
+    <components:VGroup width="100%">
+        <components:Label text="Select the emitter(s) to import" />
+
+        <components:List width="100%" height="100" dataProvider="{emitterListAC}" allowMultipleSelection="true"
+                         verticalScrollPolicy="off" horizontalScrollPolicy="auto"
+                         skinClass="com.funkypandagame.stardust.view.skins.ImportEmitterListSkin"
+                         itemRenderer="com.funkypandagame.stardust.view.ImportEmitterRenderer" />
+
+    </components:VGroup>
+
+    <components:HGroup width="100%">
+        <components:Button label="import" />
+        <components:Button label="cancel" click="onClose()" />
+    </components:HGroup>
+
+</components:TitleWindow>

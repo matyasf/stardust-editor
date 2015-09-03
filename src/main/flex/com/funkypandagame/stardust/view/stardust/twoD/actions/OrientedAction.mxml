@@ -6,11 +6,10 @@
                            toolTip="Causes particles' rotation to align to their velocities.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.actions.Oriented;
+        import idv.cjcat.stardustextended.actions.Oriented;
 
-        private function updateData(e : Event) : void
-        {
-            var dat : Oriented = data as Oriented;
+        private function updateData(e:Event):void {
+            var dat:Oriented = data as Oriented;
             dat.factor = Number(factorTextInput.text);
             dat.offset = Number(offsetTextInput.text);
         }

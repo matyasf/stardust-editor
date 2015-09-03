@@ -6,23 +6,19 @@
                         nameText="Point   x">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.zones.SinglePoint;
 
-        import idv.cjcat.stardustextended.twoD.zones.SinglePoint;
-
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : SinglePoint = d as SinglePoint;
+            if (d) {
+                var zone:SinglePoint = d as SinglePoint;
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
             }
         }
 
-        private function updateData() : void
-        {
-            var zone : SinglePoint = data as SinglePoint;
+        private function updateData():void {
+            var zone:SinglePoint = data as SinglePoint;
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
         }

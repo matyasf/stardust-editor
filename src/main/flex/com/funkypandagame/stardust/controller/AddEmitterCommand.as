@@ -13,9 +13,9 @@ import flash.display.BitmapData;
 
 import flash.events.IEventDispatcher;
 
-import idv.cjcat.stardustextended.common.emitters.Emitter;
+import idv.cjcat.stardustextended.emitters.Emitter;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 

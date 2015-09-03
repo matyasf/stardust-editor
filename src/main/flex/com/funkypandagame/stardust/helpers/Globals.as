@@ -24,14 +24,6 @@ import com.funkypandagame.stardust.view.stardust.twoD.actions.SpinAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.VelocityFieldAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.DeathTriggerRenderer;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.LifeTriggerRenderer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.AlphaInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.ColorInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.LifeInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.MassInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.OmegaInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.PositionInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.ScaleInitializer;
-import com.funkypandagame.stardust.view.stardust.twoD.initializers.VelocityInitializer;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.CircleContourZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.LineZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.RectContourZone;
@@ -44,43 +36,35 @@ import flash.events.TextEvent;
 
 import flash.utils.Dictionary;
 
-import idv.cjcat.stardustextended.common.actions.Age;
-import idv.cjcat.stardustextended.common.actions.AlphaCurve;
-import idv.cjcat.stardustextended.common.actions.ColorCurve;
-import idv.cjcat.stardustextended.common.actions.ColorGradient;
-import idv.cjcat.stardustextended.common.actions.DeathLife;
-import idv.cjcat.stardustextended.common.actions.ScaleCurve;
-import idv.cjcat.stardustextended.common.actions.triggers.DeathTrigger;
-import idv.cjcat.stardustextended.common.actions.triggers.LifeTrigger;
-import idv.cjcat.stardustextended.common.initializers.Alpha;
-import idv.cjcat.stardustextended.common.initializers.Color;
-import idv.cjcat.stardustextended.common.initializers.Life;
-import idv.cjcat.stardustextended.common.initializers.Mass;
-import idv.cjcat.stardustextended.common.initializers.Scale;
-import idv.cjcat.stardustextended.twoD.actions.Accelerate;
-import idv.cjcat.stardustextended.twoD.actions.AccelerationZone;
-import idv.cjcat.stardustextended.twoD.actions.Damping;
-import idv.cjcat.stardustextended.twoD.actions.DeathZone;
-import idv.cjcat.stardustextended.twoD.actions.Deflect;
-import idv.cjcat.stardustextended.twoD.actions.FollowWaypoints;
-import idv.cjcat.stardustextended.twoD.actions.Gravity;
-import idv.cjcat.stardustextended.twoD.actions.Move;
-import idv.cjcat.stardustextended.twoD.actions.NormalDrift;
-import idv.cjcat.stardustextended.twoD.actions.Oriented;
-import idv.cjcat.stardustextended.twoD.actions.RandomDrift;
-import idv.cjcat.stardustextended.twoD.actions.Spawn;
-import idv.cjcat.stardustextended.twoD.actions.SpeedLimit;
-import idv.cjcat.stardustextended.twoD.actions.Spin;
-import idv.cjcat.stardustextended.twoD.actions.VelocityField;
-import idv.cjcat.stardustextended.twoD.initializers.Omega;
-import idv.cjcat.stardustextended.twoD.initializers.PositionAnimated;
-import idv.cjcat.stardustextended.twoD.initializers.Velocity;
-import idv.cjcat.stardustextended.twoD.zones.CircleContour;
-import idv.cjcat.stardustextended.twoD.zones.CircleZone;
-import idv.cjcat.stardustextended.twoD.zones.Line;
-import idv.cjcat.stardustextended.twoD.zones.RectContour;
-import idv.cjcat.stardustextended.twoD.zones.Sector;
-import idv.cjcat.stardustextended.twoD.zones.SinglePoint;
+import idv.cjcat.stardustextended.actions.Age;
+import idv.cjcat.stardustextended.actions.AlphaCurve;
+import idv.cjcat.stardustextended.actions.ColorCurve;
+import idv.cjcat.stardustextended.actions.ColorGradient;
+import idv.cjcat.stardustextended.actions.DeathLife;
+import idv.cjcat.stardustextended.actions.ScaleCurve;
+import idv.cjcat.stardustextended.actions.triggers.DeathTrigger;
+import idv.cjcat.stardustextended.actions.triggers.LifeTrigger;
+import idv.cjcat.stardustextended.actions.Accelerate;
+import idv.cjcat.stardustextended.actions.AccelerationZone;
+import idv.cjcat.stardustextended.actions.Damping;
+import idv.cjcat.stardustextended.actions.DeathZone;
+import idv.cjcat.stardustextended.actions.Deflect;
+import idv.cjcat.stardustextended.actions.FollowWaypoints;
+import idv.cjcat.stardustextended.actions.Gravity;
+import idv.cjcat.stardustextended.actions.Move;
+import idv.cjcat.stardustextended.actions.NormalDrift;
+import idv.cjcat.stardustextended.actions.Oriented;
+import idv.cjcat.stardustextended.actions.RandomDrift;
+import idv.cjcat.stardustextended.actions.Spawn;
+import idv.cjcat.stardustextended.actions.SpeedLimit;
+import idv.cjcat.stardustextended.actions.Spin;
+import idv.cjcat.stardustextended.actions.VelocityField;
+import idv.cjcat.stardustextended.zones.CircleContour;
+import idv.cjcat.stardustextended.zones.CircleZone;
+import idv.cjcat.stardustextended.zones.Line;
+import idv.cjcat.stardustextended.zones.RectContour;
+import idv.cjcat.stardustextended.zones.Sector;
+import idv.cjcat.stardustextended.zones.SinglePoint;
 
 import mx.collections.ArrayCollection;
 import mx.collections.Sort;
@@ -92,9 +76,6 @@ import starling.display.Sprite;
 public class Globals
 {
     public static const starlingCanvas : Sprite = new Sprite();
-
-    public static const initalizerDict : Dictionary = new Dictionary();
-    public static const initializerDDLAC : ArrayCollection = new ArrayCollection();
 
     public static const actionDict : Dictionary = new Dictionary();
     public static const actionsDDLAC : ArrayCollection = new ArrayCollection();
@@ -121,18 +102,6 @@ public class Globals
 
     public static function init() : void
     {
-        initalizerDict[ PositionAnimated ] = new DropdownListVO( "Position", PositionAnimated, PositionInitializer );
-        initalizerDict[ Velocity ] = new DropdownListVO( "Speed", Velocity, VelocityInitializer );
-        initalizerDict[ Life ] = new DropdownListVO( "Life", Life, LifeInitializer );
-        initalizerDict[ Alpha ] = new DropdownListVO( "Alpha", Alpha, AlphaInitializer );
-        initalizerDict[ Scale ] = new DropdownListVO( "Scale", Scale, ScaleInitializer );
-        initalizerDict[ Omega ] = new DropdownListVO( "Rotation speed", Omega, OmegaInitializer );
-        initalizerDict[ Mass ] = new DropdownListVO( "Mass", Mass, MassInitializer );
-
-        initalizerDict[ Color ] = new DropdownListVO( "Color(Deprecated)", Color, ColorInitializer );
-        //initalizerDict[ CollisionRadius ] = new DropdownListVO( "Collision radius", CollisionRadius, CollisionRadiusInitializer );
-        //initalizerDict[ Mask ] = new DropdownListVO("Mask", Mask, MaskInitializer);
-
         actionDict[ Move ] = new DropdownListVO( "Simulation speed", Move, MoveAction );
         actionDict[ DeathZone ] = new DropdownListVO( "Death zone", DeathZone, DeathZoneAction );
         actionDict[ RandomDrift ] = new DropdownListVO( "Random acceleration", RandomDrift, RandomDriftAction );
@@ -161,26 +130,17 @@ public class Globals
 
         zonesDict[Line] = new DropdownListVO("Line", Line, LineZone);
         zonesDict[SinglePoint] = new DropdownListVO("Point", SinglePoint, SinglePointZone);
-        zonesDict[idv.cjcat.stardustextended.twoD.zones.RectZone] = new DropdownListVO("Rectangle", idv.cjcat.stardustextended.twoD.zones.RectZone, com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone);
+        zonesDict[idv.cjcat.stardustextended.zones.RectZone] = new DropdownListVO("Rectangle", idv.cjcat.stardustextended.zones.RectZone, com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone);
         zonesDict[RectContour] = new DropdownListVO("Rectangle contour", RectContour, RectContourZone);
-        zonesDict[idv.cjcat.stardustextended.twoD.zones.CircleZone] = new DropdownListVO("Circle", idv.cjcat.stardustextended.twoD.zones.CircleZone, com.funkypandagame.stardust.view.stardust.twoD.zones.CircleZone);
+        zonesDict[idv.cjcat.stardustextended.zones.CircleZone] = new DropdownListVO("Circle", idv.cjcat.stardustextended.zones.CircleZone, com.funkypandagame.stardust.view.stardust.twoD.zones.CircleZone);
         zonesDict[CircleContour] = new DropdownListVO("Circle contour", CircleContour, CircleContourZone);
         zonesDict[Sector] = new DropdownListVO("Circle sector", Sector, SectorZone);
 
         triggersDict[DeathTrigger] = new DropdownListVO("Death trigger", DeathTrigger, DeathTriggerRenderer);
         triggersDict[LifeTrigger] = new DropdownListVO("Life trigger", LifeTrigger, LifeTriggerRenderer);
 
-        for each ( var ddlVO2 : DropdownListVO in initalizerDict )
-        {
-            if (ddlVO2.stardustClass != Color)
-            {
-                initializerDDLAC.addItem( ddlVO2 );
-            }
-        }
         var sort : Sort = new Sort();
         sort.fields = [new SortField( "name", true )];
-        initializerDDLAC.sort = sort;
-        initializerDDLAC.refresh();
 
         for each ( var ddlVO : DropdownListVO in actionDict )
         {
@@ -199,8 +159,8 @@ public class Globals
         zonesDDLAC.sort = sort;
         zonesDDLAC.refresh();
 
-        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.RectZone]);
-        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.twoD.zones.CircleZone]);
+        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.zones.RectZone]);
+        noZeroAreaZonesDDLAC.addItem(zonesDict[idv.cjcat.stardustextended.zones.CircleZone]);
         noZeroAreaZonesDDLAC.addItem(zonesDict[Sector]);
         noZeroAreaZonesDDLAC.refresh();
 

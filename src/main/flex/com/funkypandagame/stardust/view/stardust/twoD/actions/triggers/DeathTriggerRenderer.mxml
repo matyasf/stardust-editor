@@ -5,8 +5,8 @@
           implements="com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.ITriggerRenderer">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.actions.triggers.DeathTrigger;
-        import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+        import idv.cjcat.stardustextended.actions.triggers.DeathTrigger;
+        import idv.cjcat.stardustextended.actions.triggers.Trigger;
 
         private var trigger:DeathTrigger;
 

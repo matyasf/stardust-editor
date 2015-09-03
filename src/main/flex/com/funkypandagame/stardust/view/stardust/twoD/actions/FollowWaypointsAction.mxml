@@ -6,34 +6,28 @@
                            initialize="init()" xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.actions.FollowWaypoints;
-        import idv.cjcat.stardustextended.twoD.actions.waypoints.Waypoint;
+        import idv.cjcat.stardustextended.actions.FollowWaypoints;
+        import idv.cjcat.stardustextended.actions.waypoints.Waypoint;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
 
-        private const ac : ArrayCollection = new ArrayCollection();
+        private const ac:ArrayCollection = new ArrayCollection();
 
-        private function init() : void
-        {
+        private function init():void {
             ac.addEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);
         }
 
-        private function onACChange(e : CollectionEvent) : void
-        {
-            var dat : FollowWaypoints = data as FollowWaypoints;
-            var wp : Waypoint = Waypoint(e.items[0]);
-            if (e.kind == CollectionEventKind.ADD)
-            {
+        private function onACChange(e:CollectionEvent):void {
+            var dat:FollowWaypoints = data as FollowWaypoints;
+            var wp:Waypoint = Waypoint(e.items[0]);
+            if (e.kind == CollectionEventKind.ADD) {
                 dat.addWaypoint(wp);
             }
-            if (e.kind == CollectionEventKind.REMOVE)
-            {
-                for (var i : int = 0; i < dat.waypoints.length; i++)
-                {
-                    if (dat.waypoints[i] == wp)
-                    {
+            if (e.kind == CollectionEventKind.REMOVE) {
+                for (var i:int = 0; i < dat.waypoints.length; i++) {
+                    if (dat.waypoints[i] == wp) {
                         dat.waypoints.splice(i, 1);
                         break;
                     }
@@ -41,27 +35,23 @@
             }
         }
 
-        private function updateData(e : Event) : void
-        {
-            var dat : FollowWaypoints = data as FollowWaypoints;
+        private function updateData(e:Event):void {
+            var dat:FollowWaypoints = data as FollowWaypoints;
             dat.loop = loopCheckBox.selected;
             dat.massless = masslessCheckBox.selected;
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : FollowWaypoints = data as FollowWaypoints;
+            var dat:FollowWaypoints = data as FollowWaypoints;
             //loopCheckBox.selected = dat.loop;
             masslessCheckBox.selected = dat.massless;
             ac.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);
             ac.removeAll();
-            for (var i : int = 0; i < dat.waypoints.length; i++)
-            {
+            for (var i:int = 0; i < dat.waypoints.length; i++) {
                 ac.addItem(dat.waypoints[i]);
             }
             ac.addEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);

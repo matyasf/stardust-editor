@@ -8,7 +8,7 @@ import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import flash.utils.getTimer;
 
-import idv.cjcat.stardustextended.twoD.starling.StardustStarlingRenderer;
+import idv.cjcat.stardustextended.handlers.starling.StardustStarlingRenderer;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 

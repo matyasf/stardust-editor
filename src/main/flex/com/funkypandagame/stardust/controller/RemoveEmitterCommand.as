@@ -12,12 +12,12 @@ import com.funkypandagame.stardustplayer.project.ProjectValueObject;
 import flash.events.IEventDispatcher;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.common.actions.Action;
+import idv.cjcat.stardustextended.actions.Action;
 
-import idv.cjcat.stardustextended.common.emitters.Emitter;
-import idv.cjcat.stardustextended.twoD.actions.Spawn;
+import idv.cjcat.stardustextended.emitters.Emitter;
+import idv.cjcat.stardustextended.actions.Spawn;
 
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 import mx.logging.ILogger;
 import mx.logging.Log;

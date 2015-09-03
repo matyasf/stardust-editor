@@ -12,11 +12,11 @@
         import com.funkypandagame.stardust.view.stardust.twoD.actions.deflectors.LineDeflectorRenderer;
         import com.funkypandagame.stardust.view.stardust.twoD.actions.deflectors.WrappingBoxRenderer;
 
-        import idv.cjcat.stardustextended.twoD.actions.Deflect;
-        import idv.cjcat.stardustextended.twoD.deflectors.CircleDeflector;
-        import idv.cjcat.stardustextended.twoD.deflectors.Deflector;
-        import idv.cjcat.stardustextended.twoD.deflectors.LineDeflector;
-        import idv.cjcat.stardustextended.twoD.deflectors.WrappingBox;
+        import idv.cjcat.stardustextended.actions.Deflect;
+        import idv.cjcat.stardustextended.deflectors.CircleDeflector;
+        import idv.cjcat.stardustextended.deflectors.Deflector;
+        import idv.cjcat.stardustextended.deflectors.LineDeflector;
+        import idv.cjcat.stardustextended.deflectors.WrappingBox;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;

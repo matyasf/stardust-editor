@@ -6,34 +6,27 @@
                            nameText="Velocity field">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.actions.VelocityField;
+        import idv.cjcat.stardustextended.fields.Field;
 
-        import idv.cjcat.stardustextended.twoD.actions.VelocityField;
-        import idv.cjcat.stardustextended.twoD.fields.Field;
-
-        private function updateData(e : Event) : void
-        {
-            var dat : VelocityField = VelocityField(data);
-            var fieldsArr : Vector.<Field> = fieldContainer.getData();
-            if (fieldsArr.length > 0)
-            {
+        private function updateData(e:Event):void {
+            var dat:VelocityField = VelocityField(data);
+            var fieldsArr:Vector.<Field> = fieldContainer.getData();
+            if (fieldsArr.length > 0) {
                 dat.fields = fieldsArr;
             }
-            else
-            {
+            else {
                 dat.fields = null;
             }
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : VelocityField = d as VelocityField;
-            if (dat.fields != null)
-            {
+            var dat:VelocityField = d as VelocityField;
+            if (dat.fields != null) {
                 fieldContainer.setData(dat.fields);
             }
         }

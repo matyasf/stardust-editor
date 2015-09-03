@@ -6,25 +6,22 @@
                            toolTip="Alters a particle's scale value based on its age.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.actions.ScaleCurve;
+        import idv.cjcat.stardustextended.actions.ScaleCurve;
 
-        private function updateData() : void
-        {
-            var dat : ScaleCurve = data as ScaleCurve;
+        private function updateData():void {
+            var dat:ScaleCurve = data as ScaleCurve;
             dat.inScale = Number(initScaleTextInput.text);
             dat.inLifespan = Number(inLifeTextInput.text);
             dat.outScale = Number(outScaleTextInput.text);
             dat.outLifespan = Number(outLifeTextInput.text);
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : ScaleCurve = ScaleCurve(data);
+            var dat:ScaleCurve = ScaleCurve(data);
             initScaleTextInput.text = dat.inScale.toString();
             inLifeTextInput.text = dat.inLifespan.toString();
             outScaleTextInput.text = dat.outScale.toString();

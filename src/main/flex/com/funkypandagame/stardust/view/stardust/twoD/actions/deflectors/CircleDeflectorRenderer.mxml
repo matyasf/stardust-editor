@@ -5,7 +5,7 @@
                 opaqueBackground="0x565656" autoDrawBackground="false" width="100%">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.deflectors.CircleDeflector;
+        import idv.cjcat.stardustextended.deflectors.CircleDeflector;
 
         import spark.components.DataGroup;
 

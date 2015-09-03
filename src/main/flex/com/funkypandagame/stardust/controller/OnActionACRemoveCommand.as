@@ -4,7 +4,7 @@ package com.funkypandagame.stardust.controller
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.view.events.OnActionACChangeEvent;
 
-import idv.cjcat.stardustextended.common.actions.Action;
+import idv.cjcat.stardustextended.actions.Action;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 

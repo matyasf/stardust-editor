@@ -7,15 +7,14 @@
           implements="com.funkypandagame.stardust.view.stardust.common.clocks.IClockRenderer">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.clocks.Clock;
+        import idv.cjcat.stardustextended.clocks.Clock;
 
-        import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
-        import idv.cjcat.stardustextended.common.math.UniformRandom;
+        import idv.cjcat.stardustextended.clocks.ImpulseClock;
+        import idv.cjcat.stardustextended.math.UniformRandom;
 
-        private var clock : ImpulseClock;
+        private var clock:ImpulseClock;
 
-        public function setData(d : Clock) : void
-        {
+        public function setData(d:Clock):void {
             clock = ImpulseClock(d);
             initDelayMath.setData(clock.initialDelay as UniformRandom);
             impulseIntervalMath.setData(clock.impulseInterval as UniformRandom);
@@ -23,8 +22,7 @@
             tickPerCallInput.text = clock.ticksPerCall.toString();
         }
 
-        public function updateData() : void
-        {
+        public function updateData():void {
             clock.ticksPerCall = parseFloat(tickPerCallInput.text);
         }
         ]]></fx:Script>

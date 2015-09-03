@@ -6,14 +6,12 @@
                         nameText="Rect.  x">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.zones.RectZone;
+        import idv.cjcat.stardustextended.zones.RectZone;
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : idv.cjcat.stardustextended.twoD.zones.RectZone = idv.cjcat.stardustextended.twoD.zones.RectZone(d);
+            if (d) {
+                var zone:idv.cjcat.stardustextended.zones.RectZone = idv.cjcat.stardustextended.zones.RectZone(d);
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
                 wiInput.text = zone.width.toString();
@@ -22,9 +20,8 @@
             }
         }
 
-        private function updateData() : void
-        {
-            var zone : idv.cjcat.stardustextended.twoD.zones.RectZone = idv.cjcat.stardustextended.twoD.zones.RectZone(data);
+        private function updateData():void {
+            var zone:idv.cjcat.stardustextended.zones.RectZone = idv.cjcat.stardustextended.zones.RectZone(data);
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
             zone.width = Number(wiInput.text);

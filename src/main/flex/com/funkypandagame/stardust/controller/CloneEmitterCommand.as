@@ -14,13 +14,13 @@ import flash.display.BitmapData;
 import flash.events.IEventDispatcher;
 import flash.utils.ByteArray;
 
-import idv.cjcat.stardustextended.common.actions.Action;
+import idv.cjcat.stardustextended.actions.Action;
 
-import idv.cjcat.stardustextended.common.emitters.Emitter;
-import idv.cjcat.stardustextended.common.xml.XMLBuilder;
+import idv.cjcat.stardustextended.emitters.Emitter;
+import idv.cjcat.stardustextended.xml.XMLBuilder;
 
-import idv.cjcat.stardustextended.twoD.actions.Spawn;
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+import idv.cjcat.stardustextended.actions.Spawn;
+import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
 
 import robotlegs.bender.extensions.commandCenter.api.ICommand;
 

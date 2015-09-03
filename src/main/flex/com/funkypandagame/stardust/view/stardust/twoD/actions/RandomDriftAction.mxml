@@ -5,24 +5,21 @@
                            toolTip="Applies random acceleration to particles."
                            nameText="Random drift">
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.actions.RandomDrift;
+        import idv.cjcat.stardustextended.actions.RandomDrift;
 
-        private function updateData(e : Event) : void
-        {
-            var dat : RandomDrift = data as RandomDrift;
+        private function updateData(e:Event):void {
+            var dat:RandomDrift = data as RandomDrift;
             dat.maxX = Number(maxXTextInput.text);
             dat.maxY = Number(maxYTextInput.text);
             dat.massless = massCheckBox.selected;
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : RandomDrift = RandomDrift(data);
+            var dat:RandomDrift = RandomDrift(data);
             maxXTextInput.text = dat.maxX.toString();
             maxYTextInput.text = dat.maxY.toString();
             massCheckBox.selected = dat.massless;

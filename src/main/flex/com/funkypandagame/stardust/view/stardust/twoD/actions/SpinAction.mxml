@@ -6,22 +6,19 @@
                            nameText="Rotate  speed">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.actions.Spin;
+        import idv.cjcat.stardustextended.actions.Spin;
 
-        private function updateData() : void
-        {
-            var dat : Spin = data as Spin;
+        private function updateData():void {
+            var dat:Spin = data as Spin;
             dat.multiplier = Number(multInput.text);
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : Spin = data as Spin;
+            var dat:Spin = data as Spin;
             multInput.text = dat.multiplier.toString();
         }
         ]]></fx:Script>

@@ -6,13 +6,12 @@
         [Event(name="change", type="flash.events.Event")]
     </fx:Metadata>
     <fx:Script><![CDATA[
-
         import com.funkypandagame.stardust.helpers.DropdownListVO;
 
-        import idv.cjcat.stardustextended.twoD.fields.BitmapField;
-        import idv.cjcat.stardustextended.twoD.fields.Field;
-        import idv.cjcat.stardustextended.twoD.fields.RadialField;
-        import idv.cjcat.stardustextended.twoD.fields.UniformField;
+        import idv.cjcat.stardustextended.fields.BitmapField;
+        import idv.cjcat.stardustextended.fields.Field;
+        import idv.cjcat.stardustextended.fields.RadialField;
+        import idv.cjcat.stardustextended.fields.UniformField;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;

@@ -29,6 +29,17 @@ import flash.geom.Point;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 
+import idv.cjcat.stardustextended.emitters.Emitter;
+import idv.cjcat.stardustextended.initializers.Alpha;
+import idv.cjcat.stardustextended.initializers.Initializer;
+import idv.cjcat.stardustextended.initializers.Life;
+import idv.cjcat.stardustextended.initializers.Mass;
+import idv.cjcat.stardustextended.initializers.Scale;
+import idv.cjcat.stardustextended.initializers.Omega;
+import idv.cjcat.stardustextended.initializers.PositionAnimated;
+import idv.cjcat.stardustextended.initializers.Rotation;
+import idv.cjcat.stardustextended.initializers.Velocity;
+
 import mx.core.FlexGlobals;
 
 import org.as3commons.zip.Zip;
@@ -180,10 +191,46 @@ public class LoadSimCommand implements ICommand
     {
         sequenceLoader.clearAllJobs();
 
+        projectModel.emitterInFocus = null;
         for each (var emitterVO : EmitterValueObject in projectModel.stadustSim.emitters)
         {
-            projectModel.emitterInFocus = emitterVO;
-            break;
+            if (projectModel.emitterInFocus == null)
+            {
+                projectModel.emitterInFocus = emitterVO;
+            }
+            var em : Emitter = emitterVO.emitter;
+            if (!hasInitializerType(em, PositionAnimated))
+            {
+                em.addInitializer(new PositionAnimated());
+            }
+            if (!hasInitializerType(em, Life))
+            {
+                em.addInitializer(new Life());
+            }
+            if (!hasInitializerType(em, Velocity))
+            {
+                em.addInitializer(new Velocity());
+            }
+            if (!hasInitializerType(em, Alpha))
+            {
+                em.addInitializer(new Alpha());
+            }
+            if (!hasInitializerType(em, Scale))
+            {
+                em.addInitializer(new Scale());
+            }
+            if (!hasInitializerType(em, Rotation))
+            {
+                em.addInitializer(new Rotation());
+            }
+            if (!hasInitializerType(em, Omega))
+            {
+                em.addInitializer(new Omega());
+            }
+            if (!hasInitializerType(em, Mass))
+            {
+                em.addInitializer(new Mass());
+            }
         }
 
         simPlayer.setRenderTarget(null); // set to null, so previous settings dont cause exception
@@ -202,6 +249,16 @@ public class LoadSimCommand implements ICommand
         dispatcher.dispatchEvent( new StartSimEvent() );
     }
 
-
+    private static function hasInitializerType(em : Emitter, clazz : Class) : Boolean
+    {
+        for each (var initializer : Initializer in em.initializers)
+        {
+            if (initializer is clazz)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 }

@@ -6,15 +6,12 @@
                         nameText="Rect.{'\n'}contour">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.zones.RectContour;
 
-        import idv.cjcat.stardustextended.twoD.zones.RectContour;
-
-        override public function set data(d:Object):void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d)
-            {
-                var zone : RectContour = d as RectContour;
+            if (d) {
+                var zone:RectContour = d as RectContour;
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
                 wiInput.text = zone.width.toString();
@@ -24,7 +21,7 @@
         }
 
         private function updateData():void {
-            var zone : RectContour = data as RectContour;
+            var zone:RectContour = data as RectContour;
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
             zone.width = Number(wiInput.text);

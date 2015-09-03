@@ -6,56 +6,49 @@
                            initialize="onInit()">
 
     <fx:Script><![CDATA[
-
         import com.funkypandagame.stardust.Stardusttool;
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.model.ProjectModel;
         import com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.ITriggerRenderer;
 
-        import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+        import idv.cjcat.stardustextended.actions.triggers.Trigger;
 
-        import idv.cjcat.stardustextended.common.emitters.Emitter;
-        import idv.cjcat.stardustextended.twoD.actions.Spawn;
+        import idv.cjcat.stardustextended.emitters.Emitter;
+        import idv.cjcat.stardustextended.actions.Spawn;
 
         import mx.collections.ArrayCollection;
         import mx.core.FlexGlobals;
 
-        private var _data : Spawn;
+        private var _data:Spawn;
         [Bindable]
-        private var emitterDDLAC : ArrayCollection = new ArrayCollection();
+        private var emitterDDLAC:ArrayCollection = new ArrayCollection();
 
-        private function onInit() : void
-        {
-            var model : ProjectModel = Stardusttool(FlexGlobals.topLevelApplication).model;
-            for each (var emitter : Emitter in model.stadustSim.emittersArr)
-            {
-                if (emitter != model.emitterInFocus.emitter)
-                {
+        private function onInit():void {
+            var model:ProjectModel = Stardusttool(FlexGlobals.topLevelApplication).model;
+            for each (var emitter:Emitter in model.stadustSim.emittersArr) {
+                if (emitter != model.emitterInFocus.emitter) {
                     emitterDDLAC.addItem(emitter);
                 }
             }
         }
 
-        private function updateData() : void
-        {
+        private function updateData():void {
             _data.inheritDirection = inheritDirectionCheckBox.selected;
             _data.inheritVelocity = inheritVelocityCheckBox.selected;
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
             _data = Spawn(d);
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
             inheritDirectionCheckBox.selected = _data.inheritDirection;
             inheritVelocityCheckBox.selected = _data.inheritVelocity;
 
-            const TriggerClass : Class = Class(getDefinitionByName(getQualifiedClassName(_data.trigger)));
-            const currentData : DropdownListVO = Globals.triggersDict[TriggerClass];
+            const TriggerClass:Class = Class(getDefinitionByName(getQualifiedClassName(_data.trigger)));
+            const currentData:DropdownListVO = Globals.triggersDict[TriggerClass];
             triggersDDL.selectedItem = currentData;
             triggersDDL.validateProperties();
 
@@ -64,37 +57,31 @@
             setTriggerRenderer(currentData.viewClass, _data.trigger);
         }
 
-        private function onTriggerDDLSelChange() : void
-        {
-            const it : DropdownListVO = DropdownListVO(triggersDDL.selectedItem);
-            var _zone : Trigger = new it.stardustClass();
+        private function onTriggerDDLSelChange():void {
+            const it:DropdownListVO = DropdownListVO(triggersDDL.selectedItem);
+            var _zone:Trigger = new it.stardustClass();
             _data.trigger = _zone;
             setTriggerRenderer(it.viewClass, _zone);
         }
 
-        private function setTriggerRenderer(RendererClass : Class, data : Trigger) : void
-        {
+        private function setTriggerRenderer(RendererClass:Class, data:Trigger):void {
             content.removeAllElements();
-            var triggerRenderer : ITriggerRenderer = new RendererClass();
+            var triggerRenderer:ITriggerRenderer = new RendererClass();
             triggerRenderer.setData(data);
             content.addElement(triggerRenderer);
         }
 
-        private function onEmitterDDLSelChange() : void
-        {
-            var em : Emitter = Emitter(emitterDDL.selectedItem);
-            if (_data.spawnerEmitter)
-            {
+        private function onEmitterDDLSelChange():void {
+            var em:Emitter = Emitter(emitterDDL.selectedItem);
+            if (_data.spawnerEmitter) {
                 _data.spawnerEmitter.active = true;
             }
             _data.spawnerEmitter = em;
             _data.spawnerEmitter.active = false;
         }
 
-        override protected function onRemoveClick( e : MouseEvent ) : void
-        {
-            if (_data.spawnerEmitter)
-            {
+        override protected function onRemoveClick(e:MouseEvent):void {
+            if (_data.spawnerEmitter) {
                 _data.spawnerEmitter.active = true;
             }
             _data.spawnerEmitter = null;

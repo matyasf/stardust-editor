@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<s:ItemRenderer
+        xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        addedToStage="onAdded()"
+        removedFromStage="onRemoved()"
+        initialize="onInit()">
+
+  <fx:Script><![CDATA[
+
+    public var callback : Function;
+    public var sdeFile : ByteArray;
+    public var nameToDisplay : String;
+
+    var cnt : uint;
+    private var timer : Timer = new Timer(2000);
+
+    override public function set data(dat : Object):void
+    {
+        super.data = dat;
+        cnt = 0;
+        var vec : Vector.<BitmapData> = dat as Vector.<BitmapData>;
+        image.source = vec[0];
+    }
+
+    private function onInit() : void
+    {
+        timer.addEventListener(TimerEvent.TIMER, onTimer);
+    }
+
+    private function onTimer(evt : *) : void
+    {
+        var vec : Vector.<BitmapData> = data as Vector.<BitmapData>;
+        if (vec)
+        {
+            cnt++;
+            if (cnt >= vec.length)
+            {
+              cnt = 0;
+            }
+            image.source = vec[cnt];
+        }
+    }
+
+    private function onAdded() : void
+    {
+        timer.start();
+    }
+
+    private function onRemoved() : void
+    {
+        timer.stop();
+        timer.reset();
+    }
+    ]]></fx:Script>
+
+  <s:Rect width="100%" height="100%">
+    <s:fill>
+      <s:SolidColor color="0xa7a7a7" />
+    </s:fill>
+  </s:Rect>
+
+  <s:Image id="image" width="100" height="100" />
+</s:ItemRenderer>

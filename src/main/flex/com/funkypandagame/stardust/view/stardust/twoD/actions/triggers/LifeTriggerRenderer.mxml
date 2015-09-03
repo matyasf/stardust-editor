@@ -5,17 +5,14 @@
           implements="com.funkypandagame.stardust.view.stardust.twoD.actions.triggers.ITriggerRenderer">
 
     <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.actions.triggers.LifeTrigger;
+        import idv.cjcat.stardustextended.actions.triggers.Trigger;
 
-        import idv.cjcat.stardustextended.common.actions.triggers.LifeTrigger;
-        import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+        private var trigger:LifeTrigger;
 
-        private var trigger : LifeTrigger;
-
-        public function setData(d:Trigger):void
-        {
+        public function setData(d:Trigger):void {
             trigger = LifeTrigger(d);
         }
-
         ]]></fx:Script>
 
     <s:Label text="Trigger every step"/>

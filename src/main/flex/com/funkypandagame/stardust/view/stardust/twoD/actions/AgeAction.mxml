@@ -6,18 +6,15 @@
                            toolTip="Causes particle's age to increase or decrease.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.common.actions.Age;
+        import idv.cjcat.stardustextended.actions.Age;
 
-        private function updateData(e : Event) : void
-        {
+        private function updateData(e:Event):void {
             Age(data).multiplier = Number(multInput.text);
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
             multInput.text = Age(data).multiplier.toString();

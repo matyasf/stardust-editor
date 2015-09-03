@@ -1,7 +1,7 @@
 package com.funkypandagame.stardust.view.stardust.twoD.actions.triggers
 {
 
-import idv.cjcat.stardustextended.common.actions.triggers.Trigger;
+import idv.cjcat.stardustextended.actions.triggers.Trigger;
 
 import mx.core.IVisualElement;
 

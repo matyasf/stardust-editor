@@ -5,38 +5,34 @@
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.DropdownListVO;
 
-        import idv.cjcat.stardustextended.common.clocks.Clock;
-        import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
-        import idv.cjcat.stardustextended.common.clocks.ImpulseClock;
-        import idv.cjcat.stardustextended.common.clocks.SteadyClock;
-        import idv.cjcat.stardustextended.common.emitters.Emitter;
+        import idv.cjcat.stardustextended.clocks.Clock;
+        import idv.cjcat.stardustextended.clocks.ImpulseClock;
+        import idv.cjcat.stardustextended.clocks.ImpulseClock;
+        import idv.cjcat.stardustextended.clocks.SteadyClock;
+        import idv.cjcat.stardustextended.emitters.Emitter;
 
         import mx.collections.ArrayCollection;
         import mx.core.IVisualElement;
 
-        private const clocksAC : ArrayCollection = new ArrayCollection([
+        private const clocksAC:ArrayCollection = new ArrayCollection([
             new DropdownListVO("Constant", SteadyClock, SteadyClockRenderer),
             new DropdownListVO("Impulses", ImpulseClock, ImpulseClockRenderer)
         ]);
 
-        private var emitter : Emitter;
+        private var emitter:Emitter;
 
-        private function onSelChange() : void
-        {
-            var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
+        private function onSelChange():void {
+            var it:DropdownListVO = DropdownListVO(ddl.selectedItem);
             emitter.clock = Clock(new it.stardustClass());
             populateData();
         }
 
-        public function setData(_emitter : Emitter) : void
-        {
+        public function setData(_emitter:Emitter):void {
             emitter = _emitter;
-            if (emitter.clock is SteadyClock)
-            {
+            if (emitter.clock is SteadyClock) {
                 ddl.selectedIndex = 0;
             }
-            else if (emitter.clock is ImpulseClock)
-            {
+            else if (emitter.clock is ImpulseClock) {
                 ddl.selectedIndex = 1;
             }
             activeCheckBox.selected = emitter.active;
@@ -45,17 +41,15 @@
             validateNow();
         }
 
-        private function populateData() : void
-        {
-            var it : DropdownListVO = DropdownListVO(ddl.selectedItem);
+        private function populateData():void {
+            var it:DropdownListVO = DropdownListVO(ddl.selectedItem);
             content.removeAllElements();
-            var viewClass : IVisualElement = new it.viewClass();
+            var viewClass:IVisualElement = new it.viewClass();
             IClockRenderer(viewClass).setData(emitter.clock);
             content.addElement(viewClass);
         }
 
-        private function onActiveChange() : void
-        {
+        private function onActiveChange():void {
             emitter.active = activeCheckBox.selected;
         }
         ]]></fx:Script>

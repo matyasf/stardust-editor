@@ -8,32 +8,28 @@
                            toolTip="Causes particles to be accelerated/decelerated when they are inside a zone.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.actions.AccelerationZone;
+        import idv.cjcat.stardustextended.actions.AccelerationZone;
 
-        private function updateData() : void
-        {
-            var dat : AccelerationZone = AccelerationZone(data);
+        private function updateData():void {
+            var dat:AccelerationZone = AccelerationZone(data);
             dat.inverted = isInvertedCheckBox.selected;
             dat.acceleration = parseFloat(accelerationTextInput.text);
             dat.useParticleDirection = useParticleDirectionCheckBox.selected;
             dat.direction.angle = parseFloat(angleTextInput.text);
         }
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : AccelerationZone = AccelerationZone(d);
+            var dat:AccelerationZone = AccelerationZone(d);
             zc.setData(dat);
             accelerationTextInput.text = dat.acceleration.toString();
             isInvertedCheckBox.selected = dat.inverted;
             useParticleDirectionCheckBox.selected = dat.useParticleDirection;
             angleTextInput.text = dat.direction.angle.toString();
         }
-
         ]]></fx:Script>
 
     <twod:layout>

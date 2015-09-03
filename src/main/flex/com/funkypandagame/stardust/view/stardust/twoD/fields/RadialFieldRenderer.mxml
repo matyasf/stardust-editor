@@ -4,18 +4,16 @@
                 opaqueBackground="0x565656" autoDrawBackground="false" width="100%">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.twoD.fields.RadialField;
+        import idv.cjcat.stardustextended.fields.RadialField;
 
         import spark.components.DataGroup;
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
-            var dat : RadialField = data as RadialField;
+            var dat:RadialField = data as RadialField;
             xTextInput.text = dat.x.toString();
             yTextInput.text = dat.y.toString();
             strengthTextInput.text = dat.strength.toString();
@@ -23,9 +21,8 @@
             masslessCheckBox.selected = dat.massless;
         }
 
-        private function updateData() : void
-        {
-            var dat : RadialField = data as RadialField;
+        private function updateData():void {
+            var dat:RadialField = data as RadialField;
             dat.x = Number(xTextInput.text);
             dat.y = Number(yTextInput.text);
             dat.strength = Number(strengthTextInput.text);

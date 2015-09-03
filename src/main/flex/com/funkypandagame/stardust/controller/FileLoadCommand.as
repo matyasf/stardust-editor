@@ -22,12 +22,21 @@ public class FileLoadCommand implements ICommand
     {
         _loadFile = new FileReference();
         _loadFile.addEventListener( Event.SELECT, selectHandler );
-        _loadFile.browse( [new FileFilter( "Stardust editor project: (*.sde)", "*.sde" )] );
+        _loadFile.addEventListener( Event.CANCEL, cancelHandler );
+        _loadFile.browse( [new FileFilter( "Stardust editor project (*.sde)", "*.sde" )] );
+    }
+
+    private function cancelHandler( event : Event ) : void
+    {
+        _loadFile.removeEventListener( Event.SELECT, selectHandler );
+        _loadFile.removeEventListener( Event.CANCEL, cancelHandler );
     }
 
     private function selectHandler( event : Event ) : void
     {
         _loadFile.removeEventListener( Event.SELECT, selectHandler );
+        _loadFile.removeEventListener( Event.CANCEL, cancelHandler );
+
         _loadFile.addEventListener( Event.COMPLETE, loadCompleteHandler );
         _loadFile.load();
     }

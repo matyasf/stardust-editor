@@ -18,7 +18,7 @@ import flash.events.IOErrorEvent;
 import flash.net.FileReference;
 import flash.utils.ByteArray;
 
-import idv.cjcat.stardustextended.common.xml.XMLBuilder;
+import idv.cjcat.stardustextended.xml.XMLBuilder;
 
 import mx.core.FlexGlobals;
 import mx.graphics.codec.PNGEncoder;

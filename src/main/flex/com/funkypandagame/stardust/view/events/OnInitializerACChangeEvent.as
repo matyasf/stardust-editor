@@ -1,15 +1,8 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenPalc
- * Date: 03/01/14
- * Time: 15:43
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.view.events
 {
 import flash.events.Event;
 
-import idv.cjcat.stardustextended.common.initializers.Initializer;
+import idv.cjcat.stardustextended.initializers.Initializer;
 
 public class OnInitializerACChangeEvent extends Event
 {

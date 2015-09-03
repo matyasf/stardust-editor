@@ -9,39 +9,34 @@
         import com.funkypandagame.stardust.view.components.gradientChooser.ColorPickerGroup;
         import com.funkypandagame.stardust.view.components.gradientChooser.GradientDisplay;
 
-        import idv.cjcat.stardustextended.common.actions.ColorGradient;
+        import idv.cjcat.stardustextended.actions.ColorGradient;
 
         import mx.events.FlexMouseEvent;
 
         import mx.managers.PopUpManager;
 
-        private var gradientDisplay : GradientDisplay;
-        private var picker : ColorPickerGroup;
+        private var gradientDisplay:GradientDisplay;
+        private var picker:ColorPickerGroup;
 
-        override public function set data(d : Object) : void
-        {
+        override public function set data(d:Object):void {
             super.data = d;
-            if (d == null)
-            {
+            if (d == null) {
                 return;
             }
             gradientDisplay.removeAll();
-            var dat : ColorGradient = ColorGradient(d);
-            for (var j : int = 0; j < dat.colors.length; j++)
-            {
+            var dat:ColorGradient = ColorGradient(d);
+            for (var j:int = 0; j < dat.colors.length; j++) {
                 gradientDisplay.addColor(dat.colors[j], dat.ratios[j], dat.alphas[j]);
             }
             picker.setColor(gradientDisplay.currentColor, gradientDisplay.currentAlpha);
         }
 
-        private function updateData() : void
-        {
-            var dat : ColorGradient = ColorGradient(data);
+        private function updateData():void {
+            var dat:ColorGradient = ColorGradient(data);
             dat.setGradient(gradientDisplay.colors, gradientDisplay.ratios, gradientDisplay.alphas);
         }
 
-        private function onInit() : void
-        {
+        private function onInit():void {
             picker = new ColorPickerGroup();
 
             gradientDisplay = new GradientDisplay();
@@ -54,33 +49,28 @@
             picker.onColorChanged = onPickerColorChanged;
         }
 
-        private function onMouseDown(evt : Event) : void
-        {
+        private function onMouseDown(evt:Event):void {
 
-            callLater(function() : void
-            {
+            callLater(function ():void {
                 PopUpManager.addPopUp(picker, root);
-                var globCoords : Point = gradientDisplay.localToGlobal(new Point(0, 0));
+                var globCoords:Point = gradientDisplay.localToGlobal(new Point(0, 0));
                 picker.x = globCoords.x;
                 picker.y = globCoords.y - picker.height - 10;
                 picker.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, onMouseDownOutside);
             });
         }
 
-        private function onMouseDownOutside(evt : FlexMouseEvent) : void
-        {
+        private function onMouseDownOutside(evt:FlexMouseEvent):void {
             picker.removeEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE, onMouseDownOutside);
             PopUpManager.removePopUp(picker);
         }
 
-        private function onGradientColorChanged() : void
-        {
+        private function onGradientColorChanged():void {
             picker.setColor(gradientDisplay.currentColor, gradientDisplay.currentAlpha);
             updateData();
         }
 
-        private function onPickerColorChanged() : void
-        {
+        private function onPickerColorChanged():void {
             gradientDisplay.setCurrentColor(picker.currentColor, picker.currentAlpha);
             updateData();
         }

@@ -10,7 +10,7 @@ import flash.net.registerClassAlias;
 import flash.utils.ByteArray;
 import flash.utils.getQualifiedClassName;
 
-import idv.cjcat.stardustextended.common.particles.Particle;
+import idv.cjcat.stardustextended.particles.Particle;
 
 public class StoreParticleSnapshotCommand
 {

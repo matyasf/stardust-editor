@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: BenP
- * Date: 19/12/13
- * Time: 10:14
- * To change this template use File | Settings | File Templates.
- */
 package com.funkypandagame.stardust.controller.events
 {
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
