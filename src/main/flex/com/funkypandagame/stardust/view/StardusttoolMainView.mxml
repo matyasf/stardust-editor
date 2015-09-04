@@ -132,7 +132,7 @@
     <s:VGroup height="100%" right="0">
         <s:Button label="Restart sim" click="dispatchStartSimEvent()" width="100%"/>
         <s:Button label="Load" click="dispatchLoadSimEvent()" width="100%"/>
-        <s:Button label="Import" click="openImportPopupSignal.dispatch()" width="100%"
+        <s:Button label="Import" click="openImportPopupSignal.dispatch()" width="100%" enabled="false"
                   toolTip="Import emitter from an existing .sde file"/>
         <s:Button label="Save as.." click="dispatchSaveSimEvent()" width="100%"/>
         <s:Button label="Examples" click="showExamples()" width="100%"/>

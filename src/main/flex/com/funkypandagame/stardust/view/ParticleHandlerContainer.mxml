@@ -30,7 +30,13 @@
         {
             _handler = handler;
 
-            handlerImages = new VectorCollection(_handlerImages);
+            var handlerImg : Vector.<BitmapData> = _handlerImages.concat();
+            if (handlerImg.length > 5)
+            {
+                handlerImg.length = 5;
+            }
+
+            handlerImages = new VectorCollection(handlerImg);
             useSmoothingCheckBox.selected = _handler.smoothing;
 
             premultiplyAlphaCheckBox.selected = handler.premultiplyAlpha;
@@ -95,7 +101,7 @@
         <s:HGroup visible="{isSpriteSheet}" verticalAlign="middle"
                   includeInLayout="{isSpriteSheet}">
             <s:Label text="animation speed"/>
-            <components:CustomNumericStepper id="speedTextInput" restrict="0-9" minimum="1" maximum="1000" width="50"
+            <components:CustomNumericStepper id="speedTextInput" restrict="0-9" minimum="0" maximum="1000" width="50"
                                              change="changePropsAndRestartSim()" />
 
             <s:CheckBox label="start at random frame?" id="randomFrameCB" change="onImagePropsChange()"/>
