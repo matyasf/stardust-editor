@@ -13,21 +13,24 @@
 
         import mx.collections.ArrayCollection;
 
+        import org.apache.flex.collections.VectorCollection;
+
         [Bindable]
         public var blendModesAC:ArrayCollection = Globals.blendModesStarling;
 
         [Bindable]
-        public var sourceBD:BitmapData;
+        public var handlerImages:VectorCollection;
 
         [Bindable]
         public var isSpriteSheet:Boolean;
 
         private var _handler:StarlingHandler;
 
-        public function setHandler(handler:StarlingHandler, handlerImages:Vector.<BitmapData>):void {
+        public function setHandler(handler:StarlingHandler, _handlerImages : Vector.<BitmapData>):void
+        {
             _handler = handler;
 
-            sourceBD = handlerImages[0]; // TODO display all images
+            handlerImages = new VectorCollection(_handlerImages);
             useSmoothingCheckBox.selected = _handler.smoothing;
 
             premultiplyAlphaCheckBox.selected = handler.premultiplyAlpha;
@@ -77,7 +80,15 @@
     <s:HGroup verticalAlign="middle">
         <s:Label text="Graphic"/>
 
-        <s:Image maxWidth="40" maxHeight="40" source="{sourceBD}"/>
+        <s:Scroller width="100%" maxWidth="160" height="35" hasFocusableChildren="false" horizontalScrollPolicy="off">
+            <s:DataGroup id="dataGroup"
+                         itemRenderer="com.funkypandagame.stardust.view.EmitterImageRenderer"
+                         dataProvider="{handlerImages}">
+                <s:layout>
+                    <s:HorizontalLayout gap="0" verticalAlign="contentJustify" />
+                </s:layout>
+            </s:DataGroup>
+        </s:Scroller>
 
         <s:Button label="Browse" click="loadImageFromFile()"/>
 

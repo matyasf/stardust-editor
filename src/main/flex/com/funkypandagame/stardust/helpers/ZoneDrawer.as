@@ -137,7 +137,7 @@ public class ZoneDrawer
             else if ( z is Line )
             {
                 var li : Line = Line( z );
-                g.moveTo( li.x1 + offset.x, li.y1 + offset.y );
+                g.moveTo( li.x + offset.x, li.y + offset.y );
                 g.lineTo( li.x2 + offset.x, li.y2 + offset.y );
             }
             else if ( z is RectZone )
@@ -145,20 +145,15 @@ public class ZoneDrawer
                 g.beginFill( color, 0.7 );
                 var re : RectZone = RectZone( z );
 
-                var leftX : Number = re.x + offset.x;
-                var rightX : Number = re.x + offset.x + re.width;
-                var topY : Number = re.x + offset.x;
-                var bottomY : Number = re.x + offset.x + re.height;
+                var topRight : Vec2D = Vec2DPool.get(re.width, 0).rotate(re.rotation);
+                var bottomRight : Vec2D = Vec2DPool.get(re.width, re.height).rotate(re.rotation);
+                var bottomLeft : Vec2D = Vec2DPool.get(0, re.height).rotate(re.rotation);
 
-                var topRight : Vec2D = Vec2DPool.get(rightX, topY).rotate(re.rotation);
-                var bottomRight : Vec2D = Vec2DPool.get(rightX, bottomY).rotate(re.rotation);
-                var bottomLeft : Vec2D = Vec2DPool.get(leftX, bottomY).rotate(re.rotation);
-
-                g.moveTo( leftX, topY );
-                g.lineTo( topRight.x, topRight.y );
-                g.lineTo( bottomRight.x, bottomRight.y );
-                g.lineTo( bottomLeft.x, bottomLeft.y );
-                g.lineTo( leftX, topY );
+                g.moveTo( re.x + offset.x,                  re.y + offset.y);
+                g.lineTo( re.x + offset.x + topRight.x,     re.y + offset.y + topRight.y );
+                g.lineTo( re.x + offset.x + bottomRight.x,  re.y + offset.y + bottomRight.y );
+                g.lineTo( re.x + offset.x + bottomLeft.x,   re.y + offset.y + bottomLeft.y );
+                g.lineTo( re.x + offset.x,                  re.y + offset.y );
                 Vec2DPool.recycle(topRight);
                 Vec2DPool.recycle(bottomRight);
                 Vec2DPool.recycle(bottomLeft);
@@ -168,20 +163,16 @@ public class ZoneDrawer
                 g.endFill();
                 var rc : RectContour = RectContour( z );
 
-                var leftX2 : Number = rc.x + offset.x;
-                var rightX2 : Number = rc.x + offset.x + rc.width;
-                var topY2 : Number = rc.x + offset.x;
-                var bottomY2 : Number = rc.x + offset.x + rc.height;
+                var topRight2 : Vec2D = Vec2DPool.get(rc.width, 0).rotate(rc.rotation);
+                var bottomRight2 : Vec2D = Vec2DPool.get(rc.width, rc.height).rotate(rc.rotation);
+                var bottomLeft2 : Vec2D = Vec2DPool.get(0, rc.height).rotate(rc.rotation);
 
-                var topRight2 : Vec2D = Vec2DPool.get(rightX2, topY2).rotate(rc.rotation);
-                var bottomRight2 : Vec2D = Vec2DPool.get(rightX2, bottomY2).rotate(rc.rotation);
-                var bottomLeft2 : Vec2D = Vec2DPool.get(leftX2, bottomY2).rotate(rc.rotation);
+                g.moveTo( rc.x + offset.x,                  rc.y + offset.y);
+                g.lineTo( rc.x + offset.x + topRight2.x,     rc.y + offset.y + topRight2.y );
+                g.lineTo( rc.x + offset.x + bottomRight2.x,  rc.y + offset.y + bottomRight2.y );
+                g.lineTo( rc.x + offset.x + bottomLeft2.x,   rc.y + offset.y + bottomLeft2.y );
+                g.lineTo( rc.x + offset.x,                  rc.y + offset.y );
 
-                g.moveTo( leftX2, topY2 );
-                g.lineTo( topRight2.x, topRight2.y );
-                g.lineTo( bottomRight2.x, bottomRight2.y );
-                g.lineTo( bottomLeft2.x, bottomLeft2.y );
-                g.lineTo( leftX2, topY2 );
                 Vec2DPool.recycle(topRight2);
                 Vec2DPool.recycle(bottomRight2);
                 Vec2DPool.recycle(bottomLeft2);
