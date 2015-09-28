@@ -73,14 +73,14 @@
         }
         ]]></fx:Script>
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Position"/>
+        <s:Label text="Position" toolTip="Initial position of the particle. The value for each particle is randomly picked from the zone"/>
         <s:VGroup width="100%">
             <zones:ZoneContainer id="posZc" width="100%"/>
             <s:HGroup>
                 <s:CheckBox label="animated?" id="posAnimatedCheckBox" change="animatedCheckBox_changeHandler(event)"
                             toolTip="You can animate the emitter position by loading its path from a special .swf file.
-                    This file needs to have a symbol on the stage with the export name 'emitter'.
-                    Then the simulation will use the coordinates of this object to animate the initial position of the particles."/>
+                                     This file needs to have a symbol on the stage with the export name 'emitter'.
+                                     Then the simulation will use the coordinates of this object to animate the initial position of the particles."/>
                 <s:Button label="Load emitter path from EmitterPath.swf" enabled="{posAnimatedCheckBox.selected}"
                           click="dispatchLoadEmitterPath()"/>
                 <s:CheckBox label="inherit velocity" id="velocityCheckBox" change="velocityCheckBox_changeHandler(event)"
@@ -91,34 +91,34 @@
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Life"/>
+        <s:Label text="Life" toolTip="The lifespan of the particle. Add the 'Change age' action to change its age; add the 'deathLife' action to kill the particle if its life reaches 0."/>
         <math:UniformRandomMath id="lifeMath"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Speed"/>
+        <s:Label text="Speed" toolTip="Initial speed of the particle. The value for each particle is randomly picked from the zone"/>
         <zones:ZoneContainer id="speedZc" width="100%" followMouseVisible="false"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Alpha"/>
+        <s:Label text="Alpha" toolTip="Alpha of the particle at creation. Is ignored if the 'Color/Alpha curve' action is present."/>
         <math:UniformRandomMath id="alphaMath"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Scale"/>
+        <s:Label text="Scale" />
         <math:UniformRandomMath id="scaleMath"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Rotation   starting"/>
+        <s:Label text="Rotation   starting" toolTip="Rotation in degrees. Rotation speed has only effect if you use the rotation action."/>
         <math:UniformRandomMath id="rotStartMath"/>
 
         <s:Label text="speed"/>
         <math:UniformRandomMath id="rotSpeedMath"/>
     </s:HGroup>
 
-    <s:HGroup verticalAlign="middle">
+    <s:HGroup verticalAlign="middle" toolTip="The mass of the created particles. Some actions, like Gravity can use it.">
         <s:Label text="Mass"/>
         <math:UniformRandomMath id="massMath"/>
     </s:HGroup>

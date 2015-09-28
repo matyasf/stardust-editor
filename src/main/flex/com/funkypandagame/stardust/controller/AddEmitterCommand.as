@@ -33,39 +33,66 @@ public class AddEmitterCommand implements ICommand
     private static const DEFAULT_EMITTER : XML =
     <StardustParticleSystem version="2.1">
         <actions>
-            <Age name="Age_0" active="true" mask="1" multiplier="1"/>
-            <DeathLife name="DeathLife_0" active="true" mask="1"/>
-            <Move name="Move_0" active="true" mask="1" multiplier="1"/>
+            <Age name="Age_1" active="true" multiplier="1"/>
+            <DeathLife name="DeathLife_1" active="true"/>
+            <Move name="Move_1" active="true" multiplier="1"/>
         </actions>
-        <clocks>
-            <SteadyClock name="SteadyClock_6" ticksPerCall="1"/>
-        </clocks>
+        <initializers>
+            <Alpha name="Alpha_1" active="true" random="UniformRandom_43"/>
+            <Life name="Life_1" active="true" random="UniformRandom_42"/>
+            <Mass name="Mass_1" active="true" random="UniformRandom_47"/>
+            <Omega name="Omega_1" active="true" random="UniformRandom_46"/>
+            <PositionAnimated name="PositionAnimated_1" active="true" inheritVelocity="false">
+                <zones>
+                    <Line name="Line_5"/>
+                </zones>
+            </PositionAnimated>
+            <Rotation name="Rotation_1" active="true" random="UniformRandom_45"/>
+            <Scale name="Scale_1" active="true" random="UniformRandom_44"/>
+            <Velocity name="Velocity_1" active="true">
+                <zones>
+                    <SinglePoint name="SinglePoint_3"/>
+                </zones>
+            </Velocity>
+        </initializers>
         <emitters>
-            <Emitter2D name="Emitter" active="true" clock="SteadyClock_6" >
+            <Emitter2D name="0" active="true" clock="SteadyClock_3" particleHandler="StarlingHandler_1">
                 <actions>
-                    <DeathLife name="DeathLife_0"/>
-                    <Age name="Age_0"/>
-                    <Move name="Move_0"/>
+                    <DeathLife name="DeathLife_1"/>
+                    <Age name="Age_1"/>
+                    <Move name="Move_1"/>
                 </actions>
                 <initializers>
-                    <PositionAnimated name="PositionAnimated_0"/>
-                    <Velocity name="Velocity_0"/>
-                    <Life name="Life_0"/>
+                    <Scale name="Scale_1"/>
+                    <Velocity name="Velocity_1"/>
+                    <Life name="Life_1"/>
+                    <Alpha name="Alpha_1"/>
+                    <PositionAnimated name="PositionAnimated_1"/>
+                    <Rotation name="Rotation_1"/>
+                    <Omega name="Omega_1"/>
+                    <Mass name="Mass_1"/>
                 </initializers>
             </Emitter2D>
         </emitters>
-        <initializers>
-            <Life name="Life_0" active="true" random="UniformRandom_1"/>
-            <PositionAnimated name="PositionAnimated_0" active="true" zone="Line_0" inheritVelocity="false"/>
-            <Velocity name="Velocity_0" active="true" zone="SinglePoint_0"/>
-        </initializers>
-        <randoms>
-            <UniformRandom name="UniformRandom_1" center="200" radius="50"/>
-        </randoms>
         <zones>
-            <Line name="Line_0" rotation="0" virtualThickness="1" x1="10" y1="10" x2="300" y2="10"/>
-            <SinglePoint name="SinglePoint_0" rotation="0" virtualThickness="1" x="0" y="2"/>
+            <Line name="Line_5" rotation="0" virtualThickness="1" x1="10" y1="10" x2="300" y2="10"/>
+            <SinglePoint name="SinglePoint_3" rotation="0" virtualThickness="1" x="0" y="2"/>
         </zones>
+        <handlers>
+            <StarlingHandler name="StarlingHandler_1" spriteSheetAnimationSpeed="1" spriteSheetStartAtRandomFrame="false" smoothing="false" blendMode="normal" premultiplyAlpha="true"/>
+        </handlers>
+        <clocks>
+            <SteadyClock name="SteadyClock_3" ticksPerCall="1" initialDelay="UniformRandom_41"/>
+        </clocks>
+        <randoms>
+            <UniformRandom name="UniformRandom_41" center="0" radius="0"/>
+            <UniformRandom name="UniformRandom_42" center="200" radius="50"/>
+            <UniformRandom name="UniformRandom_43" center="1" radius="0"/>
+            <UniformRandom name="UniformRandom_44" center="1" radius="0"/>
+            <UniformRandom name="UniformRandom_45" center="0" radius="0"/>
+            <UniformRandom name="UniformRandom_46" center="0" radius="0"/>
+            <UniformRandom name="UniformRandom_47" center="1" radius="0"/>
+        </randoms>
     </StardustParticleSystem>;
 
     public function execute() : void
