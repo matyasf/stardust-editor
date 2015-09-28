@@ -8,7 +8,7 @@ import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.InitalizeZoneDrawerEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUICollectionsEvent;
-import com.funkypandagame.stardust.view.ImportSimPopup;
+import com.funkypandagame.stardust.view.importSim.ImportSimPopup;
 import com.funkypandagame.stardust.view.StardusttoolMainView;
 import com.funkypandagame.stardust.view.events.InitializeZoneDrawerFromEmitterGroupEvent;
 import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;

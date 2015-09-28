@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<s:ItemRenderer
+        xmlns:fx="http://ns.adobe.com/mxml/2009"
+        xmlns:s="library://ns.adobe.com/flex/spark"
+        addedToStage="onAdded()"
+        removedFromStage="onRemoved()" autoDrawBackground="false"
+        initialize="onInit()" width="100" height="100">
+
+  <fx:Script><![CDATA[
+
+    public var callback : Function;
+    public var sdeFile : ByteArray;
+    public var nameToDisplay : String;
+
+    private var cnt : uint;
+    private var timer : Timer = new Timer(2000);
+
+    override public function set data(dat : Object):void
+    {
+        super.data = dat;
+        if (dat == null)
+        {
+            image.source = null;
+            return;
+        }
+        cnt = 0;
+        var iem : ImportedEmitter = ImportedEmitter(data);
+        image.source = iem.emitterImages[0];
+    }
+
+    private function onInit() : void
+    {
+        timer.addEventListener(TimerEvent.TIMER, onTimer);
+    }
+
+    private function onTimer(evt : *) : void
+    {
+        var iem : ImportedEmitter = ImportedEmitter(data);
+        if (iem.emitterImages)
+        {
+            cnt++;
+            if (cnt >= iem.emitterImages.length)
+            {
+              cnt = 0;
+            }
+            image.source = iem.emitterImages[cnt];
+        }
+    }
+
+    private function onAdded() : void
+    {
+        timer.start();
+    }
+
+    private function onRemoved() : void
+    {
+        timer.stop();
+        timer.reset();
+    }
+    ]]></fx:Script>
+
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="selected" />
+    </s:states>
+
+    <s:Rect width="100%" height="100%" visible.selected="true" visible="false">
+        <s:fill>
+            <s:SolidColor color="0x37f337" alpha="0.2"/>
+        </s:fill>
+    </s:Rect>
+
+    <s:Image id="image" width="100" height="100" />
+
+    <s:CheckBox bottom="0" right="0" id="selectedCheckBox"
+            mouseEnabled="false" mouseChildren="false" selected="false" selected.selected="true" />
+</s:ItemRenderer>

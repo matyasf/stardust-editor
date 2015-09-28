@@ -3,6 +3,7 @@ package com.funkypandagame.stardust.controller
 
 import com.funkypandagame.stardust.controller.events.EmitterImportedEvent;
 import com.funkypandagame.stardust.tasks.AsyncTask;
+import com.funkypandagame.stardust.view.importSim.ImportedEmitter;
 import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.SDEConstants;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
@@ -191,7 +192,12 @@ public class ImportEmitterCommand extends AsyncTask
                 em.addInitializer(new Mass());
             }
         }
-        dispatch(new EmitterImportedEvent(loadedSim, emitterImages));
+        var emittersVec : Vector.<ImportedEmitter> = new Vector.<ImportedEmitter>();
+        for (var emId : String in loadedSim.emitters)
+        {
+            emittersVec.push(new ImportedEmitter(loadedSim.emitters[emId], emitterImages[emId]));
+        }
+        dispatch(new EmitterImportedEvent(emittersVec));
         dispatchCompleteSignal();
     }
 

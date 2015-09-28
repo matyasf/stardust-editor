@@ -1,37 +1,29 @@
 package com.funkypandagame.stardust.controller.events
 {
 
-import com.funkypandagame.stardustplayer.project.ProjectValueObject;
+import com.funkypandagame.stardust.view.importSim.ImportedEmitter;
 
 import flash.events.Event;
-import flash.utils.Dictionary;
 
 public class EmitterImportedEvent extends Event
 {
     public static const TYPE : String = "EmitterImportedEvent";
-    private var _loadedProject : ProjectValueObject;
-    private var _emitterImages : Dictionary;
+    private var _emitters : Vector.<ImportedEmitter>;
 
-    public function EmitterImportedEvent( loadedProject : ProjectValueObject, emitterImages : Dictionary )
+    public function EmitterImportedEvent( emitters : Vector.<ImportedEmitter> )
     {
-        _loadedProject = loadedProject;
-        _emitterImages = emitterImages;
+        _emitters = emitters;
         super( TYPE );
     }
 
-    public function get loadedProject() : ProjectValueObject
+    public function get emitters() : Vector.<ImportedEmitter>
     {
-        return _loadedProject;
-    }
-
-    public function get emitterImages() : Dictionary
-    {
-        return _emitterImages;
+        return _emitters;
     }
 
     override public function clone() : Event
     {
-        return new EmitterImportedEvent(_loadedProject, _emitterImages);
+        return new EmitterImportedEvent(_emitters);
     }
 }
 }

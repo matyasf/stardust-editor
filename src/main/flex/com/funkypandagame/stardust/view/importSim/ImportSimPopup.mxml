@@ -1,35 +1,36 @@
 <?xml version="1.0"?>
 <components:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
                         xmlns:components="spark.components.*" xmlns:s="library://ns.adobe.com/flex/spark"
-                        title="Import emitter" width="650" close="onClose()">
+                        xmlns:components2="com.funkypandagame.stardust.view.components.*"
+                        title="Import emitter (NOT WORKING YET)" width="750" close="onClose()">
 
     <fx:Script><![CDATA[
-        import com.funkypandagame.stardustplayer.project.ProjectValueObject;
-
-        import mx.collections.ArrayCollection;
 
         import mx.managers.PopUpManager;
+
+        import org.apache.flex.collections.VectorCollection;
 
         import org.osflash.signals.Signal;
 
         public const importClicked : Signal = new Signal();
+        public const importSelectedClicked : Signal = new Signal(Vector.<Object>);
 
         [Bindable]
-        private var emitterListAC : ArrayCollection;
+        private var emitterListAC : VectorCollection;
 
-        public function onEmitterImported(loadedProject : ProjectValueObject, emitterImages : Dictionary) : void
+        public function onEmitterImported(emitters : Vector.<ImportedEmitter>) : void
         {
-            var emitterAC : ArrayCollection = new ArrayCollection();
-            for each (var data : Vector.<BitmapData> in emitterImages)
-            {
-                emitterAC.addItem(data);
-            }
-            emitterListAC = emitterAC;
+            emitterListAC = new VectorCollection(emitters);
         }
 
         private function onClose() : void
         {
             PopUpManager.removePopUp(this)
+        }
+
+        private function importEmitters():void
+        {
+            importSelectedClicked.dispatch(importList.selectedItems);
         }
         ]]></fx:Script>
 
@@ -47,15 +48,15 @@
     <components:VGroup width="100%">
         <components:Label text="Select the emitter(s) to import" />
 
-        <components:List width="100%" height="100" dataProvider="{emitterListAC}" allowMultipleSelection="true"
+        <components2:CheckList id="importList" width="100%" height="125" dataProvider="{emitterListAC}" allowMultipleSelection="true"
                          verticalScrollPolicy="off" horizontalScrollPolicy="auto"
                          skinClass="com.funkypandagame.stardust.view.skins.ImportEmitterListSkin"
-                         itemRenderer="com.funkypandagame.stardust.view.ImportEmitterRenderer" />
+                         itemRenderer="com.funkypandagame.stardust.view.importSim.ImportEmitterRenderer" />
 
     </components:VGroup>
 
     <components:HGroup width="100%">
-        <components:Button label="import" />
+        <components:Button label="import" enabled="{importList.selectedItems.length > 0}" click="importEmitters()"/>
         <components:Button label="cancel" click="onClose()" />
     </components:HGroup>
 

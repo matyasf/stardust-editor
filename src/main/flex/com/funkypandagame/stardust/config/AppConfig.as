@@ -34,7 +34,7 @@ import com.funkypandagame.stardust.controller.events.SaveSimEvent;
 import com.funkypandagame.stardust.controller.events.SnapshotEvent;
 import com.funkypandagame.stardust.controller.events.StartSimEvent;
 import com.funkypandagame.stardust.controller.events.UpdateEmitterDropDownListEvent;
-import com.funkypandagame.stardust.view.ImportSimPopup;
+import com.funkypandagame.stardust.view.importSim.ImportSimPopup;
 import com.funkypandagame.stardust.view.mediators.ClockContainerMediator;
 import com.funkypandagame.stardust.view.mediators.ImportSimPopupMediator;
 import com.funkypandagame.stardust.view.mediators.UnifiedInitializerMediator;

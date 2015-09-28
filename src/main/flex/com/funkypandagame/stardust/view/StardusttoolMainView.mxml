@@ -132,12 +132,12 @@
     <s:VGroup height="100%" right="0">
         <s:Button label="Restart sim" click="dispatchStartSimEvent()" width="100%"/>
         <s:Button label="Load" click="dispatchLoadSimEvent()" width="100%"/>
-        <s:Button label="Import" click="openImportPopupSignal.dispatch()" width="100%" enabled="false"
+        <s:Button label="Import" click="openImportPopupSignal.dispatch()" width="100%"
                   toolTip="Import emitter from an existing .sde file"/>
         <s:Button label="Save as.." click="dispatchSaveSimEvent()" width="100%"/>
         <s:Button label="Examples" click="showExamples()" width="100%"/>
 
-        <mx:Spacer height="13"/>
+        <s:Spacer height="13"/>
         <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox" toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
         <view:BackgroundProvider width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
