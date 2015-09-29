@@ -48,7 +48,7 @@ public class RemoveEmitterCommand implements ICommand
                 {
                     if (action is Spawn)
                     {
-                        if (Spawn(action).spawnerEmitter == projectModel.emitterInFocus.emitter)
+                        if (Spawn(action).spawnerEmitterId == projectModel.emitterInFocus.id)
                         {
                             Spawn(action).spawnerEmitter = null;
                         }

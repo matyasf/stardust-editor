@@ -2,7 +2,7 @@
 <components:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
                         xmlns:components="spark.components.*" xmlns:s="library://ns.adobe.com/flex/spark"
                         xmlns:components2="com.funkypandagame.stardust.view.components.*"
-                        title="Import emitter (NOT WORKING YET)" width="750" close="onClose()">
+                        title="Import emitter (BETA)" width="750" close="onClose()">
 
     <fx:Script><![CDATA[
 
@@ -23,7 +23,7 @@
             emitterListAC = new VectorCollection(emitters);
         }
 
-        private function onClose() : void
+        public function onClose() : void
         {
             PopUpManager.removePopUp(this)
         }
