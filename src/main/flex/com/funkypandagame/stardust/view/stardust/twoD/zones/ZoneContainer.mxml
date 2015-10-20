@@ -41,6 +41,7 @@
         }
 
         public function setData(_itemWithZone:IZoneContainer):void {
+            setZoneRendererOffset(0, 0);
             itemWithZone = _itemWithZone;
             const result:Array = [];
             for (var i:int = 0; i < _itemWithZone.zones.length; i++) {
@@ -71,15 +72,12 @@
         }
 
         private function setZoneRendererOffset(xc:Number, yc:Number):void {
-            var tmpZones:ArrayCollection = new ArrayCollection();
-            for (var j:int = 0; j < zonesAC.length; j++) {
-                var zone:Zone = zonesAC[j];
-                zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
-                tmpZones.addItem(zone);
+            if (storedCoordinates.length > 0) {
+                for (var j:int = 0; j < zonesAC.length; j++) {
+                    var zone:Zone = zonesAC[j];
+                    zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
+                }
             }
-            //readd items to update fields
-            zonesAC.removeAll();
-            zonesAC.addAll(tmpZones);
         }
 
         public function set followMouseVisible(val:Boolean):void {
