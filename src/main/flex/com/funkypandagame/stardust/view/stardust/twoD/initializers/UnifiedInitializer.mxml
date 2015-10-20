@@ -81,7 +81,7 @@
                             toolTip="You can animate the emitter position by loading its path from a special .swf file.
                                      This file needs to have a symbol on the stage with the export name 'emitter'.
                                      Then the simulation will use the coordinates of this object to animate the initial position of the particles."/>
-                <s:Button label="Load emitter path from EmitterPath.swf" enabled="{posAnimatedCheckBox.selected}"
+                <s:Button label="Load emitter path from .swf" enabled="{posAnimatedCheckBox.selected}"
                           click="dispatchLoadEmitterPath()"/>
                 <s:CheckBox label="inherit velocity" id="velocityCheckBox" change="velocityCheckBox_changeHandler(event)"
                             enabled="{posAnimatedCheckBox.selected}"
