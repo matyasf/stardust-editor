@@ -123,8 +123,17 @@ public class StardusttoolMainViewMediator extends Mediator
 
     private function updateEmitterFromViewUICollections( event : UpdateEmitterFromViewUICollectionsEvent ) : void
     {
-        view.initializerAC.source = event.emitterInFocus.emitter.initializers.concat();
-        view.actionAC.source = event.emitterInFocus.emitter.actions.concat();
+        var arr : Array = [];
+        for (var i : int = 0; i < event.emitterInFocus.emitter.initializers.length; i++) {
+            arr.push(event.emitterInFocus.emitter.initializers[i]);
+        }
+        view.initializerAC.source = arr;
+
+        arr = [];
+        for (i = 0; i < event.emitterInFocus.emitter.actions.length; i++) {
+            arr.push(event.emitterInFocus.emitter.actions[i]);
+        }
+        view.actionAC.source = arr;
     }
 
     private function onResize( event : Event ) : void

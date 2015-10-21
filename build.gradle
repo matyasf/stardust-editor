@@ -46,7 +46,7 @@ dependencies {
     merged 'org.robotlegs:robotlegs-framework:2.2.1'
     merged 'org.osflash:as3-signals:0.8'
 
-    merged 'com.funkypandagame:stardust-sim-loader:3.29'
+    merged 'com.funkypandagame:stardust-sim-loader:3.30'
 }
 
 additionalCompilerOptions = [

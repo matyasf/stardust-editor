@@ -6,6 +6,7 @@
         import com.funkypandagame.stardust.helpers.DropdownListVO;
 
         import idv.cjcat.stardustextended.StardustElement;
+        import idv.cjcat.stardustextended.actions.ColorGradient;
         import idv.cjcat.stardustextended.actions.Spawn;
 
         import mx.collections.ArrayCollection;
@@ -42,7 +43,14 @@
 
         private function addItem():void {
             var cl:Class = DropdownListVO(dropdownList.selectedItem).stardustClass;
-            var instance:StardustElement = StardustElement(new cl());
+            var instance:StardustElement;
+            if (cl == ColorGradient) {
+                instance = StardustElement(new cl(true));
+            }
+            else {
+                instance = StardustElement(new cl());
+            }
+
             _dataProviderAC.addItem(instance);
             _dropdownListAC.refresh();
             // flex bugfix: if one adds the last item, the selectedItem will be null.
