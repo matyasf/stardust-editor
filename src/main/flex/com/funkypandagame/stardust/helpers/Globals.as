@@ -31,6 +31,8 @@ import com.funkypandagame.stardust.view.stardust.twoD.zones.RectZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SectorZone;
 import com.funkypandagame.stardust.view.stardust.twoD.zones.SinglePointZone;
 
+import flash.events.Event;
+
 import flash.events.IEventDispatcher;
 import flash.events.TextEvent;
 
@@ -76,6 +78,7 @@ import starling.display.Sprite;
 public class Globals
 {
     public static const starlingCanvas : Sprite = new Sprite();
+    public static var isRunningInAIR : Boolean;
 
     public static const actionDict : Dictionary = new Dictionary();
     public static const actionsDDLAC : ArrayCollection = new ArrayCollection();
@@ -87,7 +90,10 @@ public class Globals
     public static const triggersDict : Dictionary = new Dictionary();
     public static const triggersDDLAC : ArrayCollection = new ArrayCollection();
 
-    public static const EXTERNAL_SET_SIM_NAME_EVENT : String = "setSimName";
+    // caught by the AIR wrapper
+    public static const EXTERNAL_SET_SIM_NAME_EVENT : String = "setSimName"; //sets the window title
+    public static const EXTERNAL_LOAD_FILE_EVENT : String = "loadFile"; // wrapper loads the file, so it can cache the path
+
     public static var externalEventDispatcher : IEventDispatcher; // dispatches events to the external AIR app
     public static var currentFileName : String;
 
@@ -178,6 +184,11 @@ public class Globals
     {
         currentFileName = newTitle;
         externalEventDispatcher.dispatchEvent(new TextEvent(EXTERNAL_SET_SIM_NAME_EVENT, true, false, newTitle));
+    }
+
+    public static function dispatchExternalLoadSimEvent() : void
+    {
+        externalEventDispatcher.dispatchEvent(new Event(EXTERNAL_LOAD_FILE_EVENT, true));
     }
 }
 }

@@ -2,6 +2,7 @@ package com.funkypandagame.stardust.controller
 {
 
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
+import com.funkypandagame.stardust.helpers.Globals;
 
 import flash.events.Event;
 import flash.events.IEventDispatcher;
@@ -20,10 +21,17 @@ public class FileLoadCommand implements ICommand
 
     public function execute() : void
     {
-        _loadFile = new FileReference();
-        _loadFile.addEventListener( Event.SELECT, selectHandler );
-        _loadFile.addEventListener( Event.CANCEL, cancelHandler );
-        _loadFile.browse( [new FileFilter( "Stardust editor project (*.sde)", "*.sde" )] );
+        if (Globals.isRunningInAIR)
+        {
+            Globals.dispatchExternalLoadSimEvent();
+        }
+        else
+        {
+            _loadFile = new FileReference();
+            _loadFile.addEventListener( Event.SELECT, selectHandler );
+            _loadFile.addEventListener( Event.CANCEL, cancelHandler );
+            _loadFile.browse( [new FileFilter( "Stardust editor project (*.sde)", "*.sde" )] );
+        }
     }
 
     private function cancelHandler( event : Event ) : void
