@@ -11,7 +11,7 @@ import com.funkypandagame.stardust.controller.ChangeBackgroundCommand;
 import com.funkypandagame.stardust.controller.LoadEmitterImageFromFileReferenceCommand;
 import com.funkypandagame.stardust.controller.LoadEmitterPathCommand;
 import com.funkypandagame.stardust.controller.LoadSimCommand;
-import com.funkypandagame.stardust.controller.MainEnterFrameLoopCommand;
+import com.funkypandagame.stardust.controller.MainEnterFrameLoopService;
 import com.funkypandagame.stardust.controller.OnActionACAddCommand;
 import com.funkypandagame.stardust.controller.OnActionACRemoveCommand;
 import com.funkypandagame.stardust.controller.OnInitializerACAddCommand;
@@ -48,7 +48,6 @@ import com.funkypandagame.stardust.view.ParticleHandlerContainer;
 import com.funkypandagame.stardust.view.StardusttoolMainView;
 import com.funkypandagame.stardust.view.events.InitializeZoneDrawerFromEmitterGroupEvent;
 import com.funkypandagame.stardust.view.events.LoadEmitterImageFromFileEvent;
-import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;
 import com.funkypandagame.stardust.view.events.OnActionACChangeEvent;
 import com.funkypandagame.stardust.view.events.OnInitializerACChangeEvent;
 import com.funkypandagame.stardust.view.events.PositionInitializerEmitterPathEvent;
@@ -103,7 +102,6 @@ public class AppConfig implements IConfig
         eventCommandMap.map( BackgroundChangeEvent.TYPE ).toCommand( ChangeBackgroundCommand );
         eventCommandMap.map( PositionInitializerEmitterPathEvent.LOAD ).toCommand( LoadEmitterPathCommand );
         eventCommandMap.map( InitializeZoneDrawerFromEmitterGroupEvent.INITIALIZE, InitializeZoneDrawerFromEmitterGroupEvent ).toCommand( InitializeZoneDrawerFromEmitterCommand );
-        eventCommandMap.map( MainEnterFrameLoopEvent.ENTER_FRAME, MainEnterFrameLoopEvent ).toCommand( MainEnterFrameLoopCommand );
         eventCommandMap.map( SnapshotEvent.TYPE, SnapshotEvent ).toCommand( StoreParticleSnapshotCommand );
         eventCommandMap.map( RegenerateEmitterTexturesEvent.TYPE, RegenerateEmitterTexturesEvent ).toCommand( RegenerateEmitterTexturesCommand );
         eventCommandMap.map( CloneEmitterEvent.TYPE, CloneEmitterEvent ).toCommand( CloneEmitterCommand );
@@ -112,7 +110,8 @@ public class AppConfig implements IConfig
         injector.map( ProjectModel ).asSingleton();
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );
         injector.map( ISimLoader ).toSingleton( SimLoader );
-        injector.map(SimPlayer).asSingleton();
+        injector.map( SimPlayer ).asSingleton();
+        injector.map( MainEnterFrameLoopService ).asSingleton();
     }
 
 }

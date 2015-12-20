@@ -30,13 +30,16 @@ public class StartSimCommand implements ICommand
     [Inject]
     public var projectSettings : ProjectModel;
 
+    [Inject]
+    public var mainEnterLoop : MainEnterFrameLoopService;
+
     public function execute() : void
     {
         LOG.info( "Restart SIM" );
 
         projectSettings.stadustSim.resetSimulation();
 
-        MainEnterFrameLoopCommand.calcTime = 0;
+        mainEnterLoop.calcTime = 0;
         // refresh the initializer/action arrayCollections
         dispatcher.dispatchEvent( new UpdateEmitterFromViewUICollectionsEvent( UpdateEmitterFromViewUICollectionsEvent.UPDATE, projectSettings.emitterInFocus ) );
 

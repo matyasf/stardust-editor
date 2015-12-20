@@ -1,6 +1,7 @@
 package com.funkypandagame.stardust.view.mediators
 {
 
+import com.funkypandagame.stardust.controller.MainEnterFrameLoopService;
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
 import com.funkypandagame.stardust.controller.events.InitCompleteEvent;
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
@@ -11,7 +12,6 @@ import com.funkypandagame.stardust.controller.events.UpdateEmitterFromViewUIColl
 import com.funkypandagame.stardust.view.importSim.ImportSimPopup;
 import com.funkypandagame.stardust.view.StardusttoolMainView;
 import com.funkypandagame.stardust.view.events.InitializeZoneDrawerFromEmitterGroupEvent;
-import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;
 import com.funkypandagame.stardust.view.events.MainViewLoadSimEvent;
 import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
 import com.funkypandagame.stardust.view.events.OnActionACChangeEvent;
@@ -44,6 +44,9 @@ public class StardusttoolMainViewMediator extends Mediator
 
     [Inject]
     public var viewManager : IViewManager;
+
+    [Inject]
+    public var mainLoop : MainEnterFrameLoopService;
 
     private static const LOG : ILogger = Log.getLogger( getQualifiedClassName( StardusttoolMainViewMediator ).replace( "::", "." ) );
 
@@ -144,7 +147,8 @@ public class StardusttoolMainViewMediator extends Mediator
 
     private function onEnterFrame( event : Event ) : void
     {
-        dispatch( new MainEnterFrameLoopEvent( MainEnterFrameLoopEvent.ENTER_FRAME, view ) );
+        mainLoop.onEnterFrame(view);
     }
+
 }
 }

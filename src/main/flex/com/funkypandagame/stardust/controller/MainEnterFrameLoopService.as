@@ -4,20 +4,13 @@ package com.funkypandagame.stardust.controller
 import com.funkypandagame.stardust.helpers.ZoneDrawer;
 import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.view.StardusttoolMainView;
-import com.funkypandagame.stardust.view.events.MainEnterFrameLoopEvent;
 import com.funkypandagame.stardustplayer.SimPlayer;
 import flash.utils.getTimer;
 
 import idv.cjcat.stardustextended.handlers.starling.StardustStarlingRenderer;
 
-import robotlegs.bender.extensions.commandCenter.api.ICommand;
-
-// TODO this needs to be a service, since calcTime needs to be preserved between runs
-public class MainEnterFrameLoopCommand implements ICommand
+public class MainEnterFrameLoopService
 {
-
-    [Inject]
-    public var event : MainEnterFrameLoopEvent;
 
     [Inject]
     public var project : ProjectModel;
@@ -25,12 +18,11 @@ public class MainEnterFrameLoopCommand implements ICommand
     [Inject]
     public var simPlayer : SimPlayer;
 
-    public static var calcTime : uint;
-    private static var count : uint;
+    public var calcTime : uint;
+    private var count : uint;
 
-    public function execute() : void
+    public function onEnterFrame(view : StardusttoolMainView) : void
     {
-        const view : StardusttoolMainView = event.view;
         const startTime : Number = getTimer();
         if ( calcTime > 1000 )
         {

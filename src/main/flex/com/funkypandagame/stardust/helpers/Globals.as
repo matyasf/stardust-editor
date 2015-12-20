@@ -5,7 +5,6 @@ import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerateAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerationZoneAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AgeAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AlphaCurveAction;
-import com.funkypandagame.stardust.view.stardust.twoD.actions.ColorCurveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ColorCurveAdvancedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.DampingAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.DeathLifeAction;
@@ -40,7 +39,6 @@ import flash.utils.Dictionary;
 
 import idv.cjcat.stardustextended.actions.Age;
 import idv.cjcat.stardustextended.actions.AlphaCurve;
-import idv.cjcat.stardustextended.actions.ColorCurve;
 import idv.cjcat.stardustextended.actions.ColorGradient;
 import idv.cjcat.stardustextended.actions.DeathLife;
 import idv.cjcat.stardustextended.actions.ScaleCurve;
@@ -128,8 +126,7 @@ public class Globals
         actionDict[ Spawn ] = new DropdownListVO("Spawn particles", Spawn, SpawnAction);
 
         actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
-        actionDict[ ColorCurve ] = new DropdownListVO( "Change color(deprecated)", ColorCurve, ColorCurveAction );
-        actionDict[ Damping ] = new DropdownListVO( "Damping(Deprecated)", Damping, DampingAction );
+        actionDict[ Damping ] = new DropdownListVO( "Damping", Damping, DampingAction );
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
         //actionDict[ Collide ] = new DropdownListVO( "Collide (CPU intensive)", Collide, CollideAction );
@@ -150,10 +147,7 @@ public class Globals
 
         for each ( var ddlVO : DropdownListVO in actionDict )
         {
-            if (ddlVO.stardustClass != ColorCurve)
-            {
-                actionsDDLAC.addItem( ddlVO );
-            }
+            actionsDDLAC.addItem( ddlVO );
         }
         actionsDDLAC.sort = sort;
         actionsDDLAC.refresh();
