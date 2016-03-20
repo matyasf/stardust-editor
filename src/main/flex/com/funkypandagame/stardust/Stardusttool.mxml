@@ -5,6 +5,7 @@
         xmlns:view2="com.funkypandagame.stardust.view.*"
         backgroundColor="0x353535"
         backgroundAlpha="0"
+        frameRate="60"
         applicationComplete="initApp()">
 
     <view2:StardusttoolMainView/>

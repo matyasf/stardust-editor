@@ -24,8 +24,6 @@ public class ProjectModel
 
     public var backgroundRawData : ByteArray;
 
-    public var fps : Number;
-
     public var emitterImages : Dictionary;
 
 }

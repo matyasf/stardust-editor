@@ -28,7 +28,7 @@
         ]]></fx:Script>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="new particles/frame"/>
+        <s:Label text="new particles/second"/>
         <components:CustomNumericStepper id="tickPerCallInput" restrict="0-9." change="updateData()"
                                          maximum="1000" minimum="0"/>
 

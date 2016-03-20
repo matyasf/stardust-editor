@@ -100,7 +100,7 @@
 
         <s:HGroup visible="{isSpriteSheet}" verticalAlign="middle"
                   includeInLayout="{isSpriteSheet}">
-            <s:Label text="animation speed"/>
+            <s:Label text="anim. speed(FPS)"/>
             <components:CustomNumericStepper id="speedTextInput" restrict="0-9" minimum="0" maximum="1000" width="50"
                                              change="changePropsAndRestartSim()" />
 

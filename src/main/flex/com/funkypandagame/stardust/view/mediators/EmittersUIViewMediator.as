@@ -6,10 +6,9 @@ import com.funkypandagame.stardust.controller.events.EmitterChangeEvent;
 import com.funkypandagame.stardust.controller.events.RefreshFPSTextEvent;
 import com.funkypandagame.stardust.controller.events.SetResultsForEmitterDropDownListEvent;
 import com.funkypandagame.stardust.controller.events.SnapshotEvent;
+import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.view.EmittersUIView;
 import com.funkypandagame.stardust.view.events.EmitterChangeUIViewEvent;
-
-import flash.events.Event;
 
 import robotlegs.bender.bundles.mvcs.Mediator;
 
@@ -18,21 +17,25 @@ public class EmittersUIViewMediator extends Mediator
     [Inject]
     public var view : EmittersUIView;
 
+    [Inject]
+    public var model : ProjectModel;
+
     override public function initialize() : void
     {
         addViewListener( EmitterChangeUIViewEvent.ADD, handleAddEmitterButton, EmitterChangeUIViewEvent );
         addViewListener( EmitterChangeUIViewEvent.REMOVE, handleRemoveEmitterButton, EmitterChangeUIViewEvent );
-        addViewListener( ChangeEmitterInFocusEvent.CHANGE, redispatchEvent, ChangeEmitterInFocusEvent );
-        addViewListener( SnapshotEvent.TYPE, redispatchEvent, SnapshotEvent );
-        addViewListener( CloneEmitterEvent.TYPE, redispatchEvent, CloneEmitterEvent );
+        addViewListener( ChangeEmitterInFocusEvent.CHANGE, dispatch, ChangeEmitterInFocusEvent );
+        addViewListener( SnapshotEvent.TYPE, dispatch, SnapshotEvent );
+        addViewListener( CloneEmitterEvent.TYPE, dispatch, CloneEmitterEvent );
+        view.FPSChangedSignal.add(onFPSChanged);
 
         addContextListener( SetResultsForEmitterDropDownListEvent.UPDATE, handleSetResultsDropDownListEvent, SetResultsForEmitterDropDownListEvent );
         addContextListener( RefreshFPSTextEvent.TYPE, setFPSText, RefreshFPSTextEvent );
     }
 
-    private function redispatchEvent( event : Event ) : void
+    private function onFPSChanged( newFPS : Number ) : void
     {
-        dispatch( event );
+        model.stadustSim.fps = newFPS;
     }
 
     private function handleAddEmitterButton( event : EmitterChangeUIViewEvent ) : void
@@ -52,7 +55,7 @@ public class EmittersUIViewMediator extends Mediator
 
     private function setFPSText( event : RefreshFPSTextEvent ) : void
     {
-        view.refreshFPSText();
+        view.refreshFPSText(model.stadustSim.fps);
     }
 }
 }

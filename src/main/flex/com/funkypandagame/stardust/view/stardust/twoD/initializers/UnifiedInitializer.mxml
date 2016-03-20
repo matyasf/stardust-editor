@@ -91,12 +91,12 @@
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Life" toolTip="The lifespan of the particle. Add the 'Change age' action to change its age; add the 'deathLife' action to kill the particle if its life reaches 0."/>
+        <s:Label text="Lifespan (secs)" toolTip="The lifespan of the particle. Add the 'Change age' action to change its age; add the 'deathLife' action to kill the particle if its life reaches 0."/>
         <math:UniformRandomMath id="lifeMath"/>
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle">
-        <s:Label text="Speed" toolTip="Initial speed of the particle. The value for each particle is randomly picked from the zone"/>
+        <s:Label text="Speed (points/sec)" toolTip="Initial speed of the particle. The value for each particle is randomly picked from the zone"/>
         <zones:ZoneContainer id="speedZc" width="100%" followMouseVisible="false"/>
     </s:HGroup>
 

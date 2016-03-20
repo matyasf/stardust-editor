@@ -24,7 +24,7 @@
         }
         ]]></fx:Script>
 
-    <s:Label text="new particles/frame"/>
+    <s:Label text="new particles/second"/>
     <components:CustomNumericStepper id="stepsTextInput" restrict="0-9." change="updateData()" maximum="1000" minimum="0"/>
 
     <s:Label text="initial delay"/>

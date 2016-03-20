@@ -2,6 +2,7 @@ package com.funkypandagame.stardust.view.mediators
 {
 
 import com.funkypandagame.stardust.controller.MainEnterFrameLoopService;
+import com.funkypandagame.stardust.controller.events.ConvertOldSimEvent;
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
 import com.funkypandagame.stardust.controller.events.InitCompleteEvent;
 import com.funkypandagame.stardust.controller.events.LoadSimEvent;
@@ -62,6 +63,7 @@ public class StardusttoolMainViewMediator extends Mediator
         addContextListener( InitCompleteEvent.TYPE, handleSimInitComplete, InitCompleteEvent );
 
         view.openImportPopupSignal.add(openImportPopup);
+        view.convertOldSimSignal.add(convertOldSim);
         //Handle standard view events.
         view.actionAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onActionACChange );
         view.initializerAC.addEventListener( CollectionEvent.COLLECTION_CHANGE, onInitializerACChange );
@@ -69,6 +71,11 @@ public class StardusttoolMainViewMediator extends Mediator
         view.stage.addEventListener( Event.RESIZE, onResize );
 
         view.updateStagePosition();
+    }
+
+    private function convertOldSim() : void
+    {
+        dispatch(new ConvertOldSimEvent());
     }
 
     private function openImportPopup() : void

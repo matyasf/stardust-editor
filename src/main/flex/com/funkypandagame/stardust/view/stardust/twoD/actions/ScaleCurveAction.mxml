@@ -39,10 +39,10 @@
                                          change="updateData()"
                                          toolTip="The scale of a particle when its created."/>
 
-        <s:Label text="initial transition time"/>
+        <s:Label text="initial transition time (secs)"/>
         <components:CustomNumericStepper id="inLifeTextInput" restrict="0-9.\-" width="50"
                                          change="updateData()"
-                                         toolTip="The number of steps to transition from the initial scale to the normal scale."/>
+                                         toolTip="Seconds to transition from the initial scale to the normal scale."/>
     </s:HGroup>
 
     <s:HGroup width="100%" verticalAlign="middle">
@@ -51,10 +51,10 @@
                                          change="updateData()"
                                          toolTip="The final scale value of a particle. (at the end of its lifespan)"/>
 
-        <s:Label text="final transition time"/>
+        <s:Label text="final transition time (secs)"/>
         <components:CustomNumericStepper id="outLifeTextInput" restrict="0-9.\-" width="50"
                                          change="updateData()"
-                                         toolTip="The number of steps to transition from the normal value to the final one."/>
+                                         toolTip="Seconds to transition from the normal value to the final one."/>
     </s:HGroup>
 
 </twod:PropertyRendererBase>

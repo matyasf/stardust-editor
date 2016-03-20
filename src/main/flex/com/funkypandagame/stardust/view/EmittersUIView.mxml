@@ -2,8 +2,7 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
           xmlns:s="library://ns.adobe.com/flex/spark"
           xmlns:components="com.funkypandagame.stardust.view.components.*"
-          width="100%"
-          addedToStage="onAdded()">
+          width="100%">
 
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
@@ -17,11 +16,14 @@
         import mx.logging.ILogger;
         import mx.logging.Log;
 
+        import org.osflash.signals.Signal;
+
         import spark.events.IndexChangeEvent;
 
         private static const LOG:ILogger = Log.getLogger(getQualifiedClassName(EmittersUIView).replace("::", "."));
 
         private const _emitterAC:ArrayCollection = new ArrayCollection();
+        public const FPSChangedSignal : Signal = new Signal(Number);
 
         private function onClickAdd(event:MouseEvent):void {
             LOG.debug("Add Emitter");
@@ -53,22 +55,19 @@
             return EmitterValueObject(item).emitter.name;
         }
 
-        private function onAdded():void {
-            fpsStepper.text = stage.frameRate.toString();
-        }
-
         private function onFPSUserChange():void {
-            if (Number(fpsStepper.text) < 1) {
+            var newFPS : Number = Number(fpsStepper.text);
+            if (newFPS < 1) {
                 fpsStepper.text = "1";
             }
-            if (Number(fpsStepper.text) > 60 || isNaN(Number(fpsStepper.text))) {
+            if (newFPS > 60 || isNaN(newFPS)) {
                 fpsStepper.text = "60";
             }
-            stage.frameRate = Number(fpsStepper.text);
+            FPSChangedSignal.dispatch(Number(fpsStepper.text));
         }
 
-        public function refreshFPSText():void {
-            fpsStepper.text = stage.frameRate.toString();
+        public function refreshFPSText(val : Number):void {
+            fpsStepper.text = val.toString();
         }
 
         private function takeSnapshot():void {
@@ -83,7 +82,7 @@
     <s:HGroup verticalAlign="middle" paddingLeft="50">
         <s:Label text="FPS:" />
         <components:CustomNumericStepper minimum="10" stepValue="1" maximum="60" id="fpsStepper" maxChars="3"
-                change="onFPSUserChange()" width="60"/>
+                change="onFPSUserChange()" width="60" />
         <s:Button label="Take snapshot" click="takeSnapshot()" toolTip="Takes a snapshot of the current state of the particles. This will be stored when saving the simulation and upon loading the particles will start from this state."/>
         <s:Button label="Clear snapshot" click="clearSnapshot()" toolTip="Clears the current snapshot (if any)"/>
     </s:HGroup>

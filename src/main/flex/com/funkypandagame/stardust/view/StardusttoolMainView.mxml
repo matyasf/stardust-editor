@@ -13,6 +13,7 @@
         import com.funkypandagame.stardust.helpers.Globals;
         import com.funkypandagame.stardust.view.events.MainViewLoadSimEvent;
         import com.funkypandagame.stardust.view.events.MainViewSaveSimEvent;
+
         import mx.collections.ArrayCollection;
         import mx.managers.PopUpManager;
 
@@ -23,8 +24,9 @@
         public static const leftColumnWidth:int = 600;
         private const _initializerAC:ArrayCollection = new ArrayCollection();
         private const _actionAC:ArrayCollection = new ArrayCollection();
-        private var examplesPopup : ExamplesPopup;
-        public const openImportPopupSignal : Signal = new Signal();
+        private var examplesPopup:ExamplesPopup;
+        public const openImportPopupSignal:Signal = new Signal();
+        public const convertOldSimSignal:Signal = new Signal();
 
         public function resizeStarlingViewPort():void {
             var viewPortRectangle:flash.geom.Rectangle = new flash.geom.Rectangle();
@@ -56,32 +58,27 @@
             dispatchEvent(new MainViewSaveSimEvent(MainViewSaveSimEvent.SAVE));
         }
 
-        public function updateStagePosition():void
-        {
+        public function updateStagePosition():void {
             canvasPosition.validateNow();
-            if (canvasPosition.centerRadioButton.selected)
-            {
+            if (canvasPosition.centerRadioButton.selected) {
                 //validate to force correct size for background.
                 validateNow();
                 Globals.starlingCanvas.x = (width - leftColumnWidth) * 0.5 + leftColumnWidth;
                 Globals.starlingCanvas.y = stage.stageHeight * 0.5;
 
             }
-            else
-            {
+            else {
                 Globals.starlingCanvas.x = leftColumnWidth;
                 Globals.starlingCanvas.y = 0;
             }
             backgroundProvider.setBgImagePosition(Globals.starlingCanvas.x, Globals.starlingCanvas.y,
-                                                  width - leftColumnWidth, height);
+                    width - leftColumnWidth, height);
             previewGroup.x = Globals.starlingCanvas.x;
             previewGroup.y = Globals.starlingCanvas.y;
         }
 
-        private function showExamples() : void
-        {
-            if (examplesPopup == null)
-            {
+        private function showExamples():void {
+            if (examplesPopup == null) {
                 examplesPopup = new ExamplesPopup();
                 examplesPopup.callback = loadExample;
             }
@@ -89,9 +86,12 @@
             PopUpManager.centerPopUp(examplesPopup);
         }
 
-        private function loadExample(sdeFile : ByteArray, nameToDisplay : String) : void
-        {
+        private function loadExample(sdeFile:ByteArray, nameToDisplay:String):void {
             dispatchEvent(new LoadSimEvent(sdeFile, nameToDisplay));
+        }
+
+        private function convertToNewFormat():void {
+            convertOldSimSignal.dispatch();
         }
         ]]></fx:Script>
 
@@ -136,13 +136,12 @@
                   toolTip="Import emitter from an existing .sde file"/>
         <s:Button label="Save as.." click="dispatchSaveSimEvent()" width="100%"/>
         <s:Button label="Examples" click="showExamples()" width="100%"/>
-
         <s:Spacer height="13"/>
-        <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox" toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
+        <s:CheckBox label="Zones visible" id="zonesVisibleCheckBox"
+                    toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
         <view:BackgroundProvider width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
-        <s:Spacer height="100%"/>
-        <mx:UIComponent id="statsHolder" height="125" />
+        <s:Button label="Convert to new format" click="convertToNewFormat()" width="100%"/>
     </s:VGroup>
 
     <s:Label id="infoLabel" bottom="5" right="5" backgroundColor="0x11183D"

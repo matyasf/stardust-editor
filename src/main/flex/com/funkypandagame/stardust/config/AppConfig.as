@@ -4,6 +4,7 @@ package com.funkypandagame.stardust.config
 import com.funkypandagame.stardust.controller.AddEmitterCommand;
 import com.funkypandagame.stardust.controller.ChangeEmitterInFocusCommand;
 import com.funkypandagame.stardust.controller.CloneEmitterCommand;
+import com.funkypandagame.stardust.controller.ConvertOldSimCommand;
 import com.funkypandagame.stardust.controller.FileLoadCommand;
 import com.funkypandagame.stardust.controller.ImportEmitterCommand;
 import com.funkypandagame.stardust.controller.InitializeZoneDrawerFromEmitterCommand;
@@ -25,6 +26,7 @@ import com.funkypandagame.stardust.controller.UpdateEmitterDropDownListCommand;
 import com.funkypandagame.stardust.controller.events.BackgroundChangeEvent;
 import com.funkypandagame.stardust.controller.events.ChangeEmitterInFocusEvent;
 import com.funkypandagame.stardust.controller.events.CloneEmitterEvent;
+import com.funkypandagame.stardust.controller.events.ConvertOldSimEvent;
 import com.funkypandagame.stardust.controller.events.EmitterChangeEvent;
 import com.funkypandagame.stardust.controller.events.FileLoadEvent;
 import com.funkypandagame.stardust.controller.events.ImportSimEvent;
@@ -106,6 +108,7 @@ public class AppConfig implements IConfig
         eventCommandMap.map( RegenerateEmitterTexturesEvent.TYPE, RegenerateEmitterTexturesEvent ).toCommand( RegenerateEmitterTexturesCommand );
         eventCommandMap.map( CloneEmitterEvent.TYPE, CloneEmitterEvent ).toCommand( CloneEmitterCommand );
         eventCommandMap.map( ImportSimEvent.LOAD, ImportSimEvent ).toCommand( ImportEmitterCommand );
+        eventCommandMap.map( ConvertOldSimEvent.TYPE, ConvertOldSimEvent ).toCommand( ConvertOldSimCommand );
 
         injector.map( ProjectModel ).asSingleton();
         injector.map( ISequenceLoader ).toSingleton( SequenceLoader );

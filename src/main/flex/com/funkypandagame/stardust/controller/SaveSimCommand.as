@@ -12,15 +12,11 @@ import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.BitmapData;
 
-import flash.display.DisplayObject;
-
 import flash.events.IOErrorEvent;
 import flash.net.FileReference;
 import flash.utils.ByteArray;
 
 import idv.cjcat.stardustextended.xml.XMLBuilder;
-
-import mx.core.FlexGlobals;
 import mx.graphics.codec.PNGEncoder;
 
 import org.as3commons.zip.Zip;
@@ -52,7 +48,6 @@ public class SaveSimCommand implements ICommand
         const zip : Zip = new Zip();
         const descObj : Object = {};
         descObj.version = "2.1";
-        descObj.fps = DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate;
 
         createEmitterAtlas( zip );
         addEmittersToProjectFile( zip );

@@ -18,7 +18,6 @@ import com.funkypandagame.stardustplayer.sequenceLoader.SequenceLoader;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 
-import flash.display.DisplayObject;
 import flash.display.Loader;
 import flash.display.LoaderInfo;
 
@@ -39,8 +38,6 @@ import idv.cjcat.stardustextended.initializers.Omega;
 import idv.cjcat.stardustextended.initializers.PositionAnimated;
 import idv.cjcat.stardustextended.initializers.Rotation;
 import idv.cjcat.stardustextended.initializers.Velocity;
-
-import mx.core.FlexGlobals;
 
 import org.as3commons.zip.Zip;
 
@@ -95,7 +92,6 @@ public class LoadSimCommand implements ICommand
 
             var descriptorJSON : Object = JSON.parse( loadedZip.getFileByName(SimLoader.DESCRIPTOR_FILENAME).getContentAsString() );
             projectModel.hasBackground = (descriptorJSON.hasBackground == "true");
-            projectModel.fps = descriptorJSON.fps;
             projectModel.backgroundColor = descriptorJSON.backgroundColor;
 
             if (loadedZip.getFileByName(SimLoader.BACKGROUND_FILENAME) != null)
@@ -241,7 +237,6 @@ public class LoadSimCommand implements ICommand
 
         dispatcher.dispatchEvent( new RefreshBackgroundViewEvent() );
 
-        DisplayObject(FlexGlobals.topLevelApplication).stage.frameRate = projectModel.fps;
         dispatcher.dispatchEvent( new RefreshFPSTextEvent() );
 
         Globals.dispatchExternalTitleChangeEvent(event.nameToDisplay);

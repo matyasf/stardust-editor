@@ -26,5 +26,5 @@
     <components:CustomNumericStepper id="dampTextInput" stepValue="0.1"
                                      width="50"
                                      change="updateData()"
-                                     toolTip="In each emitter step, each particle's speed is multiplied by this value. A value of 0 denotes no damping at all, and a value of 1 means all particles will not move at all."/>
+                                     toolTip="Each second, each particle's speed is decreased to this value. A value of 0 denotes no damping at all, and a value of 1 means all particles will not move at all."/>
 </twod:PropertyRendererBase>

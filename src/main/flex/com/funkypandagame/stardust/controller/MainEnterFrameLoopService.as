@@ -20,19 +20,26 @@ public class MainEnterFrameLoopService
 
     public var calcTime : uint;
     private var count : uint;
+    private var frameTime : Number = 0;
 
     public function onEnterFrame(view : StardusttoolMainView) : void
     {
         const startTime : Number = getTimer();
+        frameTime = startTime - frameTime;
+        if ( frameTime > 1000 )
+        {
+            frameTime = 0;
+        }
         if ( calcTime > 1000 )
         {
-            view.infoLabel.text = "ERROR:Simulation time above 1000ms (" + calcTime + "ms), stopping. Change the sim and restart";
+            view.infoLabel.text = "ERROR: Simulation time above 1000ms (" + calcTime + "ms), stopping. Change the sim and restart";
             return;
         }
 
-        simPlayer.stepSimulation();
+        simPlayer.stepSimulation(frameTime / 1000);
 
         calcTime = (getTimer() - startTime);
+
         if (count % 4 == 0)
         {
             view.infoLabel.text = "num particles: " + project.stadustSim.numberOfParticles + " sim time: " + calcTime;
@@ -50,6 +57,7 @@ public class MainEnterFrameLoopService
             view.previewGroup.graphics.clear();
         }
         count++;
+        frameTime = getTimer();
     }
 }
 }
