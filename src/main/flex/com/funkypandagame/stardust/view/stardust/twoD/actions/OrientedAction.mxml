@@ -22,7 +22,7 @@
     <s:Label text="factor"/>
     <components:CustomNumericStepper id="factorTextInput" text="1" minimum="0" maximum="1" stepValue="0.1" width="50"
                                      change="updateData(event)"
-                                     toolTip="How fast the particles align to their velocities, 1 by default. 1 means immediate alignment. 0 means no alignment at all."/>
+                                     toolTip="How fast the particles align to their velocities. 1 means immediate alignment. 0 means no alignment at all."/>
 
     <s:Label text="offset"/>
     <components:CustomNumericStepper id="offsetTextInput" text="0" width="50" change="updateData(event)"

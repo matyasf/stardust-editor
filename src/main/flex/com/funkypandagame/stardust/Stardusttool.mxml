@@ -55,11 +55,18 @@
             Globals.init();
             Starling.handleLostContext = true;
             starlingInstance = new Starling(starling.display.Sprite, stage, null, null, Context3DRenderMode.AUTO, "auto");
+            starlingInstance.enableErrorChecking = isDebugBuild();
             starlingInstance.addEventListener(starling.events.Event.ROOT_CREATED, onStarlingReady);
             starlingInstance.antiAliasing = 1;
             starlingInstance.start();
             starlingInstance.stage.addChild(Globals.starlingCanvas);
             starlingInstance.showStats = true;
+        }
+
+        private static function isDebugBuild() : Boolean
+        {
+            var stackTrace : String = new Error().getStackTrace();
+            return (stackTrace && stackTrace.search(/:[0-9]+]$/m) > -1);
         }
 
         // invoked from the AIR wrapper. Called after the applicationComplete event.
