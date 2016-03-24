@@ -156,8 +156,8 @@ public class ConvertOldSimCommand implements ICommand
             }
             else if (field is RadialField)
             {
-                RadialField(field).x = reducePrecision(RadialField(field).x * mult);
-                RadialField(field).y = reducePrecision(RadialField(field).y * mult);
+                //RadialField(field).x = reducePrecision(RadialField(field).x * mult);
+                //RadialField(field).y = reducePrecision(RadialField(field).y * mult);
                 // strength, attenuationPower are OK?
             }
             else
