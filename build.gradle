@@ -1,8 +1,19 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
+    ext {
+        if (!project.hasProperty('repoManagerURL') ||
+            !project.hasProperty('mavenUsername') ||
+            !project.hasProperty('mavenPassword')) {
+            println("NOTE: custom Maven repository is not configured in gradle.properties")
+            repoManagerURL = "https://repo1.maven.org/maven2"
+            mavenUsername = ""
+            mavenPassword = ""
+        }
+    }
     repositories {
         mavenLocal()
+        mavenCentral()
         maven {
             url repoManagerURL + 'repo'
             credentials {
@@ -13,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.3.3'
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.5.0'
     }
 }
 
@@ -29,6 +40,10 @@ frameworkLinkage = 'merged'
 
 repositories {
     mavenLocal()
+    mavenCentral()
+    maven {
+        url "https://raw.githubusercontent.com/tconkling/maven-repo/master/"
+    }
     maven {
         url repoManagerURL + 'repo'
         credentials {
@@ -78,7 +93,7 @@ sdkAutoInstall {
 task wrapper(type: Wrapper) {
     group = 'Buildmaster'
     description = 'Generates gradlew and gradlew.bat bootstrap scripts.'
-    gradleVersion = '2.6'
+    gradleVersion = '4.0'
     // place jar file and properties into a subdirectory to avoid root dir clutter
     jarFile = 'gradle/wrapper/gradle.jar'
 }
