@@ -66,9 +66,9 @@ repositories {
 dependencies {
     flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: '4.16.0', ext: 'tar.gz'
     //airSDK group: 'com.adobe', name: 'AIRSDK', version: '20.0', ext: Os.isFamily(Os.FAMILY_WINDOWS) ? 'zip' : 'tbz2'
-
-    merged 'org.robotlegs:robotlegs-framework:2.2.1'
-    merged 'org.osflash:as3-signals:0.8'
+    
+    merged files('libs/robotlegs-framework-v2.2.1.swc')
+    merged files('libs/as3-signals-0.8.swc')
 
     merged 'com.funkypandagame:stardust-sim-loader:3.31'
 }
