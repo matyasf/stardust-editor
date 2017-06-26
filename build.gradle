@@ -1,26 +1,9 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
-    ext {
-        if (!project.hasProperty('repoManagerURL') ||
-            !project.hasProperty('mavenUsername') ||
-            !project.hasProperty('mavenPassword')) {
-            println("NOTE: custom Maven repository is not configured in gradle.properties")
-            repoManagerURL = "https://repo1.maven.org/maven2"
-            mavenUsername = ""
-            mavenPassword = ""
-        }
-    }
     repositories {
         mavenLocal()
         mavenCentral()
-        maven {
-            url repoManagerURL + 'repo'
-            credentials {
-                username = mavenUsername
-                password = mavenPassword
-            }
-        }
     }
 
     dependencies {
@@ -44,13 +27,6 @@ repositories {
     maven {
         url "https://raw.githubusercontent.com/tconkling/maven-repo/master/"
     }
-    maven {
-        url repoManagerURL + 'repo'
-        credentials {
-            username = mavenUsername
-            password = mavenPassword
-        }
-    }
     ivy {
         name 'Apache'
         artifactPattern 'http://archive.apache.org/dist/flex/[revision]/binaries/[module]-[revision]-bin.[ext]'
@@ -64,7 +40,8 @@ repositories {
 }
 
 dependencies {
-    flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: '4.16.0', ext: 'tar.gz'
+    flexSDK files('C:/PROGRAMS/Flex_4_16_AIR20.zip') // sadly GradleFX's auto installer is broken :(
+    //flexSDK group: 'org.apache', name: 'apache-flex-sdk', version: '4.16.0', ext: 'tar.gz'
     //airSDK group: 'com.adobe', name: 'AIRSDK', version: '20.0', ext: Os.isFamily(Os.FAMILY_WINDOWS) ? 'zip' : 'tbz2'
     
     merged files('libs/robotlegs-framework-v2.2.1.swc')

@@ -53,7 +53,6 @@
             Globals.isRunningInAIR = flashVars['isRunningInAIR'] == "true";
             trace("Is running in AIR wrapper: ", Globals.isRunningInAIR);
             Globals.init();
-            Starling.handleLostContext = true;
             starlingInstance = new Starling(starling.display.Sprite, stage, null, null, Context3DRenderMode.AUTO, "auto");
             starlingInstance.enableErrorChecking = isDebugBuild();
             starlingInstance.addEventListener(starling.events.Event.ROOT_CREATED, onStarlingReady);
