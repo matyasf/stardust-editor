@@ -2,7 +2,6 @@
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
                            xmlns:math="com.funkypandagame.stardust.view.stardust.common.math.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                           xmlns:components="com.funkypandagame.stardust.view.components.*"
                            nameText="Perpendicular accel."
                            toolTip="Applies acceleration perpendicular to a particle's heading.">
 
@@ -16,7 +15,6 @@
                 return;
             }
             var dat:NormalDrift = data as NormalDrift;
-            maxInput.text = dat.max.toString();
             massCheckBox.selected = dat.massless;
             if (dat.random is UniformRandom) {
                 randomMath.setData(dat.random as UniformRandom);
@@ -25,22 +23,16 @@
 
         private function updateData(e:Event):void {
             var dat:NormalDrift = data as NormalDrift;
-            dat.max = Number(maxInput.text);
             dat.massless = massCheckBox.selected;
         }
         ]]></fx:Script>
     <twod:layout>
-        <s:VerticalLayout verticalAlign="middle"/>
+        <s:HorizontalLayout verticalAlign="middle"/>
     </twod:layout>
 
-    <s:HGroup width="100%" verticalAlign="middle">
-        <s:Label text="max"/>
-        <components:CustomNumericStepper id="maxInput" stepValue="0.1" width="50" change="updateData(event)"
-                                         toolTip="The acceleration ranges from -max to max."/>
-        <s:CheckBox label="massless?" id="massCheckBox" change="updateData(event)"/>
-    </s:HGroup>
-
     <math:UniformRandomMath id="randomMath"/>
+
+    <s:CheckBox label="massless?" id="massCheckBox" change="updateData(event)"/>
 
 </twod:PropertyRendererBase>
 
