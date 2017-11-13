@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                           xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
+                           xmlns:s="library://ns.adobe.com/flex/spark"
+                           nameText="Change scale"
+                           toolTip="Alters a particle's scale value based on its age.">
+
+    <fx:Script><![CDATA[
+        import idv.cjcat.stardustextended.actions.ScaleAnimated;
+
+        private function updateData():void {
+            var ratiosArr : Array = ratiosInput.text.split(",");
+            var scalesArr : Array = scalesInput.text.split(",");
+            if (ratiosArr.length != scalesArr.length || ratiosArr.length < 2) {
+                errorString = "ratios and scales arrays must have the same number of elements (>1)";
+                return;
+            }
+            var prev : Number = -1;
+            for (var j:int = 0; j < ratiosArr.length; j++) {
+                var num : int = int(ratiosArr[j]);
+                if (j == 0 && num != 0) {
+                    ratiosInput.errorString = "ratios array must begin with 0";
+                    return;
+                }
+                if (j == ratiosArr.length - 1 && num != 255) {
+                    ratiosInput.errorString = "ratios array must end with 255";
+                    return;
+                }
+                if (j > 0 && prev >= num) {
+                    ratiosInput.errorString = "ratios array must be always increasing";
+                    return;
+                }
+                prev = num;
+            }
+            ratiosInput.errorString = null;
+            var dat:ScaleAnimated = data as ScaleAnimated;
+            var ratiosNums : Array = [];
+            var scalesNums : Array = [];
+            for (var j:int = 0; j < ratiosArr.length; j++) {
+                ratiosNums.push(int(ratiosArr[j]));
+                scalesNums.push(Number(scalesArr[j]));
+            }
+            dat.setGradient(ratiosNums, scalesNums);
+        }
+
+        override public function set data(d:Object):void {
+            super.data = d;
+            if (d == null) {
+                return;
+            }
+            var dat:ScaleAnimated = ScaleAnimated(data);
+            ratiosInput.text = dat.ratios.toString();
+            scalesInput.text = dat.scales.toString();
+        }
+        ]]></fx:Script>
+
+    <twod:layout>
+        <s:VerticalLayout/>
+    </twod:layout>
+
+    <s:HGroup width="100%" verticalAlign="middle">
+        <s:Label text="ratios (0..255)"/>
+        <s:TextInput id="ratiosInput" width="100%" change="updateData()" />
+
+        <s:Label text="scales"/>
+        <s:TextInput id="scalesInput" width="100%" change="updateData()"/>
+
+    </s:HGroup>
+
+</twod:PropertyRendererBase>

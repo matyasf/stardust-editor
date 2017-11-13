@@ -16,6 +16,7 @@ import com.funkypandagame.stardust.view.stardust.twoD.actions.MoveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.NormalDriftAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.OrientedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.RandomDriftAction;
+import com.funkypandagame.stardust.view.stardust.twoD.actions.ScaleAnimatedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ScaleCurveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpawnAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpeedLimitAction;
@@ -41,6 +42,7 @@ import idv.cjcat.stardustextended.actions.Age;
 import idv.cjcat.stardustextended.actions.AlphaCurve;
 import idv.cjcat.stardustextended.actions.ColorGradient;
 import idv.cjcat.stardustextended.actions.DeathLife;
+import idv.cjcat.stardustextended.actions.ScaleAnimated;
 import idv.cjcat.stardustextended.actions.ScaleCurve;
 import idv.cjcat.stardustextended.actions.triggers.DeathTrigger;
 import idv.cjcat.stardustextended.actions.triggers.LifeTrigger;
@@ -127,6 +129,7 @@ public class Globals
 
         actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
         actionDict[ Damping ] = new DropdownListVO( "Damping", Damping, DampingAction );
+        actionDict[ ScaleAnimated ] = new DropdownListVO( "Change Scale2", ScaleAnimated, ScaleAnimatedAction );
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
         //actionDict[ Collide ] = new DropdownListVO( "Collide (CPU intensive)", Collide, CollideAction );
