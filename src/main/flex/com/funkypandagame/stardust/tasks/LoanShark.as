@@ -262,7 +262,7 @@
 		private function createList():void
 		{
 			_pool = new Array(_idealArrayInitialSize);
-			_objectsInUse = new Array();
+			_objectsInUse = [];
 		}
 
 		private function disposeObjects():void

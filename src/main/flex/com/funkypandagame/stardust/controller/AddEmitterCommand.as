@@ -206,8 +206,7 @@ public class AddEmitterCommand implements ICommand
                     ],
                     "$type": "Array.Action"
                 }
-            } ]]> ).toString();;
-
+            } ]]> ).toString();
     public function execute() : void
     {
         var uniqueID : uint = 0;

@@ -14,54 +14,47 @@ same as the default skin, just the dropdown is larger
 
     <fx:Script fb:purpose="styling">
         <![CDATA[
-        static private const contentFill : Array = ["bgFill"];
+        static private const contentFill:Array = ["bgFill"];
 
         /**
          * @private
          */
-        override public function get contentItems() : Array
-        {
+        override public function get contentItems():Array {
             return contentFill
-        };
+        }
         /**
          * @private
          */
-        override protected function updateDisplayList( unscaledWidth : Number, unscaledHeight : Number ) : void
-        {
-            if ( getStyle( "borderVisible" ) == false )
-            {
-                if ( border )
+        override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+            if (getStyle("borderVisible") == false) {
+                if (border)
                     border.visible = false;
-                if ( background )
-                {
+                if (background) {
                     background.left = background.top = background.right = background.bottom = 0;
                 }
-                if ( scroller )
+                if (scroller)
                     scroller.minViewportInset = 0;
             }
-            else
-            {
-                if ( border )
+            else {
+                if (border)
                     border.visible = true;
-                if ( background )
-                {
+                if (background) {
                     background.left = background.top = background.right = background.bottom = 1;
                 }
-                if ( scroller )
+                if (scroller)
                     scroller.minViewportInset = 1;
             }
 
-            if ( dropShadow )
-                dropShadow.visible = getStyle( "dropShadowVisible" );
+            if (dropShadow)
+                dropShadow.visible = getStyle("dropShadowVisible");
 
-            openButton.setStyle( "cornerRadius", getStyle( "cornerRadius" ) );
+            openButton.setStyle("cornerRadius", getStyle("cornerRadius"));
 
-            if ( borderStroke )
-            {
-                borderStroke.color = getStyle( "borderColor" );
-                borderStroke.alpha = getStyle( "borderAlpha" );
+            if (borderStroke) {
+                borderStroke.color = getStyle("borderColor");
+                borderStroke.alpha = getStyle("borderAlpha");
             }
-            super.updateDisplayList( unscaledWidth, unscaledHeight );
+            super.updateDisplayList(unscaledWidth, unscaledHeight);
         }
         ]]>
     </fx:Script>

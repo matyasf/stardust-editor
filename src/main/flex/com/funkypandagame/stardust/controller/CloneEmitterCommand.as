@@ -40,8 +40,8 @@ public class CloneEmitterCommand implements ICommand
             uniqueID++;
         }
         var originalEmitter : EmitterValueObject = projectModel.emitterInFocus;
-        var emitterXml : String = JsonBuilder.buildJson( originalEmitter.emitter );
-        var emitter : Emitter = EmitterBuilder.buildEmitter(emitterXml, uniqueID.toString());
+        var emitterStr : String = JsonBuilder.buildJson( originalEmitter.emitter );
+        var emitter : Emitter = EmitterBuilder.buildEmitter(emitterStr, uniqueID.toString());
         var emitterData : EmitterValueObject = new EmitterValueObject(emitter);
         emitter.name = uniqueID.toString();
 

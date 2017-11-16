@@ -4,7 +4,6 @@ package com.funkypandagame.stardust.helpers
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerateAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AccelerationZoneAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.AgeAction;
-import com.funkypandagame.stardust.view.stardust.twoD.actions.AlphaCurveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ColorCurveAdvancedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.DampingAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.DeathLifeAction;
@@ -17,7 +16,6 @@ import com.funkypandagame.stardust.view.stardust.twoD.actions.NormalDriftAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.OrientedAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.RandomDriftAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.ScaleAnimatedAction;
-import com.funkypandagame.stardust.view.stardust.twoD.actions.ScaleCurveAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpawnAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpeedLimitAction;
 import com.funkypandagame.stardust.view.stardust.twoD.actions.SpinAction;
@@ -39,11 +37,9 @@ import flash.events.TextEvent;
 import flash.utils.Dictionary;
 
 import idv.cjcat.stardustextended.actions.Age;
-import idv.cjcat.stardustextended.actions.AlphaCurve;
 import idv.cjcat.stardustextended.actions.ColorGradient;
 import idv.cjcat.stardustextended.actions.DeathLife;
 import idv.cjcat.stardustextended.actions.ScaleAnimated;
-import idv.cjcat.stardustextended.actions.ScaleCurve;
 import idv.cjcat.stardustextended.actions.triggers.DeathTrigger;
 import idv.cjcat.stardustextended.actions.triggers.LifeTrigger;
 import idv.cjcat.stardustextended.actions.Accelerate;
@@ -114,7 +110,6 @@ public class Globals
         actionDict[ Oriented ] = new DropdownListVO( "Orient to velocity", Oriented, OrientedAction );
         actionDict[ Age ] = new DropdownListVO( "Change age", Age, AgeAction );
         actionDict[ DeathLife ] = new DropdownListVO( "Death on life end", DeathLife, DeathLifeAction );
-        actionDict[ ScaleCurve ] = new DropdownListVO( "Change scale", ScaleCurve, ScaleCurveAction );
         actionDict[ Accelerate ] = new DropdownListVO( "Accelerate", Accelerate, AccelerateAction );
         actionDict[ SpeedLimit ] = new DropdownListVO( "Speed limit", SpeedLimit, SpeedLimitAction );
         actionDict[ Spin ] = new DropdownListVO( "Rotate", Spin, SpinAction );
@@ -127,9 +122,8 @@ public class Globals
         actionDict[ ColorGradient ] = new DropdownListVO( "Color/Alpha curve", ColorGradient, ColorCurveAdvancedAction );
         actionDict[ Spawn ] = new DropdownListVO("Spawn particles", Spawn, SpawnAction);
 
-        actionDict[ AlphaCurve ] = new DropdownListVO( "Change alpha(deprecated)", AlphaCurve, AlphaCurveAction );
         actionDict[ Damping ] = new DropdownListVO( "Damping", Damping, DampingAction );
-        actionDict[ ScaleAnimated ] = new DropdownListVO( "Change Scale2", ScaleAnimated, ScaleAnimatedAction );
+        actionDict[ ScaleAnimated ] = new DropdownListVO( "Change Scale", ScaleAnimated, ScaleAnimatedAction );
         //actionDict[ CompositeAction ] = new DropdownListVO("Action group", CompositeAction, CompositeActionAction);
         //actionDict[ MutualGravity ] = new DropdownListVO( "Mutual gravity (CPU intensive)", MutualGravity, MutualGravityAction );
         //actionDict[ Collide ] = new DropdownListVO( "Collide (CPU intensive)", Collide, CollideAction );

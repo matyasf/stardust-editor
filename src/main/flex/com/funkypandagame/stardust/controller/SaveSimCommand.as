@@ -6,19 +6,17 @@ import com.funkypandagame.stardust.model.ProjectModel;
 import com.funkypandagame.stardust.textures.Atlas;
 import com.funkypandagame.stardust.textures.AtlasTexture;
 import com.funkypandagame.stardust.textures.TexturePacker;
-import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.SDEConstants;
+import com.funkypandagame.stardustplayer.SimLoader;
 import com.funkypandagame.stardustplayer.emitter.EmitterValueObject;
 
 import flash.display.BitmapData;
-
 import flash.events.IOErrorEvent;
 import flash.net.FileReference;
 import flash.utils.ByteArray;
 
 import idv.cjcat.stardustextended.json.JsonBuilder;
 
-import idv.cjcat.stardustextended.xml.XMLBuilder;
 import mx.graphics.codec.PNGEncoder;
 
 import org.as3commons.zip.Zip;
