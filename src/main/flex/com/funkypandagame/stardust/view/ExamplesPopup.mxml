@@ -9,28 +9,28 @@
         import mx.events.CloseEvent;
         import mx.managers.PopUpManager;
 
-        [Embed(source="../../../../../resources/big_explosion.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/bigExplosion.sde", mimeType="application/octet-stream")]
         private static var BigExplosionSim : Class;
 
         [Embed(source="../../../../../resources/rocket.sde", mimeType="application/octet-stream")]
         private static var RocketSim : Class;
 
-        [Embed(source="../../../../../resources/simple_fireworks.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/fireworks.sde", mimeType="application/octet-stream")]
         private static var SimpleFireworkSim : Class;
 
-        [Embed(source="../../../../../resources/blazing_fire.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/blazingFire.sde", mimeType="application/octet-stream")]
         private static var BlazingFireSim : Class;
 
-        [Embed(source="../../../../../resources/dry_ice.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/dryIce.sde", mimeType="application/octet-stream")]
         private static var DryIceSim : Class;
 
         [Embed(source="../../../../../resources/snowfall.sde", mimeType="application/octet-stream")]
         private static var SnowfallSim : Class;
 
-        [Embed(source="../../../../../resources/coins_particles.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/coinShower.sde", mimeType="application/octet-stream")]
         private static var CoinShowerSim : Class;
 
-        [Embed(source="../../../../../resources/glitter_burst.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../../resources/glitterBurst.sde", mimeType="application/octet-stream")]
         private static var GlitterBurst : Class;
 
         public var callback : Function;

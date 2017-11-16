@@ -34,7 +34,7 @@
         import starling.display.Sprite;
         import starling.events.Event;
 
-        [Embed(source="../../../../resources/stardustProjectDEFAULT.sde", mimeType="application/octet-stream")]
+        [Embed(source="../../../../resources/stardustDefault.sde", mimeType="application/octet-stream")]
         private var ExampleSim:Class;
 
         private var context:IContext;

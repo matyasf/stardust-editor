@@ -35,7 +35,6 @@
                     deflectorDDLAC.addItem(ddlVO);
                 }
             }
-            deflectorAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);
         }
 
         private function onACChange(e:CollectionEvent):void {
@@ -54,11 +53,13 @@
             if (d == null) {
                 return;
             }
+            deflectorAC.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);
             var dat:Deflect = data as Deflect;
             deflectorAC.removeAll();
             for (var i:int = 0; i < dat.deflectors.length; i++) {
                 deflectorAC.addItem(dat.deflectors[i]);
             }
+            deflectorAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onACChange);
         }
 
         private function addDeflector():void {

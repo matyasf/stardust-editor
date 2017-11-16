@@ -16,6 +16,8 @@ import flash.events.IOErrorEvent;
 import flash.net.FileReference;
 import flash.utils.ByteArray;
 
+import idv.cjcat.stardustextended.json.JsonBuilder;
+
 import idv.cjcat.stardustextended.xml.XMLBuilder;
 import mx.graphics.codec.PNGEncoder;
 
@@ -92,7 +94,7 @@ public class SaveSimCommand implements ICommand
             {
                 zip.addFile( SDEConstants.getParticleSnapshotName(emitterVO.id), emitterVO.emitterSnapshot, false );
             }
-            zip.addFileFromString( SDEConstants.getXMLName(emitterVO.id), XMLBuilder.buildXML( emitterVO.emitter ).toString() );
+            zip.addFileFromString( SDEConstants.getEmitterJsonName(emitterVO.id), JsonBuilder.buildJson( emitterVO.emitter ) );
         }
     }
 

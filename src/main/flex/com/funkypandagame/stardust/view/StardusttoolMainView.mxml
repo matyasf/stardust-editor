@@ -141,7 +141,7 @@
                     toolTip="Makes the initial positions, death zones, deflectors, etc. visible for testing. The zone graphics will not be saved."/>
         <view:BackgroundProvider width="100%" id="backgroundProvider"/>
         <view:CanvasPositionView mainView="{this}" id="canvasPosition" />
-        <s:Button label="Convert to new format" click="convertToNewFormat()" width="100%"/>
+        <s:Button label="Convert to new format" click="convertToNewFormat()" width="100%" enabled="false"/>
     </s:VGroup>
 
     <s:Label id="infoLabel" bottom="5" right="5" backgroundColor="0x11183D"

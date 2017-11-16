@@ -17,7 +17,7 @@ import flash.utils.ByteArray;
 import idv.cjcat.stardustextended.actions.Action;
 
 import idv.cjcat.stardustextended.emitters.Emitter;
-import idv.cjcat.stardustextended.xml.XMLBuilder;
+import idv.cjcat.stardustextended.json.JsonBuilder;
 
 import idv.cjcat.stardustextended.actions.Spawn;
 import idv.cjcat.stardustextended.handlers.starling.StarlingHandler;
@@ -40,8 +40,8 @@ public class CloneEmitterCommand implements ICommand
             uniqueID++;
         }
         var originalEmitter : EmitterValueObject = projectModel.emitterInFocus;
-        var emitterXml : XML = XMLBuilder.buildXML( originalEmitter.emitter );
-        var emitter : Emitter = EmitterBuilder.buildEmitter(emitterXml, emitterXml);
+        var emitterXml : String = JsonBuilder.buildJson( originalEmitter.emitter );
+        var emitter : Emitter = EmitterBuilder.buildEmitter(emitterXml, uniqueID.toString());
         var emitterData : EmitterValueObject = new EmitterValueObject(emitter);
         emitter.name = uniqueID.toString();
 
