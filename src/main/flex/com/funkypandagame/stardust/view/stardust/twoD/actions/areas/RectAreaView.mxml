@@ -3,30 +3,30 @@
                        xmlns:s="library://ns.adobe.com/flex/spark"
                        xmlns:components="com.funkypandagame.stardust.view.components.*"
                        xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
-                       nameText="Rect.{'\n'}contour">
+                       nameText="Rect.  x">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.zones.RectContour;
+        import idv.cjcat.stardustextended.actions.areas.RectArea;
 
         override public function set data(d:Object):void {
             super.data = d;
             if (d) {
-                var zone:RectContour = d as RectContour;
-                xTextInput.text = zone.x.toString();
-                yTextInput.text = zone.y.toString();
-                wiInput.text = zone.width.toString();
-                heInput.text = zone.height.toString();
-                rotationInput.text = zone.rotation.toString();
+                var area:RectArea = RectArea(d);
+                xTextInput.text = area.x.toString();
+                yTextInput.text = area.y.toString();
+                wiInput.text = area.width.toString();
+                heInput.text = area.height.toString();
+                rotationInput.text = area.rotation.toString();
             }
         }
 
         private function updateData():void {
-            var zone:RectContour = data as RectContour;
-            zone.x = Number(xTextInput.text);
-            zone.y = Number(yTextInput.text);
-            zone.width = Number(wiInput.text);
-            zone.height = Number(heInput.text);
-            zone.rotation = Number(rotationInput.text);
+            var area:RectArea = RectArea(data);
+            area.x = Number(xTextInput.text);
+            area.y = Number(yTextInput.text);
+            area.width = Number(wiInput.text);
+            area.height = Number(heInput.text);
+            area.rotation = Number(rotationInput.text);
         }
         ]]></fx:Script>
 
@@ -34,16 +34,15 @@
         <s:HorizontalLayout verticalAlign="middle" gap="3"/>
     </twod:layout>
 
-    <s:Label text="x"/>
     <components:CustomNumericStepper id="xTextInput" width="40" change="updateData()"/>
 
-    <s:Label text="y"/>
+    <s:Label text=" y"/>
     <components:CustomNumericStepper id="yTextInput" width="40" change="updateData()"/>
 
-    <s:Label text="width"/>
+    <s:Label text=" width"/>
     <components:CustomNumericStepper id="wiInput" width="40" change="updateData()"/>
 
-    <s:Label text="height"/>
+    <s:Label text=" height"/>
     <components:CustomNumericStepper id="heInput" width="40" change="updateData()"/>
 
     <s:Label text=" rotation"/>

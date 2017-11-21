@@ -4,75 +4,75 @@
           removedFromStage="onRemovedFromStage()"
           addedToStage="onAddedToStage()"
           initialize="init()">
+
     <fx:Script><![CDATA[
         import com.funkypandagame.stardust.helpers.DropdownListVO;
         import com.funkypandagame.stardust.helpers.Globals;
 
-        import idv.cjcat.stardustextended.actions.IZoneContainer;
-
-        import idv.cjcat.stardustextended.zones.Zone;
+        import idv.cjcat.stardustextended.actions.areas.Area;
+        import idv.cjcat.stardustextended.actions.areas.IAreaContainer;
 
         import mx.collections.ArrayCollection;
         import mx.events.CollectionEvent;
         import mx.events.CollectionEventKind;
 
-        private var itemWithZone:IZoneContainer;
+        private var itemWithArea:IAreaContainer;
         private var storedCoordinates:Vector.<Point> = new Vector.<Point>();
-        private const zonesAC:ArrayCollection = new ArrayCollection();
-        private var stageRef : Stage;
+        private const areasAC:ArrayCollection = new ArrayCollection();
+        private var stageRef:Stage;
 
         private function init():void {
-            zonesDropdownList.selectedIndex = 0;
-            zonesAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onZonesACChange);
+            areasDropdownList.selectedIndex = 0;
+            areasAC.addEventListener(CollectionEvent.COLLECTION_CHANGE, onAreasACChange);
         }
 
-        private function onZonesACChange(e:CollectionEvent):void {
+        private function onAreasACChange(e:CollectionEvent):void {
             if (e.kind != CollectionEventKind.UPDATE) {
-                itemWithZone.zones = Vector.<Zone>(zonesAC.toArray());
+                itemWithArea.areas = Vector.<Area>(areasAC.toArray());
             }
         }
 
-        private function onAddedToStage() : void {
+        private function onAddedToStage():void {
             stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             stageRef = stage;
         }
 
-        private function onMouseDown(event : MouseEvent) : void {
+        private function onMouseDown(event:MouseEvent):void {
             if (followMouseCheckBox.selected) {
                 if (event.target != followMouseCheckBox) {
                     followMouseCheckBox.selected = false;
                 }
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
-                setZoneRendererOffset(0, 0);
+                setAreaRendererOffset(0, 0);
             }
         }
 
         private function onRemovedFromStage():void {
             if (followMouseCheckBox.selected) {
                 removeEventListener(Event.ENTER_FRAME, handleFollowMouse);
-                setZoneRendererOffset(0, 0);
+                setAreaRendererOffset(0, 0);
             }
             stageRef.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             stageRef = null;
         }
 
-        public function setData(_itemWithZone:IZoneContainer):void {
-            setZoneRendererOffset(0, 0);
-            itemWithZone = _itemWithZone;
+        public function setData(_itemWithArea:IAreaContainer):void {
+            setAreaRendererOffset(0, 0);
+            itemWithArea = _itemWithArea;
             const result:Array = [];
-            for (var i:int = 0; i < _itemWithZone.zones.length; i++) {
-                result.push(_itemWithZone.zones[i]);
+            for (var i:int = 0; i < _itemWithArea.areas.length; i++) {
+                result.push(_itemWithArea.areas[i]);
             }
-            zonesAC.removeAll();
+            areasAC.removeAll();
             dataGroup.validateProperties();  // flex bugfix
-            zonesAC.source = result;
+            areasAC.source = result;
         }
 
         private function followMouseChangeHandler(event:Event):void {
             if (followMouseCheckBox.selected) {
                 storedCoordinates = new Vector.<Point>();
-                for (var j:int = 0; j < zonesAC.length; j++) {
-                    var zone:Zone = zonesAC[j];
+                for (var j:int = 0; j < areasAC.length; j++) {
+                    var zone:Area = areasAC[j];
                     storedCoordinates.push(zone.getPosition());
                 }
                 addEventListener(Event.ENTER_FRAME, handleFollowMouse);
@@ -80,14 +80,14 @@
         }
 
         private function handleFollowMouse(event:Event):void {
-            setZoneRendererOffset(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
+            setAreaRendererOffset(stage.mouseX - Globals.starlingCanvas.x, stage.mouseY - Globals.starlingCanvas.y);
         }
 
-        private function setZoneRendererOffset(xc:Number, yc:Number):void {
+        private function setAreaRendererOffset(xc:Number, yc:Number):void {
             if (storedCoordinates.length > 0) {
-                for (var j:int = 0; j < zonesAC.length; j++) {
-                    var zone:Zone = zonesAC[j];
-                    zone.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
+                for (var j:int = 0; j < areasAC.length; j++) {
+                    var area:Area = areasAC[j];
+                    area.setPosition(storedCoordinates[j].x + xc, storedCoordinates[j].y + yc);
                 }
             }
         }
@@ -96,33 +96,33 @@
             followMouseCheckBox.visible = followMouseCheckBox.includeInLayout = val;
         }
 
-        private function addZone():void {
-            var cl:Class = DropdownListVO(zonesDropdownList.selectedItem).stardustClass;
-            zonesAC.addItem(new cl());
+        private function addArea():void {
+            var cl:Class = DropdownListVO(areasDropdownList.selectedItem).stardustClass;
+            areasAC.addItem(new cl());
         }
 
         private static function ddlLabelFunc(item:Object):String {
             return DropdownListVO(item).name;
         }
 
-        private static function zoneIRFunction(item:Object):IFactory {
-            return new ClassFactory(DropdownListVO(Globals.zonesDict[item.constructor]).viewClass);
+        private static function areaIRFunction(item:Object):IFactory {
+            return new ClassFactory(DropdownListVO(Globals.areasDict[item.constructor]).viewClass);
         }
         ]]></fx:Script>
 
     <s:HGroup width="100%" verticalAlign="middle">
-        <s:Label text="Add new zone:" />
-        <s:DropDownList id="zonesDropdownList"
+        <s:Label text="Add new area:" />
+        <s:DropDownList id="areasDropdownList"
                         width="160"
                         requireSelection="true"
-                        dataProvider="{Globals.zonesDDLAC}"
+                        dataProvider="{Globals.areasDDLAC}"
                         labelFunction="ddlLabelFunc"/>
-        <s:Button label="Add zone" click="addZone()"/>
+        <s:Button label="Add area" click="addArea()"/>
         <s:CheckBox label="Follow mouse" id="followMouseCheckBox" change="followMouseChangeHandler(event)"
                     toolTip="This is just for testing in the editor, it will not be saved with the simulation!"/>
     </s:HGroup>
 
-    <s:DataGroup width="100%" dataProvider="{zonesAC}" itemRendererFunction="zoneIRFunction" id="dataGroup">
+    <s:DataGroup width="100%" dataProvider="{areasAC}" itemRendererFunction="areaIRFunction" id="dataGroup">
         <s:layout>
             <s:VerticalLayout gap="3"/>
         </s:layout>

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<zones:ZoneRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
-                        xmlns:s="library://ns.adobe.com/flex/spark"
-                        xmlns:components="com.funkypandagame.stardust.view.components.*"
-                        xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
-                        nameText="Point   x">
+<twod:PropRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:components="com.funkypandagame.stardust.view.components.*"
+                       xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
+                       nameText="Point   x">
 
     <fx:Script><![CDATA[
         import idv.cjcat.stardustextended.zones.SinglePoint;
@@ -24,13 +24,13 @@
         }
         ]]></fx:Script>
 
-    <zones:layout>
-        <s:HorizontalLayout verticalAlign="middle" />
-    </zones:layout>
+    <twod:layout>
+        <s:HorizontalLayout verticalAlign="middle"/>
+    </twod:layout>
 
     <components:CustomNumericStepper id="xTextInput" text="1" change="updateData()" width="50"/>
 
     <s:Label text="y"/>
     <components:CustomNumericStepper id="yTextInput" text="1" change="updateData()" width="50"/>
 
-</zones:ZoneRendererBase>
+</twod:PropRendererBase>

@@ -5,12 +5,12 @@
                        xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.zones.Sector;
+        import idv.cjcat.stardustextended.actions.areas.SectorArea;
 
         override public function set data(d:Object):void {
             super.data = d;
             if (d) {
-                var zone:Sector = d as Sector;
+                var zone:SectorArea = d as SectorArea;
                 xTextInput.text = zone.x.toString();
                 yTextInput.text = zone.y.toString();
                 minRadius.text = zone.minRadius.toString();
@@ -21,7 +21,7 @@
         }
 
         private function updateData():void {
-            var zone:Sector = data as Sector;
+            var zone:SectorArea = data as SectorArea;
             zone.x = Number(xTextInput.text);
             zone.y = Number(yTextInput.text);
             zone.minRadius = Number(minRadius.text);

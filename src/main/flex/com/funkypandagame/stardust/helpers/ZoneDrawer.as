@@ -6,6 +6,11 @@ import flash.geom.Point;
 import flash.utils.getQualifiedClassName;
 
 import idv.cjcat.stardustextended.actions.Action;
+import idv.cjcat.stardustextended.actions.areas.Area;
+import idv.cjcat.stardustextended.actions.areas.CircleArea;
+import idv.cjcat.stardustextended.actions.areas.IAreaContainer;
+import idv.cjcat.stardustextended.actions.areas.RectArea;
+import idv.cjcat.stardustextended.actions.areas.SectorArea;
 import idv.cjcat.stardustextended.actions.waypoints.Waypoint;
 import idv.cjcat.stardustextended.emitters.Emitter;
 import idv.cjcat.stardustextended.initializers.Initializer;
@@ -76,6 +81,10 @@ public class ZoneDrawer
             {
                 drawWaypoints( graphics, FollowWaypoints( act ), 0xFFFB30 );
             }
+            else if ( act is IAreaContainer )
+            {
+                drawAreas( graphics, IAreaContainer( act ).areas, 0xE03535, null );
+            }
         }
     }
 
@@ -115,6 +124,54 @@ public class ZoneDrawer
                 g.moveTo( ld.x - ld.normal.y * 500, ld.y + ld.normal.x * 500 );
                 g.lineTo( ld.x + ld.normal.y * 500, ld.y - ld.normal.x * 500 );
             }
+        }
+    }
+
+    private static function drawAreas( g : Graphics, areas : Vector.<Area>, color : uint, offset : Point ) : void
+    {
+        if ( offset == null )
+        {
+            offset = new Point( 0, 0 );
+        }
+        g.lineStyle( 2, darkenColor( color, 50 ) );
+
+        for each (var a : Area in areas)
+        {
+            if ( a is RectArea )
+            {
+                g.beginFill( color, 0.7 );
+                var re : RectArea = RectArea( a );
+
+                var topRight : Vec2D = Vec2DPool.get(re.width, 0).rotate(re.rotation);
+                var bottomRight : Vec2D = Vec2DPool.get(re.width, re.height).rotate(re.rotation);
+                var bottomLeft : Vec2D = Vec2DPool.get(0, re.height).rotate(re.rotation);
+
+                g.moveTo( re.x + offset.x,                  re.y + offset.y);
+                g.lineTo( re.x + offset.x + topRight.x,     re.y + offset.y + topRight.y );
+                g.lineTo( re.x + offset.x + bottomRight.x,  re.y + offset.y + bottomRight.y );
+                g.lineTo( re.x + offset.x + bottomLeft.x,   re.y + offset.y + bottomLeft.y );
+                g.lineTo( re.x + offset.x,                  re.y + offset.y );
+                Vec2DPool.recycle(topRight);
+                Vec2DPool.recycle(bottomRight);
+                Vec2DPool.recycle(bottomLeft);
+            }
+            else if ( a is CircleArea )
+            {
+                g.beginFill( color, 0.7 );
+                var cz : CircleArea = CircleArea( a );
+                g.drawCircle( cz.x + offset.x, cz.y + offset.y, cz.radius );
+            }
+            else if ( a is SectorArea )
+            {
+                g.beginFill( color, 0.7 );
+                var se : SectorArea = SectorArea( a );
+                drawSector(g, se.x + offset.x, se.y + offset.y, se.minRadius, se.maxRadius, se.minAngle, se.maxAngle);
+            }
+            else
+            {
+                LOG.error( "ZoneDrawer: unknown area " + a );
+            }
+            g.endFill();
         }
     }
 
@@ -206,7 +263,6 @@ public class ZoneDrawer
             }
             g.endFill();
         }
-
     }
 
     private static function darkenColor( hexColor : Number, percent : Number ) : Number

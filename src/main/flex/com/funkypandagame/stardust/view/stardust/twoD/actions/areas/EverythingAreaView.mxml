@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<twod:PropRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
+                       nameText="Everything: An area that contains everything.">
+
+</twod:PropRendererBase>

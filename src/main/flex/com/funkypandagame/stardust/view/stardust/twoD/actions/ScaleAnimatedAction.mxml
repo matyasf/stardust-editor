@@ -36,9 +36,9 @@
             var dat:ScaleAnimated = data as ScaleAnimated;
             var ratiosNums : Array = [];
             var scalesNums : Array = [];
-            for (var j:int = 0; j < ratiosArr.length; j++) {
-                ratiosNums.push(int(ratiosArr[j]));
-                scalesNums.push(Number(scalesArr[j]));
+            for (var k:int = 0; k < ratiosArr.length; k++) {
+                ratiosNums.push(int(ratiosArr[k]));
+                scalesNums.push(Number(scalesArr[k]));
             }
             dat.setGradient(ratiosNums, scalesNums);
         }

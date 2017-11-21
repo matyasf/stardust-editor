@@ -23,7 +23,7 @@
             var dat:FollowWaypoints = data as FollowWaypoints;
             var wp:Waypoint = Waypoint(e.items[0]);
             if (e.kind == CollectionEventKind.ADD) {
-                dat.addWaypoint(wp);
+                dat.waypoints.push(wp);
             }
             if (e.kind == CollectionEventKind.REMOVE) {
                 for (var i:int = 0; i < dat.waypoints.length; i++) {

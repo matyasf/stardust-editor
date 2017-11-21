@@ -4,18 +4,29 @@
                            xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
                            xmlns:components="com.funkypandagame.stardust.view.components.*"
-                           nameText="Accel.{'\n'}zone"
-                           toolTip="Causes particles to be accelerated/decelerated when they are inside a zone.">
+                           xmlns:areas="com.funkypandagame.stardust.view.stardust.twoD.actions.areas.*"
+                           nameText="Accel.{'\n'}area"
+                           toolTip="Causes particles to be accelerated/decelerated when they are inside an area.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.actions.AccelerationZone;
+        import idv.cjcat.stardustextended.actions.AccelerationArea;
+
+        import mx.collections.ArrayCollection;
+
+        private const typeAC:ArrayCollection = new ArrayCollection(["constant", "linear"]);
 
         private function updateData():void {
-            var dat:AccelerationZone = AccelerationZone(data);
+            var dat:AccelerationArea = AccelerationArea(data);
             dat.inverted = isInvertedCheckBox.selected;
             dat.acceleration = parseFloat(accelerationTextInput.text);
             dat.useParticleDirection = useParticleDirectionCheckBox.selected;
-            dat.direction.angle = parseFloat(angleTextInput.text);
+            dat.direction = parseFloat(angleTextInput.text);
+            if (typeDropDownList.selectedItem == "constant") {
+                dat.accelerationType = 0;
+            }
+            else {
+                dat.accelerationType = 1;
+            }
         }
 
         override public function set data(d:Object):void {
@@ -23,12 +34,18 @@
             if (d == null) {
                 return;
             }
-            var dat:AccelerationZone = AccelerationZone(d);
+            var dat:AccelerationArea = AccelerationArea(d);
             zc.setData(dat);
             accelerationTextInput.text = dat.acceleration.toString();
             isInvertedCheckBox.selected = dat.inverted;
             useParticleDirectionCheckBox.selected = dat.useParticleDirection;
-            angleTextInput.text = dat.direction.angle.toString();
+            angleTextInput.text = dat.direction.toString();
+            if (dat.accelerationType == 0) {
+                typeDropDownList.selectedItem = "constant";
+            }
+            else {
+                typeDropDownList.selectedItem = "linear";
+            }
         }
         ]]></fx:Script>
 
@@ -43,6 +60,9 @@
         <s:CheckBox id="isInvertedCheckBox" label="Inverted?" toolTip="Inverts the zone."
                     change="updateData()"/>
 
+        <s:Label text="type:" />
+        <s:DropDownList id="typeDropDownList" dataProvider="{typeAC}" change="updateData()" />
+
     </s:HGroup>
 
     <s:HGroup verticalAlign="middle" >
@@ -56,6 +76,6 @@
 
     </s:HGroup>
 
-    <zones:ZoneContainer id="zc" width="100%" zeroAreaZonesVisible="false"/>
+    <areas:AreaContainer id="zc" width="100%" />
 
 </twod:PropertyRendererBase>

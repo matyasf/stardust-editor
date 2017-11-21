@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <twod:PropertyRendererBase xmlns:fx="http://ns.adobe.com/mxml/2009"
                            xmlns:s="library://ns.adobe.com/flex/spark"
-                           xmlns:zones="com.funkypandagame.stardust.view.stardust.twoD.zones.*"
                            xmlns:twod="com.funkypandagame.stardust.view.stardust.twoD.*"
+                           xmlns:areas="com.funkypandagame.stardust.view.stardust.twoD.actions.areas.*"
                            nameText="Death{'\n'}zone"
                            toolTip="Causes particles to be deleted when they are inside a zone.">
 
     <fx:Script><![CDATA[
-        import idv.cjcat.stardustextended.actions.DeathZone;
-        import idv.cjcat.stardustextended.actions.IZoneContainer;
+        import idv.cjcat.stardustextended.actions.DeathArea;
+        import idv.cjcat.stardustextended.actions.areas.IAreaContainer;
 
         private function updateData():void {
-            DeathZone(data).inverted = isInvertedCheckBox.selected;
+            DeathArea(data).inverted = isInvertedCheckBox.selected;
         }
 
         override public function set data(d:Object):void {
@@ -19,7 +19,7 @@
             if (d == null) {
                 return;
             }
-            zc.setData(IZoneContainer(d));
+            zc.setData(IAreaContainer(d));
         }
         ]]></fx:Script>
 
@@ -27,8 +27,8 @@
         <s:VerticalLayout/>
     </twod:layout>
 
-    <s:CheckBox id="isInvertedCheckBox" label="Inverted?" toolTip="Inverts the zone."
+    <s:CheckBox id="isInvertedCheckBox" label="Inverted?" toolTip="Inverts the area."
                 change="updateData()"/>
-    <zones:ZoneContainer id="zc" width="100%" zeroAreaZonesVisible="false"/>
+    <areas:AreaContainer id="zc" width="100%" />
 
 </twod:PropertyRendererBase>

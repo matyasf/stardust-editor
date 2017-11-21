@@ -1,4 +1,4 @@
-package com.funkypandagame.stardust.view.stardust.twoD.zones
+package com.funkypandagame.stardust.view.stardust.twoD
 {
 
 import flash.display.DisplayObjectContainer;
@@ -19,7 +19,7 @@ import spark.layouts.HorizontalLayout;
 import spark.layouts.supportClasses.LayoutBase;
 
 [DefaultProperty("mxmlChildren")]
-public class ZoneRendererBase extends ItemRenderer
+public class PropRendererBase extends ItemRenderer
 {
     private var nameLabel : Label;
     private var removeButton : Button;
